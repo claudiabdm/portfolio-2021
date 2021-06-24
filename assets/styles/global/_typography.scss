@@ -1,0 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@600;700&display=swap');
+
+$font-size-title: rem(18px);
+$font-weight-normal: 600;
+$font-weight-bold: 700;
+
+:root {
+  --font-size-body: 16px;
+  --font-family: 'Barlow Semi Condensed';
+  --font-weight: #{$font-weight-normal};
+  --font-size-title: #{$font-size-title};
+}

@@ -1,0 +1,124 @@
+@use '../mixins/mixins' as *;
+
+$logo-width: rem(50px * 1.63);
+$logo-height: rem(50px);
+$header-spacing: 25px auto 21px auto;
+$logo-spacing: rem(23px) rem(19px) rem(19px);
+$spacing-score: rem(10px);
+
+:root {
+  --header-spacing: #{$header-spacing};
+  --header-border-radius: #{rem(6px)};
+  --header-max-width: #{rem(313px)};
+  --logo-width: #{$logo-width};
+  --logo-height: #{$logo-height};
+  --logo-spacing: #{rem(23px) rem(19px) rem(19px)};
+  --spacing-score: #{$spacing-score};
+}
+
+@media screen and (min-width: 1024px) {
+  :root {
+    --header-spacing:  46px auto 21px auto;
+    --header-max-width: #{rem(705px)};
+    --header-border-radius: #{rem(17px)};
+    --logo-width: calc(#{$logo-width} * 2);
+    --logo-height: calc(#{$logo-height} * 2);
+    --logo-spacing: #{rem(26px) rem(27px) rem(19px)};
+    --spacing-score: #{rem(16px) rem(25px)};
+    --background-gradient: radial-gradient(
+      circle at 50% 0%,
+      hsl(214, 47%, 23%) 10%,
+      hsl(237, 49%, 15%) 100%
+    );
+  }
+}
+html,
+body {
+  @include size(100%, 100%);
+  min-height: 100%;
+  font-size: var(--font-size-body);
+  overflow: hidden;
+}
+
+body {
+  color: #fff;
+  background: var(--background-gradient);
+  font-size: var(--font-size-body);
+  font-family: var(--font-family);
+  font-weight: var(--font-weight);
+}
+
+.layout {
+  @include size(100%, 100%);
+  display: grid;
+  grid-template-rows: 0.32fr 1fr 0.36fr;
+  justify-items: center;
+  align-items: center;
+  position: relative;
+  @media screen and (min-width: 1024px) {
+    grid-template-rows: 0.46fr 1fr 0.16fr;
+  }
+  @media screen and (min-width: 1366px) {
+    grid-template-rows: 0.54fr 1fr 0.16fr;
+  }
+}
+
+.header {
+  @include size(100%, auto);
+  @include flex(center, space-between);
+  max-width: var(--header-max-width);
+  border: rem(3px) solid var(--neutral-header);
+  border-radius: var(--header-border-radius);
+  z-index: 1;
+
+  &__logo {
+    @include flex(center, flex-start);
+    @include size(var(--logo-width), var(--logo-height));
+    margin: var(--logo-spacing);
+  }
+
+  &__score {
+    margin: var(--spacing-score);
+  }
+}
+
+.main {
+  @include size(100%, 100%);
+  @include flex(center, center);
+}
+
+.footer {
+  @include size(100%, 100%);
+  @include flex(center, center);
+
+  @media screen and (min-width: 1024px) {
+    height: auto;
+    justify-content: flex-end;
+    margin: 0 62px 30px 0;
+  }
+  &__button {
+    border: rem(2px) solid var(--neutral-header);
+    border-radius: rem(10px);
+    padding: 13px 36px 11px;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: rem(2px);
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+.attribution {
+  @include absolute(auto, auto, 5px, auto);
+  color: var(--primary-blue);
+  font-size: rem(12px);
+  font-weight: 400;
+  opacity: 0.5;
+  a {
+    color: var(--primary-blue);
+    &:hover {
+      color: var(--primary-red);
+    }
+  }
+}
