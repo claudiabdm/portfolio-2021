@@ -13,12 +13,11 @@
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.13.1",
-    "@nuxtjs/composition-api": "^0.24.5",
     "@nuxtjs/pwa": "^3.3.5",
     "core-js": "^3.9.1",
     "nuxt": "^2.15.3",
     "sass": "^1.35.1",
-    "sass-loader": "^12.1.0",
+    "sass-loader": "^10.1.1",
     "storyblok-nuxt": "^2.0.1"
   },
   "devDependencies": {

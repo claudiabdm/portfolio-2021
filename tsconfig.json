@@ -26,7 +26,8 @@
     "types": [
       "@nuxt/types",
       "@nuxtjs/axios",
-      "@types/node"
+      "@types/node",
+      "storyblok-js-client/types"
     ]
   },
   "exclude": [
