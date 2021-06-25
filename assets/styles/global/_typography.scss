@@ -1,12 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Open+Sans:wght@400;700&display=swap');
 
-$font-size-title: rem(18px);
-$font-weight-normal: 600;
+$font-weight-normal: 400;
 $font-weight-bold: 700;
 
 :root {
   --font-size-body: 16px;
-  --font-family: 'Barlow Semi Condensed';
-  --font-weight: #{$font-weight-normal};
-  --font-size-title: #{$font-size-title};
+  --font-family: 'Open Sans', sans-serif;
+  --font-weight-normal: #{$font-weight-normal};
+  --font-family-secondary: 'Montserrat', sans-serif;
 }
