@@ -7,7 +7,7 @@ $stroke: #121629;
 :root {
 	--primary: #{$primary-light};
 	--primary-ligth: #{$primary-light};
-	--primary-dark: #{prymary-dark};
+	--primary-dark: #{$primary-dark};
 	--background: #{$primary-dark};
 	--secondary: #{$secondary};
 	--tertiary: #{$tertiary};
@@ -17,8 +17,6 @@ $stroke: #121629;
 @media (prefers-color-scheme: dark) {
 	:root {
 	--primary: #{$primary-dark};
-	--primary-ligth: #{$primary-light};
-	--primary-dark: #{prymary-dark};
 	--background: #{$primary-light};
 	--secondary: #{$secondary};
 	--tertiary: #{$tertiary};

@@ -2,5 +2,10 @@ export interface Button {
   text: string;
   round: boolean;
   isLink: boolean;
-  link: any;
+  link: {
+    url: string;
+    linktype: 'story';
+    // eslint-disable-next-line camelcase
+    cached_url: string;
+  };
 }
