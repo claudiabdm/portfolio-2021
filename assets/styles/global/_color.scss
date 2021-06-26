@@ -1,7 +1,10 @@
 $primary-light: #b8c1ec;
 $primary-dark: #232946;
-$secondary: #fffffe;
+$secondary-light: #fffffe;
+$secondary-dark: #dfdfdf;
 $tertiary: #eebbc3;
+$tertiary-dark: #bf959b;
+$tertiary-light: #ffdde2;
 $stroke: #121629;
 
 :root {
@@ -9,17 +12,38 @@ $stroke: #121629;
 	--primary-ligth: #{$primary-light};
 	--primary-dark: #{$primary-dark};
 	--background: #{$primary-light};
-	--secondary: #{$secondary};
+	--secondary: #{$secondary-light};
+	--secondary-light: #{$secondary-light};
+	--secondary-dark: #{$secondary-dark};
 	--tertiary: #{$tertiary};
+	--tertiary-dark: #{$tertiary-dark};
+	--tertiary-light: #{$tertiary-light};
 	--stroke: #{$stroke};
 }
 
+@media (prefers-color-scheme: light) {
+	:root {
+		--primary: #{$primary-dark};
+		--secondary: #{$secondary-light};
+		--background: #{$primary-light};
+	}
+}
 @media (prefers-color-scheme: dark) {
 	:root {
-	--primary: #{$primary-light};
-	--background: #{$primary-dark};
-	--secondary: #{$secondary};
-	--tertiary: #{$tertiary};
-	--stroke: #{$stroke};
+		--primary: #{$primary-light};
+		--secondary: #{$secondary-dark};
+		--background: #{$primary-dark};
 	}
+}
+
+.light-scheme {
+	--primary: #{$primary-dark};
+	--secondary: #{$secondary-light};
+	--background: #{$primary-light};
+}
+
+.dark-scheme {
+	--primary: #{$primary-light};
+	--secondary: #{$secondary-dark};
+	--background: #{$primary-dark};
 }
