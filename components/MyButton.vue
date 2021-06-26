@@ -70,7 +70,7 @@ export default Vue.extend({
   position: relative;
   margin: rem(10px);
   border-radius: $border-radius;
-  background-color: var(--primary-dark);
+  background-color: var(--primary);
 
   &--round {
     margin: rem(7px);
