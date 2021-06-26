@@ -5,10 +5,10 @@ $tertiary: #eebbc3;
 $stroke: #121629;
 
 :root {
-	--primary: #{$primary-light};
+	--primary: #{$primary-dark};
 	--primary-ligth: #{$primary-light};
 	--primary-dark: #{$primary-dark};
-	--background: #{$primary-dark};
+	--background: #{$primary-light};
 	--secondary: #{$secondary};
 	--tertiary: #{$tertiary};
 	--stroke: #{$stroke};
@@ -16,8 +16,8 @@ $stroke: #121629;
 
 @media (prefers-color-scheme: dark) {
 	:root {
-	--primary: #{$primary-dark};
-	--background: #{$primary-light};
+	--primary: #{$primary-light};
+	--background: #{$primary-dark};
 	--secondary: #{$secondary};
 	--tertiary: #{$tertiary};
 	--stroke: #{$stroke};
