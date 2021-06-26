@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 export default {
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
@@ -64,4 +66,42 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
+
+  generate: {
+    routes(callback) {
+      const token =
+        process.env.NODE_ENV === 'production'
+          ? process.env.STORYBLOK_PUBLISHED
+          : process.env.STORYBLOK_PREVIEW;
+      const version = 'published';
+      let cacheVersion = 0;
+
+      const toIgnore = ['home'];
+
+      // other routes that are not in Storyblok with their slug.
+      const routes = ['/']; // adds / directly
+
+      // Load space and receive latest cache version key to improve performance
+      axios
+        .get(`https://api.storyblok.com/v1/cdn/spaces/me?token=${token}`)
+        .then((spaceRes) => {
+          // timestamp of latest publish
+          cacheVersion = spaceRes.data.space.version;
+
+          // Call for all Links using the Links API: https://www.storyblok.com/docs/Delivery-Api/Links
+          axios
+            .get(
+              `https://api.storyblok.com/v1/cdn/links?token=${token}&version=${version}&cv=${cacheVersion}&per_page=100`
+            )
+            .then((res) => {
+              Object.keys(res.data.links).forEach((key) => {
+                if (!toIgnore.includes(res.data.links[key].slug)) {
+                  routes.push('/' + res.data.links[key].slug);
+                }
+              });
+              callback(null, routes);
+            });
+        });
+    },
+  },
 };

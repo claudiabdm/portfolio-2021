@@ -13,7 +13,6 @@
 import Vue from 'vue';
 
 export default Vue.extend({
-  name: 'Home',
   asyncData(context) {
     const version =
       context.query._storyblok || context.isDev ? 'draft' : 'published';
