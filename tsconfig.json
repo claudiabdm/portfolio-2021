@@ -28,7 +28,9 @@
       "@nuxtjs/axios",
       "@types/node",
       "storyblok-js-client/types",
-      "@types/jest"
+      "@types/jest",
+      "@marvr/storyblok-rich-text-vue-renderer/dist/packages/storyblok-rich-text-vue-renderer/src",
+      "@marvr/storyblok-rich-text-vue-renderer/dist/packages/storyblok-rich-text-types/src",
     ]
   },
   "exclude": [

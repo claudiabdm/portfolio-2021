@@ -4,6 +4,11 @@ export default {
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
 
+  server: {
+    port: 3000, // default: 3000
+    host: '192.168.3.35', // default: localhost
+  },
+
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'portfolio-2021',
@@ -19,7 +24,7 @@ export default {
   css: ['~/assets/styles/styles.scss'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [],
+  plugins: ['~/plugins/composition-api.ts', '~/plugins/rich-text-renderer.ts'],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: [
