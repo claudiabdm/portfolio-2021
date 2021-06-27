@@ -1,0 +1,77 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TheHeader should match the snapshot 1`] = `
+<header
+  class="header"
+>
+  <div
+    class="header__logo"
+  >
+    logo
+  </div>
+   
+  <nav
+    class="header__nav"
+  >
+    <a
+      class="header__link link"
+    >
+      <svg
+        class="link__icon"
+      >
+        <use
+          href="[object Object]#home"
+        />
+      </svg>
+       
+      <span
+        class="link__text"
+      >
+        
+        home
+      
+      </span>
+    </a>
+    <a
+      class="header__link link"
+    >
+      <svg
+        class="link__icon"
+      >
+        <use
+          href="[object Object]#projects"
+        />
+      </svg>
+       
+      <span
+        class="link__text"
+      >
+        
+        projects
+      
+      </span>
+    </a>
+    <a
+      class="header__link link"
+    >
+      <svg
+        class="link__icon"
+      >
+        <use
+          href="[object Object]#about"
+        />
+      </svg>
+       
+      <span
+        class="link__text"
+      >
+        
+        about
+      
+      </span>
+    </a>
+  </nav>
+   
+  <div />
+</header>
+`;
