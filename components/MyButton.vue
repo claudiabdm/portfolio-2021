@@ -87,6 +87,7 @@ export default Vue.extend({
   background-color: var(--tertiary);
   font-size: rem(16px);
   font-family: var(--font-family-secondary);
+  font-weight: 700;
   text-decoration: none;
   will-change: transform;
   transform: translate3d(rem(-10px), rem(-10px), 0);
