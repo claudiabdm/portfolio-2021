@@ -63,13 +63,19 @@ export default Vue.extend({
     const darkModeMediaQuery = window.matchMedia(
       '(prefers-color-scheme: dark)'
     );
+    this.isDark = darkModeMediaQuery.matches;
+    this.toggleDarkModeClasses();
     darkModeMediaQuery.addEventListener('change', (e: MediaQueryListEvent) => {
       this.isDark = e.matches;
+      this.toggleDarkModeClasses();
     });
   },
   methods: {
-    toggleDarkMode(_event: Event): void {
+    toggleDarkMode(_event?: Event): void {
       this.isDark = !this.isDark;
+      this.toggleDarkModeClasses();
+    },
+    toggleDarkModeClasses() {
       const html = document.querySelector('html');
       if (this.isDark) {
         html?.classList.add('dark-scheme');
