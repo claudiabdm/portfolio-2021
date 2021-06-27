@@ -1,4 +1,15 @@
 @use '~/assets/styles/mixins/mixins' as *;
+
+
+$primary-light: #b8c1ec;
+$primary-dark: #232946;
+$secondary-light: #fffffe;
+$secondary-dark: #dfdfdf;
+$tertiary: #eebbc3;
+$tertiary-dark: #bf959b;
+$tertiary-light: #ffdde2;
+$stroke: #121629;
+
 $border-radius: rem(10px);
 $border: rem(2px) solid var(--stroke);
 $box-shadow: rem(10px) rem(10px) 0 0 var(--primary-dark);

@@ -133,7 +133,7 @@ export default Vue.extend({
       transform: rotateX(0deg);
     }
     &--selected.switch__svg--dark {
-      background: linear-gradient(var(--tertiary-dark) -10%, var(--tertiary));
+      background: linear-gradient(var(--tertiary-dark) -10%, #{$tertiary});
       transform: rotateX(0deg);
     }
     &--selected.switch__svg--light {
