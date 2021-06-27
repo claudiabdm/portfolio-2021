@@ -36,7 +36,7 @@ export default Vue.extend({
   },
   methods: {
     iconPath(icon: string): string {
-      return require('@/assets/icons.svg') + '#' + icon;
+      return require('@/assets/sprite.svg') + '#' + icon;
     },
   },
 });
@@ -49,10 +49,12 @@ export default Vue.extend({
 .header {
   @include size(100%, auto);
   @include flex(center, space-between);
+  position: relative;
   padding: rem(10px);
   max-width: $max-width;
   margin-left: auto;
   margin-right: auto;
+  z-index: 1;
 
   &__logo {
     @include flex(center, flex-start);
