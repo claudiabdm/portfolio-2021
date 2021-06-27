@@ -53,11 +53,19 @@
 import Vue from 'vue';
 
 export default Vue.extend({
+  name: 'MyButtonDarkMode',
   data() {
     return {
       isDark: false,
-      currentMode: 'light',
     };
+  },
+  mounted() {
+    const darkModeMediaQuery = window.matchMedia(
+      '(prefers-color-scheme: dark)'
+    );
+    darkModeMediaQuery.addEventListener('change', (e: MediaQueryListEvent) => {
+      this.isDark = e.matches;
+    });
   },
   methods: {
     toggleDarkMode(_event: Event): void {
