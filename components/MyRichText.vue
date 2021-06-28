@@ -23,6 +23,15 @@ export default Vue.extend({
 .rich-text {
   font-weight: 300;
 
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-family-secondary);
+  }
+
   p {
     line-height: 1.5;
   }
