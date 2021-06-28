@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@400;700&family=Open+Sans:wght@400;700&display=swap');
 
 $font-weight-normal: 400;
 $font-weight-bold: 700;
@@ -7,5 +7,5 @@ $font-weight-bold: 700;
   --font-size-body: 16px;
   --font-family: 'Open Sans', sans-serif;
   --font-weight-normal: #{$font-weight-normal};
-  --font-family-secondary: 'Montserrat', sans-serif;
+  --font-family-secondary: 'Jost', sans-serif;
 }
