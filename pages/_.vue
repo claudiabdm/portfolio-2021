@@ -1,12 +1,12 @@
 <template>
-  <section>
+  <main class="main">
     <component
       :is="component.component"
       v-for="component in story.content.body"
       :key="component._uid"
       :blok="component"
     />
-  </section>
+  </main>
 </template>
 
 <script lang="ts">
