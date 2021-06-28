@@ -100,6 +100,7 @@ export default Vue.extend({
   border: rem(1px) solid var(--stroke);
   padding: 5px;
   background-color: var(--secondary);
+  -webkit-tap-highlight-color: transparent;
   &:hover {
     cursor: pointer;
   }
@@ -118,8 +119,6 @@ export default Vue.extend({
     border-radius: rem(5px);
     color: var(--stroke);
     transform: rotateX(30deg);
-    perspective: rem(1px);
-    backface-visibility: hidden;
     z-index: 1;
     will-change: transform;
     transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
