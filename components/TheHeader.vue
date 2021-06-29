@@ -71,7 +71,7 @@ export default Vue.extend({
   max-width: $max-width;
   margin-left: auto;
   margin-right: auto;
-  z-index: 1;
+  z-index: 2;
 
   &__logo {
     @include flex(center, flex-start);
@@ -83,11 +83,11 @@ export default Vue.extend({
     @include flex(center, space-around);
     border-top: $border;
     background-color: var(--tertiary);
-    flex-basis: 20%;
     transition: background-color 0.15s ease-in-out;
     @media screen and (min-width: 1024px) {
       position: unset;
       justify-content: space-between;
+      flex-basis: 20%;
       border-top: none;
       background-color: transparent;
     }
@@ -107,7 +107,7 @@ export default Vue.extend({
     &--active {
       .link__icon {
         fill: var(--primary-light);
-        animation: bounce 1s cubic-bezier(0.28, 0.84, 0.42, 1);
+        animation: bounce 0.85s cubic-bezier(0.28, 0.84, 0.42, 1);
       }
       .link__text::after {
         content: '';
@@ -160,7 +160,7 @@ export default Vue.extend({
         content: '';
         display: block;
         background-color: var(--secondary);
-        transform: translate3d(-100%, 0, 0);
+        transform: translate3d(-105%, 0, 0);
         overflow: hidden;
         transition: transform 0.2s ease-in-out,
           background-color 0.25s ease-in-out;

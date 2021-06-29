@@ -91,8 +91,17 @@ export default Vue.extend({});
   position: relative;
   &__svg {
     @include size(100%, 100%);
-    position: absolute;
-    padding-bottom: 25px;
+    max-width: 100vw;
+    max-height: 35vh;
+
+    @media screen and (min-height: 736px) {
+      max-height: 45vh;
+    }
+    @media screen and (min-width: 1024px) {
+      max-width: 100%;
+      max-height: 100%;
+      transform: rotate(0);
+    }
     #blob {
       fill: var(--secondary);
       transform-origin: center center;
@@ -109,7 +118,7 @@ export default Vue.extend({});
     z-index: 1;
     filter: url(#dropshadow);
     transition: filter 0.15s linear;
-    animation: bounce 1.5s infinite ease-in-out alternate-reverse;
+    animation: float 1.5s infinite ease-in-out alternate-reverse;
     &--window {
       z-index: 2;
       animation-duration: 1s;
@@ -132,7 +141,7 @@ export default Vue.extend({});
   }
 }
 
-@keyframes bounce {
+@keyframes float {
   from {
     transform: translate3d(rem(-2px), rem(-5px), rem(-10px));
   }
