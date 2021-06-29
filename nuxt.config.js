@@ -1,4 +1,8 @@
 import axios from 'axios';
+const isProd = process.env.NODE_ENV === 'production';
+const token = isProd
+  ? process.env.STORYBLOK_PUBLISHED
+  : process.env.STORYBLOK_PREVIEW;
 
 export default {
   // Target: https://go.nuxtjs.dev/config-target
@@ -49,15 +53,11 @@ export default {
     [
       'storyblok-nuxt',
       {
-        accessToken: process.env.STORYBLOK_PREVIEW,
+        accessToken: token,
         cacheProvider: 'memory',
       },
     ],
   ],
-
-  privateRuntimeConfig: {
-    storyblokPreview: process.env.STORYBLOK_PREVIEW,
-  },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {},
@@ -74,11 +74,7 @@ export default {
 
   generate: {
     routes(callback) {
-      const token =
-        process.env.NODE_ENV === 'production'
-          ? process.env.STORYBLOK_PUBLISHED
-          : process.env.STORYBLOK_PREVIEW;
-      const version = 'published';
+      const version = isProd ? 'published' : 'draft';
       let cacheVersion = 0;
 
       const toIgnore = ['home'];
