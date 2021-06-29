@@ -13,63 +13,81 @@ exports[`TheHeader should match the snapshot 1`] = `
   <nav
     class="header__nav"
   >
-    <a
-      class="header__link link"
+    <div
+      class="header__link-wrapper header__link-wrapper--active"
     >
-      <svg
-        class="link__icon"
+      <a
+        class="header__link link"
       >
-        <use
-          href="[object Object]#home"
-        />
-      </svg>
-       
-      <span
-        class="link__text"
-      >
-        
-        home
-      
-      </span>
-    </a>
-    <a
-      class="header__link link"
+        <div
+          class="link__icon-wrapper"
+        >
+          <svg
+            class="link__icon"
+          >
+            <use
+              href="[object Object]#home"
+            />
+          </svg>
+        </div>
+         
+        <span
+          class="link__text"
+        >
+          home
+        </span>
+      </a>
+    </div>
+    <div
+      class="header__link-wrapper"
     >
-      <svg
-        class="link__icon"
+      <a
+        class="header__link link"
       >
-        <use
-          href="[object Object]#projects"
-        />
-      </svg>
-       
-      <span
-        class="link__text"
-      >
-        
-        projects
-      
-      </span>
-    </a>
-    <a
-      class="header__link link"
+        <div
+          class="link__icon-wrapper"
+        >
+          <svg
+            class="link__icon"
+          >
+            <use
+              href="[object Object]#projects"
+            />
+          </svg>
+        </div>
+         
+        <span
+          class="link__text"
+        >
+          projects
+        </span>
+      </a>
+    </div>
+    <div
+      class="header__link-wrapper"
     >
-      <svg
-        class="link__icon"
+      <a
+        class="header__link link"
       >
-        <use
-          href="[object Object]#about"
-        />
-      </svg>
-       
-      <span
-        class="link__text"
-      >
-        
-        about
-      
-      </span>
-    </a>
+        <div
+          class="link__icon-wrapper"
+        >
+          <svg
+            class="link__icon"
+          >
+            <use
+              href="[object Object]#about"
+            />
+          </svg>
+        </div>
+         
+        <span
+          class="link__text"
+        >
+          about
+        </span>
+      </a>
+    </div>
   </nav>
    
   <div />
