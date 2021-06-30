@@ -71,6 +71,7 @@ export default Vue.extend({
   margin: rem(10px);
   border-radius: $border-radius;
   background-color: var(--primary);
+  transition: background-color 0.15s linear;
 
   &--round {
     margin: rem(7px);
@@ -91,7 +92,8 @@ export default Vue.extend({
   text-decoration: none;
   will-change: transform;
   transform: translate3d(rem(-10px), rem(-10px), 0);
-  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 0.15s linear;
 
   &:hover {
     transform: translate3d(rem(-3px), rem(-3px), 0);
@@ -110,6 +112,12 @@ export default Vue.extend({
     padding: rem(5px) rem(11px);
     font-size: rem(14px);
     transform: translate3d(rem(-7px), rem(-7px), 0);
+  }
+}
+
+.dark-scheme {
+  .button-container {
+    background-color: var(--stroke);
   }
 }
 </style>
