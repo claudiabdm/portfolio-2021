@@ -4,7 +4,7 @@
     :class="['container__button', 'switch', { 'switch--dark': isDark }]"
     type="button"
     role="switch"
-    :aria-checked="isDark"
+    :aria-checked="`${isDark}`"
     aria-label="Toggle dark mode"
     @click="toggleDarkMode"
   >
