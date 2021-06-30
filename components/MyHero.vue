@@ -33,7 +33,7 @@ export default Vue.extend({
 .hero {
   @include flex(flex-start, center, column);
   @include size(100%, 100%);
-  min-height: calc(100vh - (#{$header-height} + #{nav-height}));
+  min-height: calc(100vh - (#{$header-height} + #{$nav-height}));
   position: relative;
   margin-top: auto;
   color: var(--primary);
