@@ -34,7 +34,6 @@ export default {
   components: [
     {
       path: '~/components',
-      global: true,
     },
   ],
 
