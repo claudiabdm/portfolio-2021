@@ -8,9 +8,11 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import MyButton from '@/components/MyButton.vue';
 import { Button } from '~/types/components';
 
 export default Vue.extend({
+  components: { MyButton },
   props: {
     buttons: {
       type: Array as () => Button[],
