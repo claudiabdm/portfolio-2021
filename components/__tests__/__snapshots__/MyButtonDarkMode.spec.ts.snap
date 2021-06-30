@@ -2,6 +2,7 @@
 
 exports[`MyButtonDarkMode should match the snapshot 1`] = `
 <button
+  aria-checked="false"
   aria-label="Toggle dark mode"
   class="container__button switch"
   id="toggleDarkMode"
