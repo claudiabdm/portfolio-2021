@@ -49,11 +49,13 @@ export default Vue.extend({
   },
   mounted() {
     this.onSelectRoute(this.$route.path);
+    const nav = this.$refs.nav as Element;
+    const linkIcons = nav.querySelectorAll('.link__icon');
     if (window.innerWidth < 1024) {
-      this.animateNav();
-      this.animateIconLinks(2.5, 50);
+      this.animateNav(nav);
+      this.animateLinkIcons(linkIcons, 2.5, 50);
     } else {
-      this.animateIconLinks(0, -50);
+      this.animateLinkIcons(linkIcons, 0, -50);
     }
   },
   methods: {
@@ -63,8 +65,7 @@ export default Vue.extend({
     onSelectRoute(link: string): void {
       this.selectedRoute = link;
     },
-    animateNav(): void {
-      const nav = this.$refs.nav as Element;
+    animateNav(nav: Element): void {
       gsap.set(nav, {
         autoAlpha: 0,
         yPercent: 100,
@@ -77,13 +78,16 @@ export default Vue.extend({
         ease: 'ease.in',
       });
     },
-    animateIconLinks(delay: number, yPercent: number): void {
-      const nav = this.$refs.nav as Element;
-      gsap.set(nav.querySelectorAll('.link__icon'), {
+    animateLinkIcons(
+      linkIcons: NodeListOf<Element>,
+      delay: number,
+      yPercent: number
+    ): void {
+      gsap.set(linkIcons, {
         autoAlpha: 0,
         yPercent,
       });
-      gsap.to(nav.querySelectorAll('.link__icon'), {
+      gsap.to(linkIcons, {
         autoAlpha: 1,
         duration: 1,
         yPercent: 0,
