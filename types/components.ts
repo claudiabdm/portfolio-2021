@@ -1,7 +1,7 @@
 export interface Button {
   _uid: string;
   text: string;
-  round: boolean;
+  isRound: boolean;
   isLink: boolean;
   link: {
     url: string;
@@ -9,6 +9,11 @@ export interface Button {
     // eslint-disable-next-line camelcase
     cached_url: string;
   };
+}
+
+export interface FilterButton extends Button {
+  isRound: true;
+  tag: 'vue' | 'angular' | 'nuxt' | 'vanilla' | 'show-all';
 }
 
 export interface Hero {
@@ -21,4 +26,22 @@ export interface Hero {
     _uid: string;
     buttons: Button[];
   };
+}
+
+export interface Page {
+  title: string;
+  body: Object;
+}
+export interface Project {
+  _uid: string;
+  title: string;
+  description: string;
+  demo: string;
+  code: string;
+  media: string;
+}
+
+export interface ProjectFilter {
+  _uid: string;
+  buttonList: FilterButton[];
 }
