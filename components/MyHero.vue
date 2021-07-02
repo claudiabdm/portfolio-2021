@@ -1,5 +1,5 @@
 <template>
-  <section ref="hero" class="hero">
+  <section ref="hero" v-editable="blok" class="hero">
     <SvgCorner class="hero__corner" />
     <div ref="heroGroup" class="hero__group">
       <SvgPoints class="hero__points" />
@@ -132,22 +132,15 @@ export default Vue.extend({
 .hero {
   @include flex(flex-start, space-between, column);
   @include size(100%, 100%);
-  min-height: calc(
-    100vh - (#{rem($header-height)} + #{rem($nav-height)} + 20px)
-  );
   position: relative;
   margin-top: auto;
   color: var(--primary);
   visibility: hidden;
 
   @media screen and (min-width: 1024px) {
-    height: calc(100vh - (#{rem($header-height)}));
-    max-width: $max-width;
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    margin-right: auto;
-    margin-left: auto;
   }
 
   &__group {
