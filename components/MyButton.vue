@@ -1,6 +1,7 @@
 <template>
   <div
     v-if="blok"
+    v-editable="blok"
     :class="['button-container', { 'button-container--round': blok.isRound }]"
   >
     <!-- Button -->
@@ -65,6 +66,8 @@ export default Vue.extend({
 <style scoped lang="scss">
 @use '~/assets/styles/global/variables' as *;
 @use '~/assets/styles/mixins/mixins' as *;
+@use "sass:color" as color;
+
 .button-container {
   @include size(max-content, max-content);
   position: relative;
@@ -94,6 +97,7 @@ export default Vue.extend({
   transform: translate3d(rem(-10px), rem(-10px), 0);
   transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
     background-color 0.15s linear;
+  -webkit-tap-highlight-color: transparent;
 
   &:hover {
     transform: translate3d(rem(-3px), rem(-3px), 0);
@@ -103,15 +107,19 @@ export default Vue.extend({
     transform: translate3d(0, 0, 0);
   }
 
-  &--selected {
-    transform: translate3d(0, 0, 0);
-  }
-
   &--round {
     border-radius: rem(50px);
     padding: rem(5px) rem(11px);
     font-size: rem(14px);
     transform: translate3d(rem(-7px), rem(-7px), 0);
+  }
+
+  &--selected {
+    transform: none;
+    background-color: color.scale($tertiary-dark, $lightness: -10%);
+    &:hover {
+      transform: none;
+    }
   }
 }
 
