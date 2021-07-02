@@ -76,16 +76,6 @@ export default Vue.extend({
     }
   }
 }
-$text-xs: 0.75rem;
-$text-sm: 0.875rem;
-$text-base: 1rem;
-$text-lg: 1.125rem;
-$text-xl: 1.25rem;
-$text-2xl: clamp(1.25rem, 5vw, 1.5rem);
-$text-3xl: clamp(1.5rem, 5vw, 1.875rem);
-$text-4xl: clamp(1.75rem, 5vw, 2.5rem);
-$text-5xl: clamp(2.8rem, 5vw, 3rem);
-$text-6xl: clamp(2rem, 10vw, 4.5rem);
 
 .text-xs {
   font-size: $text-xs;
@@ -123,7 +113,6 @@ $text-6xl: clamp(2rem, 10vw, 4.5rem);
 }
 
 .text-6xl + .dot {
-  position: relative;
   color: var(--tertiary);
   font-size: $text-6xl;
 }
