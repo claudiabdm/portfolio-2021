@@ -22,7 +22,7 @@ export default Vue.extend({
 @use '~/assets/styles/mixins/mixins' as *;
 .rich-text {
   font-weight: 300;
-
+  transition: color 0.5s linear;
   h1,
   h2,
   h3,
@@ -119,6 +119,12 @@ $text-6xl: clamp(2rem, 10vw, 4.5rem);
   font-size: $text-5xl;
 }
 .text-6xl {
+  font-size: $text-6xl;
+}
+
+.text-6xl + .dot {
+  position: relative;
+  color: var(--tertiary);
   font-size: $text-6xl;
 }
 </style>
