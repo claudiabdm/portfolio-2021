@@ -1,7 +1,6 @@
 <template>
   <header class="header">
-    <div class="header__logo">logo</div>
-    <nav class="header__nav">
+    <nav ref="nav" class="header__nav">
       <div
         v-for="link in links"
         :key="link.link"
@@ -27,7 +26,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-
+import gsap from 'gsap';
 export default Vue.extend({
   name: 'TheHeader',
   data() {
@@ -37,7 +36,7 @@ export default Vue.extend({
         { link: '/projects', text: 'projects' },
         { link: '/about', text: 'about' },
       ],
-      selectedRoute: '/',
+      selectedRoute: '',
     };
   },
   watch: {
@@ -48,12 +47,52 @@ export default Vue.extend({
       }
     },
   },
+  mounted() {
+    this.onSelectRoute(this.$route.path);
+    if (window.innerWidth < 1024) {
+      this.animateNav();
+      this.animateIconLinks(2.5, 50);
+    } else {
+      this.animateIconLinks(0, -50);
+    }
+  },
   methods: {
     iconPath(icon: string): string {
       return require('@/assets/sprite.svg') + '#' + icon;
     },
     onSelectRoute(link: string): void {
       this.selectedRoute = link;
+    },
+    animateNav(): void {
+      const nav = this.$refs.nav as Element;
+      gsap.set(nav, {
+        autoAlpha: 0,
+        yPercent: 100,
+      });
+      gsap.to(nav, {
+        autoAlpha: 1,
+        duration: 0.5,
+        yPercent: 0,
+        delay: 2,
+        ease: 'ease.in',
+      });
+    },
+    animateIconLinks(delay: number, yPercent: number): void {
+      const nav = this.$refs.nav as Element;
+      gsap.set(nav.querySelectorAll('.link__icon'), {
+        autoAlpha: 0,
+        yPercent,
+      });
+      gsap.to(nav.querySelectorAll('.link__icon'), {
+        autoAlpha: 1,
+        duration: 1,
+        yPercent: 0,
+        ease: 'elastic',
+        delay,
+        stagger: {
+          amount: 0.5,
+        },
+      });
     },
   },
 });
@@ -65,17 +104,13 @@ export default Vue.extend({
 
 .header {
   @include size(100%, auto);
-  @include flex(center, space-between);
+  @include flex(center, flex-end);
   position: relative;
   padding: rem(10px);
   max-width: $max-width;
   margin-left: auto;
   margin-right: auto;
   z-index: 2;
-
-  &__logo {
-    @include flex(center, flex-start);
-  }
 
   &__nav {
     @include fixed(auto, 0, 0, 0);
@@ -84,12 +119,15 @@ export default Vue.extend({
     border-top: $border;
     background-color: var(--tertiary);
     transition: background-color 0.15s ease-in-out;
+    visibility: hidden;
     @media screen and (min-width: 1024px) {
       position: unset;
-      justify-content: space-between;
-      flex-basis: 20%;
+      justify-content: flex-start;
+      margin-top: auto;
       border-top: none;
       background-color: transparent;
+      padding-left: 10px;
+      visibility: visible;
     }
   }
   &__link {
@@ -100,14 +138,23 @@ export default Vue.extend({
       justify-content: space-between;
       border-top: none;
       background-color: transparent;
-      overflow: hidden;
     }
   }
   &__link-wrapper {
+    @media screen and (min-width: 1024px) {
+      &:hover {
+        .link__text {
+          transform: scale3d(1, 1, 1);
+        }
+      }
+    }
     &--active {
       .link__icon {
         fill: var(--primary-light);
         animation: bounce 0.85s cubic-bezier(0.28, 0.84, 0.42, 1);
+        @media screen and (min-width: 1024px) {
+          fill: var(--tertiary);
+        }
       }
       .link__text::after {
         content: '';
@@ -136,7 +183,9 @@ export default Vue.extend({
     @include size(rem(20px), rem(20px));
     @include flex(center, center);
     @media screen and (min-width: 1024px) {
-      display: none;
+      @include size(rem(32px), rem(32px));
+      fill: var(--background);
+      color: var(--primary);
     }
   }
 
@@ -149,29 +198,25 @@ export default Vue.extend({
     backface-visibility: hidden;
     -webkit-font-smoothing: subpixel-antialiased;
     z-index: 2;
+    visibility: hidden;
     transition: fill 0.15s ease-in-out, color 0.15s ease-in-out;
+    @media screen and (min-width: 1024px) {
+      @include size(rem(30px), rem(30px));
+      fill: var(--background);
+      color: var(--primary);
+    }
   }
 
   &__text {
     @media screen and (min-width: 1024px) {
       @include flex(center, center, column);
-      &::after {
-        @include size(100%, rem(3px));
-        content: '';
-        display: block;
-        background-color: var(--secondary);
-        transform: translate3d(-105%, 0, 0);
-        overflow: hidden;
-        transition: transform 0.2s ease-in-out,
-          background-color 0.25s ease-in-out;
-      }
+      transform: scale3d(0, 0, 0);
+      will-change: transform;
+      transform-origin: center center;
+      backface-visibility: hidden;
+      -webkit-font-smoothing: subpixel-antialiased;
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
-  }
-}
-
-@keyframes shine {
-  to {
-    background-position: 200% center;
   }
 }
 
