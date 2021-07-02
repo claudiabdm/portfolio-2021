@@ -130,16 +130,18 @@ export default Vue.extend({
 @use '~/assets/styles/mixins/mixins' as *;
 
 .hero {
-  @include flex(flex-start, center, column);
+  @include flex(flex-start, space-between, column);
   @include size(100%, 100%);
-  min-height: calc(100vh - (#{$header-height} + #{$nav-height}));
+  min-height: calc(
+    100vh - (#{rem($header-height)} + #{rem($nav-height)} + 20px)
+  );
   position: relative;
   margin-top: auto;
   color: var(--primary);
   visibility: hidden;
 
   @media screen and (min-width: 1024px) {
-    height: calc(100vh - (#{$header-height}));
+    height: calc(100vh - (#{rem($header-height)}));
     max-width: $max-width;
     flex-direction: row;
     align-items: center;
@@ -188,6 +190,7 @@ export default Vue.extend({
     @include size(100%, 100%);
     z-index: 1;
     visibility: hidden;
+    margin-bottom: auto;
   }
 
   &__corner {
@@ -196,12 +199,10 @@ export default Vue.extend({
       display: block;
       @include size(100%, 100%);
       @include absolute(20px, 20px, auto, auto);
-      max-height: rem(50px);
-      max-width: rem(50px);
-      color: var(--tertiary);
-      z-index: 0;
       max-height: rem(100px);
       max-width: rem(100px);
+      color: var(--tertiary);
+      z-index: 0;
     }
   }
 }
