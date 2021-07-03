@@ -41,13 +41,17 @@ export default Vue.extend({
   }
 
   &__title {
-    position: relative;
-    padding: 0 rem(25px);
-    font-size: $text-6xl;
-    font-weight: 700;
-    font-family: var(--font-family-secondary);
-    text-transform: capitalize;
-    z-index: 1;
+    display: none;
+    @media screen and (min-width: 1024px) {
+      display: unset;
+      position: relative;
+      padding: 0 rem(25px);
+      font-size: $text-6xl;
+      font-weight: 700;
+      font-family: var(--font-family-secondary);
+      text-transform: capitalize;
+      z-index: 1;
+    }
   }
 
   &__component {
