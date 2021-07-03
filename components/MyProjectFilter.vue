@@ -1,33 +1,33 @@
 <template>
   <div v-editable="blok" class="filter">
-    <div class="filter__container">
-      <button
-        v-show="isPrevVisible"
-        class="filter__arrow filter__arrow--prev"
-        type="button"
-        data-test="buttonPrev"
-        @mousedown="onPrev()"
-        @mouseleave="stopInterval"
-        @mouseup="stopInterval"
-        @touchstart="onPrev()"
-        @touchend="stopInterval"
-        @touchcancel="stopInterval"
+    <button
+      v-show="isPrevVisible"
+      class="filter__arrow filter__arrow--prev"
+      type="button"
+      data-test="buttonPrev"
+      @mousedown="onPrev()"
+      @mouseleave="stopInterval"
+      @mouseup="stopInterval"
+      @touchstart="onPrev()"
+      @touchend="stopInterval"
+      @touchcancel="stopInterval"
+    >
+      <svg
+        class="filter__svg"
+        fill="none"
+        stroke="currentColor"
+        viewBox="5 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
       >
-        <svg
-          class="filter__svg"
-          fill="none"
-          stroke="currentColor"
-          viewBox="5 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1"
-            d="M15 19l-7-7 7-7"
-          ></path>
-        </svg>
-      </button>
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="1"
+          d="M15 19l-7-7 7-7"
+        ></path>
+      </svg>
+    </button>
+    <div class="filter__container">
       <ul ref="sliderScroll" class="filter__list">
         <li
           v-for="button in blok.buttonList"
@@ -42,34 +42,34 @@
           />
         </li>
       </ul>
-      <button
-        v-show="isNextVisible"
-        class="filter__arrow filter__arrow--next"
-        type="button"
-        data-test="buttonNext"
-        @mousedown="onNext()"
-        @mouseleave="stopInterval"
-        @mouseup="stopInterval"
-        @touchstart="onNext()"
-        @touchend="stopInterval"
-        @touchcancel="stopInterval"
-      >
-        <svg
-          class="filter__svg"
-          fill="none"
-          stroke="currentColor"
-          viewBox="-5 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1"
-            d="M9 5l7 7-7 7"
-          ></path>
-        </svg>
-      </button>
     </div>
+    <button
+      v-show="isNextVisible"
+      class="filter__arrow filter__arrow--next"
+      type="button"
+      data-test="buttonNext"
+      @mousedown="onNext()"
+      @mouseleave="stopInterval"
+      @mouseup="stopInterval"
+      @touchstart="onNext()"
+      @touchend="stopInterval"
+      @touchcancel="stopInterval"
+    >
+      <svg
+        class="filter__svg"
+        fill="none"
+        stroke="currentColor"
+        viewBox="-5 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="1"
+          d="M9 5l7 7-7 7"
+        ></path>
+      </svg>
+    </button>
   </div>
 </template>
 
@@ -172,11 +172,14 @@ export default Vue.extend({
 @use '~/assets/styles/mixins/mixins' as *;
 .filter {
   position: relative;
+  @include flex(stretch, flex-start);
   &__container {
     @include flex(center, flex-start);
     position: relative;
-    padding: 0 rem(25px);
     overflow: hidden;
+    @media screen and (min-width: 1024px) {
+      padding: 0;
+    }
   }
 
   &__list {
@@ -194,10 +197,10 @@ export default Vue.extend({
       cursor: pointer;
     }
     &--next {
-      right: 0;
+      right: rem(-20px);
     }
     &--prev {
-      left: 0;
+      left: rem(-20px);
     }
   }
 
