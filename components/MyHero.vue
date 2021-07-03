@@ -168,7 +168,6 @@ export default Vue.extend({
 
   &__text {
     position: relative;
-    font-family: var(--font-family);
     z-index: 1;
   }
   &__buttons {

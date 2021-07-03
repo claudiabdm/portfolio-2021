@@ -6,7 +6,7 @@
 </template>
 <style lang="scss">
 html {
-  font-family: var(--font-family-secondary);
+  font-family: var(--font-family);
   font-size: 16px;
 }
 body {
