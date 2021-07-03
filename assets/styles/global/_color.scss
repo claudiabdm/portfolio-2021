@@ -19,6 +19,7 @@
 		--primary: #{$primary-dark};
 		--secondary: #{$secondary-light};
 		--background: #{$primary-light};
+		--shadow: #{$primary-dark};
 	}
 }
 @media (prefers-color-scheme: dark) {
@@ -26,6 +27,7 @@
 		--primary: #{$primary-light};
 		--secondary: #{$secondary-dark};
 		--background: #{$primary-dark};
+		--shadow: #{$stroke};
 	}
 }
 
@@ -34,6 +36,7 @@
 	--secondary: #{$secondary-light};
 	--tertiary: #{$tertiary};
 	--background: #{$primary-light};
+	--shadow: #{$primary-dark};
 }
 
 .dark-scheme {
@@ -41,4 +44,5 @@
 	--secondary: #{$secondary-dark};
 	--tertiary: #{$tertiary-dark};
 	--background: #{$primary-dark};
+	--shadow: #{$stroke};
 }
