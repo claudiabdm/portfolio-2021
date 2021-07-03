@@ -1,3 +1,5 @@
+import { StoryData, StoryblokComponent } from 'storyblok-js-client/types';
+
 export interface Button {
   _uid: string;
   text: string;
@@ -32,12 +34,17 @@ export interface Page {
   title: string;
   body: Object;
 }
-export interface Project {
-  _uid: string;
+export interface Project extends StoryblokComponent<'MyProject'> {
   title: string;
   description: string;
-  demo: string;
-  code: string;
+  demo: {
+    url: string;
+    linktype: 'url';
+  };
+  code: {
+    url: string;
+    linktype: 'url';
+  };
   media: string;
 }
 
@@ -45,3 +52,12 @@ export interface ProjectFilter {
   _uid: string;
   buttonList: FilterButton[];
 }
+
+export interface ProjectList {
+  _uid: string;
+  filter: ProjectFilter;
+  body: string[];
+}
+
+export interface MyProjectBlok
+  extends StoryData<StoryblokComponent<'MyProject'> & Project> {}
