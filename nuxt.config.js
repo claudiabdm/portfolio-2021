@@ -69,14 +69,16 @@ export default {
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {},
+  build: {
+    transpile: ['gsap'],
+  },
 
   generate: {
     routes(callback) {
       const version = isProd ? 'published' : 'draft';
       let cacheVersion = 0;
 
-      const toIgnore = ['home'];
+      const toIgnore = ['home', '/projects/family-me', '/projects/acnh-search'];
 
       // other routes that are not in Storyblok with their slug.
       const routes = ['/']; // adds / directly
