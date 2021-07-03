@@ -1,6 +1,5 @@
 <template>
   <div v-editable="blok" class="filter">
-    <span class="filter__text">Filter by framework:</span>
     <div class="filter__container">
       <button
         v-show="isPrevVisible"
@@ -38,6 +37,7 @@
           <MyButton
             :blok="button"
             :is-selected="button.tag === filterSelected"
+            :aria-pressed="button.tag === filterSelected"
             @buttonClicked="onFilterSelected(button.tag)"
           />
         </li>
@@ -177,11 +177,6 @@ export default Vue.extend({
     position: relative;
     padding: 0 rem(25px);
     overflow: hidden;
-  }
-
-  &__text {
-    font-family: var(--font-family);
-    padding: 0 rem(25px);
   }
 
   &__list {
