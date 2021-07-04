@@ -2,21 +2,36 @@
   <section
     v-editable="blok"
     :class="['project', { 'project--row-reverse': isReverse }]"
-    @mouseenter="onProjectHover(blok._uid)"
   >
     <div class="project__group">
-      <h3 class="project__title">
-        <span class="dot">> </span>
+      <h3 class="project__title" @mouseenter="onHover(blok.title)">
+        <span class="dot">></span>
         <span :ref="blok._uid"></span
         ><span :ref="`${blok._uid}-cursor`" class="dot">_</span>
       </h3>
-      <p class="project__description">{{ blok.description }}</p>
-      <div class="projects__links">
-        <a class="project__link" :href="blok.demo.url">Demo</a>
-        <a class="project__link" :href="blok.code.url">Code</a>
+      <p class="project__description">
+        {{ blok.description }}
+      </p>
+      <div class="project__links">
+        <MyLink
+          v-if="blok.demo.url"
+          class="project__link"
+          :link="blok.demo.url"
+          @mouseenter.native="onHover('Play with it')"
+        >
+          Live
+        </MyLink>
+        <MyLink
+          v-if="blok.code.url"
+          class="project__link"
+          :link="blok.code.url"
+          @mouseenter.native="onHover('Check code')"
+        >
+          Code
+        </MyLink>
       </div>
     </div>
-    <div class="project__media window">
+    <div class="project__media window" @mouseenter="onHover(blok.title)">
       <div class="window__header">
         <svg class="window__buttons">
           <circle
@@ -29,14 +44,14 @@
           <circle
             stroke-width="2"
             stroke="currentColor"
-            cx="32"
+            cx="28"
             cy="12"
             r="4"
           />
           <circle
             stroke-width="2"
             stroke="currentColor"
-            cx="52"
+            cx="44"
             cy="12"
             r="4"
           />
@@ -55,9 +70,9 @@
         <filter id="darken">
           <feColorMatrix
             type="matrix"
-            values="0.5 0 0 0 0
-              0 0.5 0 0 0
-              0 0 0.5 0 0
+            values="0.75 0 0 0 0
+              0 0.75 0 0 0
+              0 0 0.75 0 0
               0 0 0 1 0 "
           />
         </filter>
@@ -90,30 +105,29 @@ export default Vue.extend({
   },
   data() {
     return {
-      timeline: null as unknown as gsap.core.Timeline,
+      titleTimeline: null as unknown as gsap.core.Timeline,
       cursorTimeline: null as unknown as gsap.core.Timeline,
+      previousText: '',
+      timeout: null as any,
     };
   },
   mounted() {
     const cursorRef = this.$refs[`${this.blok._uid}-cursor`] as Element;
     const projectRef = this.$refs[this.blok._uid] as Element;
     this.cursorTimeline = this.createCursorTimeline(cursorRef);
-    this.timeline = this.createTitleTimeline(cursorRef, projectRef);
+    this.titleTimeline = this.createTitleTimeline(projectRef, this.blok.title);
     this.cursorTimeline.pause(0.5);
-    this.timeline.eventCallback('onComplete', () => {
+    this.titleTimeline.eventCallback('onComplete', () => {
       this.cursorTimeline.play();
     });
   },
   methods: {
-    createTitleTimeline(cursorRef: Element, projectRef: Element) {
+    createTitleTimeline(projectRef: Element, text: string) {
       const tl = gsap.timeline();
-      tl.to(cursorRef, {
-        autoAlpha: 1,
-      });
       tl.to(projectRef, {
-        duration: this.blok.title.length / 8,
+        duration: text.length / 8,
         text: {
-          value: this.blok.title,
+          value: text,
         },
         ease: 'none',
       });
@@ -137,15 +151,27 @@ export default Vue.extend({
       );
       return tl;
     },
-    onProjectHover(_uid: string) {
+    onHover(text: string) {
+      if (text === this.previousText) return;
+      if (text !== this.blok.title && this.timeout > 0) {
+        clearTimeout(this.timeout);
+      }
+      this.previousText = text;
+      const projectRef = this.$refs[this.blok._uid] as Element;
       this.cursorTimeline.pause(0);
-      this.timeline.timeScale(2);
-      this.timeline.reverse(0);
-      this.timeline.eventCallback('onReverseComplete', () => {
-        this.timeline.timeScale(1.5);
-        this.timeline.play(0);
-        this.timeline.eventCallback('onComplete', () => {
+      this.titleTimeline.timeScale(3);
+      this.titleTimeline.reverse(this.titleTimeline.time());
+      this.titleTimeline.eventCallback('onReverseComplete', () => {
+        this.titleTimeline = this.createTitleTimeline(projectRef, text);
+        this.titleTimeline.timeScale(3);
+        this.titleTimeline.play(0);
+        this.titleTimeline.eventCallback('onComplete', () => {
           this.cursorTimeline.restart();
+          if (text !== this.blok.title) {
+            this.timeout = setTimeout(() => {
+              this.onHover(this.blok.title);
+            }, 500);
+          }
         });
       });
     },
@@ -161,20 +187,35 @@ export default Vue.extend({
   height: 100%;
   display: grid;
   grid-template-areas: 'media' 'group';
+  grid-template-rows: 1fr 0.5fr;
   row-gap: rem(20px);
-  align-items: flex-start;
+  align-content: flex-start;
 
   &__title {
-    font-size: $text-4xl;
+    font-size: $text-3xl;
     font-weight: 700;
     font-family: var(--font-family-secondary);
   }
 
   &__group {
+    @include flex(flex-start, flex-start, column);
     @include size(100%, auto);
-    margin-top: auto;
-    padding: 0 rem(10px);
+    padding: 0;
     grid-area: group;
+  }
+
+  &__description,
+  &__links {
+    padding-left: rem(25px);
+  }
+
+  &__links {
+    @include flex(center, flex-start);
+    margin-top: rem(10px);
+  }
+
+  &__link {
+    margin-right: 10%;
   }
 
   &__media {
@@ -183,10 +224,11 @@ export default Vue.extend({
 }
 
 .window {
-  @include size(100%, 100%);
+  @include size(100%, auto);
   @include flex(flex-start, flex-start, column);
   border: rem(2px) solid var(--stroke);
   border-radius: $border-radius;
+  color: var(--shadow);
   background-color: var(--secondary);
   box-shadow: $box-shadow;
   overflow: hidden;
@@ -194,26 +236,27 @@ export default Vue.extend({
   &__header {
     @include size(100%, auto);
     @include flex(center, flex-start);
+    position: relative;
     border-bottom: rem(2px) solid var(--stroke);
     padding: 5px;
   }
   &__buttons {
     @include size(rem(64px), rem(24px));
+    position: absolute;
     circle {
       fill: var(--tertiary);
       color: var(--stroke);
     }
   }
   &__title {
-    @include size(auto, 100%);
-    margin-left: 32%;
-    margin-right: auto;
-    color: var(--shadow);
+    @include size(100%, 100%);
+    @include flex(center, center);
+    text-align: left;
     font-family: var(--font-family-secondary);
     font-size: rem(14px);
   }
   &__image {
-    @include size(100%, 100%);
+    @include size(100%, auto);
     object-fit: cover;
     object-position: left;
   }
