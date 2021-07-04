@@ -78,7 +78,18 @@ export default {
       const version = isProd ? 'published' : 'draft';
       let cacheVersion = 0;
 
-      const toIgnore = ['home', '/projects/family-me', '/projects/acnh-search'];
+      const toIgnore = [
+        'home',
+        'projects/',
+        'projects/familyme',
+        'projects/acnh-search',
+        'projects/borify',
+        'projects/cvfy',
+        'projects/taya',
+        'projects/acnh-char-maker',
+        'projects/rock',
+        'projects/countdown',
+      ];
 
       // other routes that are not in Storyblok with their slug.
       const routes = ['/']; // adds / directly
