@@ -171,8 +171,8 @@ export default Vue.extend({
 @use '~/assets/styles/global/variables' as *;
 @use '~/assets/styles/mixins/mixins' as *;
 .filter {
-  position: relative;
   @include flex(stretch, flex-start);
+  position: relative;
   &__container {
     @include flex(center, flex-start);
     position: relative;
@@ -190,7 +190,7 @@ export default Vue.extend({
   }
 
   &__arrow {
-    @include size(rem(32px), rem(32px));
+    @include size(rem(32px), 100%);
     position: absolute;
     z-index: 1;
     &:hover {
