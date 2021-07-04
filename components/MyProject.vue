@@ -256,7 +256,7 @@ export default Vue.extend({
     font-size: rem(14px);
   }
   &__image {
-    @include size(100%, auto);
+    @include size(100%, 100%);
     object-fit: cover;
     object-position: left;
   }
