@@ -1,0 +1,91 @@
+<template>
+  <a class="link" :href="link" target="_blank" rel="noopener">
+    <slot></slot>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      class="link__arrow"
+    >
+      <path
+        d="M14.29,5.71L14.29,5.71c-0.39,0.39-0.39,1.02,0,1.41L18.17,11H3c-0.55,0-1,0.45-1,1v0c0,0.55,0.45,1,1,1h15.18l-3.88,3.88 c-0.39,0.39-0.39,1.02,0,1.41l0,0c0.39,0.39,1.02,0.39,1.41,0l5.59-5.59c0.39-0.39,0.39-1.02,0-1.41L15.7,5.71 C15.32,5.32,14.68,5.32,14.29,5.71z"
+      />
+    </svg>
+  </a>
+</template>
+
+<script lang="ts">
+import Vue from 'vue';
+
+export default Vue.extend({
+  name: 'MyLink',
+  props: {
+    link: {
+      type: String,
+      default: () => '',
+    },
+  },
+});
+</script>
+
+<style scoped lang="scss">
+@use '~/assets/styles/global/variables' as *;
+@use '~/assets/styles/mixins/mixins' as *;
+.link {
+  @include flex(center, center);
+  color: var(--primary);
+  background-color: transparent;
+  font-weight: 700;
+  font-family: var(--font-family-secondary);
+  line-height: 1.5;
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+    text-decoration-color: var(--tertiary);
+    text-decoration-skip-ink: none;
+    text-decoration-thickness: rem(2px);
+    text-underline-offset: rem(5px);
+    .link__arrow {
+      animation: elastic 0.75s linear forwards;
+    }
+  }
+  &__arrow {
+    @include size(rem(20px), rem(20px));
+    margin-top: rem(2px);
+    fill: var(--secondary);
+    margin-left: rem(5px);
+  }
+}
+
+@keyframes elastic {
+  0% {
+    transform: translate3d(0%, 0, 0);
+  }
+
+  16% {
+    transform: translate3d(52.27%, 0, 0);
+  }
+
+  28% {
+    transform: translate3d(4.88%, 0, 0);
+  }
+
+  44% {
+    transform: translate3d(36.63%, 0, 0);
+  }
+
+  59% {
+    transform: translate3d(18.36%, 0, 0);
+  }
+
+  73% {
+    transform: translate3d(20.58%, 0, 0);
+  }
+
+  88% {
+    transform: translate3d(19.8%, 0, 0);
+  }
+  100% {
+    transform: translate3d(20.8%, 0, 0);
+  }
+}
+</style>
