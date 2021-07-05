@@ -81,23 +81,16 @@ export default Vue.extend({
         tl.from(heroButtons.$el, {
           autoAlpha: 0,
         });
-        tl.to(heroButtons.$el.querySelectorAll('.button'), {
-          opacity: 1,
-          duration: 0,
-        });
-        tl.to(
-          heroButtons.$el.querySelectorAll('.button'),
-          {
-            x: -10,
-            y: -10,
-            ease: 'elastic',
-            clearProps: 'all',
-            duration: 0.75,
-            stagger: {
-              amount: 0.25,
-            },
-          },
-          '<-=0.25'
+        tl.add(
+          this.$elasticAnimation(
+            heroButtons.$el.querySelectorAll('.button'),
+            -10,
+            -10,
+            0.75,
+            0,
+            0.25
+          ),
+          '>-=0.25'
         );
       }
       tl.from(

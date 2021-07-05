@@ -75,10 +75,11 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import MyButton from './MyButton.vue';
 import { FilterButton, ProjectFilter } from '~/types/components';
-
 export default Vue.extend({
   name: 'MyProjectFilter',
+  components: { MyButton },
   props: {
     blok: {
       type: Object as () => ProjectFilter,
@@ -104,8 +105,15 @@ export default Vue.extend({
       target: this.sliderScrollEl,
     } as unknown as Event);
     this.sliderScrollEl.addEventListener('scroll', this.setButtonVisibility);
+    this.animateButtons();
   },
   methods: {
+    animateButtons() {
+      const projectFilterButtons = (
+        this.$refs.sliderScroll as Element
+      ).querySelectorAll('.button');
+      this.$elasticAnimation(projectFilterButtons, -7, -7, 1, 0.45, 0.5);
+    },
     onNext(): void {
       if (!this.interval) {
         this.interval = setInterval(

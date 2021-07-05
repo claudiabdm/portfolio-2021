@@ -28,7 +28,11 @@ export default {
   css: ['~/assets/styles/styles.scss'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ['~/plugins/composition-api.ts', '~/plugins/rich-text-renderer.ts'],
+  plugins: [
+    '~/plugins/composition-api.ts',
+    '~/plugins/rich-text-renderer.ts',
+    '~/plugins/elastic-animation.client.ts',
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: [
