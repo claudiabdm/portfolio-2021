@@ -68,8 +68,9 @@ export default Vue.extend({
 
 .page {
   @include size(100%, 100%);
-  color: var(--primary);
   position: relative;
+  padding-bottom: rem($nav-height);
+  color: var(--primary);
   visibility: hidden;
   @media screen and (min-width: 1024px) {
     padding-top: rem(50px);
