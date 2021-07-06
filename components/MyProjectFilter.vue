@@ -1,32 +1,10 @@
 <template>
   <div v-editable="blok" class="filter">
-    <button
+    <div
       v-show="isPrevVisible"
-      class="filter__arrow filter__arrow--prev"
-      type="button"
-      data-test="buttonPrev"
-      @mousedown="onPrev()"
-      @mouseleave="stopInterval"
-      @mouseup="stopInterval"
-      @touchstart="onPrev()"
-      @touchend="stopInterval"
-      @touchcancel="stopInterval"
-    >
-      <svg
-        class="filter__svg"
-        fill="none"
-        stroke="currentColor"
-        viewBox="5 0 24 24"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="1"
-          d="M15 19l-7-7 7-7"
-        ></path>
-      </svg>
-    </button>
+      class="filter__scroll-shadow filter__scroll-shadow--prev"
+      data-test="prev"
+    ></div>
     <div class="filter__container">
       <ul ref="sliderScroll" class="filter__list">
         <li
@@ -43,33 +21,11 @@
         </li>
       </ul>
     </div>
-    <button
+    <div
       v-show="isNextVisible"
-      class="filter__arrow filter__arrow--next"
-      type="button"
-      data-test="buttonNext"
-      @mousedown="onNext()"
-      @mouseleave="stopInterval"
-      @mouseup="stopInterval"
-      @touchstart="onNext()"
-      @touchend="stopInterval"
-      @touchcancel="stopInterval"
-    >
-      <svg
-        class="filter__svg"
-        fill="none"
-        stroke="currentColor"
-        viewBox="-5 0 24 24"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="1"
-          d="M9 5l7 7-7 7"
-        ></path>
-      </svg>
-    </button>
+      class="filter__scroll-shadow filter__scroll-shadow--next"
+      data-test="next"
+    ></div>
   </div>
 </template>
 
@@ -94,17 +50,15 @@ export default Vue.extend({
       position: 0,
       isPrevVisible: false,
       isNextVisible: false,
-      offset: 10,
-      isRow: false,
+      offset: 5,
     };
   },
   mounted() {
-    this.$nextTick();
     this.sliderScrollEl = this.$refs.sliderScroll as Element;
-    this.setButtonVisibility({
+    this.setShadowVisibility({
       target: this.sliderScrollEl,
     } as unknown as Event);
-    this.sliderScrollEl.addEventListener('scroll', this.setButtonVisibility);
+    this.sliderScrollEl.addEventListener('scroll', this.setShadowVisibility);
     this.animateButtons();
   },
   methods: {
@@ -146,13 +100,11 @@ export default Vue.extend({
       clearInterval(this.interval);
       this.interval = 0;
     },
-    setButtonVisibility(e: Event): void {
+    setShadowVisibility(e: Event): void {
       const el = e.target as Element;
-      this.isRow = false;
       if (el.scrollWidth - el.clientWidth <= 1) {
         this.isPrevVisible = false;
         this.isNextVisible = false;
-        this.isRow = true;
       } else if (el.scrollLeft < this.offset) {
         this.isPrevVisible = false;
         this.isNextVisible = true;
@@ -179,11 +131,13 @@ export default Vue.extend({
 @use '~/assets/styles/global/variables' as *;
 @use '~/assets/styles/mixins/mixins' as *;
 .filter {
-  @include flex(stretch, flex-start);
+  @include flex(stretch, center);
   position: relative;
   &__container {
     @include flex(center, flex-start);
     position: relative;
+    border-radius: $border-radius;
+    box-shadow: $box-shadow;
     overflow: hidden;
     @media screen and (min-width: 1024px) {
       padding: 0;
@@ -193,22 +147,37 @@ export default Vue.extend({
   &__list {
     @include size(100%, 100%);
     @include flex(center, flex-start);
-    padding: 10px 0;
+    border: $border;
+    border-radius: $border-radius;
+    padding: rem(10px) rem(10px) rem(5px);
     overflow: auto;
+    background-color: var(--tertiary);
   }
 
-  &__arrow {
-    @include size(rem(32px), 100%);
+  &__scroll-shadow {
+    @include size(100%, 100%);
     position: absolute;
     z-index: 1;
+    pointer-events: none;
+    border-radius: $border-radius;
     &:hover {
       cursor: pointer;
     }
     &--next {
-      right: rem(-20px);
+      background: linear-gradient(
+        90deg,
+        rgba($color: $stroke, $alpha: 0) 90%,
+        rgba($color: $stroke, $alpha: 0.45) 100%
+      );
+      right: 0;
     }
     &--prev {
-      left: rem(-20px);
+      left: 0;
+      background: linear-gradient(
+        -90deg,
+        rgba($color: $stroke, $alpha: 0) 90%,
+        rgba($color: $stroke, $alpha: 0.45) 100%
+      );
     }
   }
 

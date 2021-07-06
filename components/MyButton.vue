@@ -99,27 +99,40 @@ export default Vue.extend({
     background-color 0.15s linear;
   -webkit-tap-highlight-color: transparent;
 
-  &:hover {
-    transform: translate3d(rem(-3px), rem(-3px), 0);
-    cursor: pointer;
-  }
-  &:active {
-    transform: translate3d(0, 0, 0);
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      transform: translate3d(rem(-3px), rem(-3px), 0);
+      cursor: pointer;
+    }
+    &:active {
+      transform: translate3d(0, 0, 0);
+    }
   }
 
   &--round {
+    background-color: var(--secondary);
+    color: var(--primary-dark);
     border-radius: rem(50px);
     padding: rem(5px) rem(11px);
     font-size: rem(14px);
-    transform: translate3d(rem(-7px), rem(-7px), 0);
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        transform: translate3d(rem(-7px), rem(-7px), 0);
+        cursor: pointer;
+      }
+    }
   }
 
   &--selected {
-    transform: none;
+    transform: translate3d(0, 0, 0);
     background-color: color.scale($tertiary-dark, $lightness: -10%);
     &:hover {
-      transform: none;
+      transform: translate3d(0, 0, 0);
     }
+  }
+
+  &--round.button--selected {
+    background-color: var(--primary-light);
   }
 }
 
