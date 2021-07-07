@@ -65,7 +65,7 @@ export default Vue.extend({
     animateButtons() {
       const projectFilterButtons = (
         this.$refs.sliderScroll as Element
-      ).querySelectorAll('.button');
+      ).querySelectorAll('[data-animation="true"]');
       this.$elasticAnimation(projectFilterButtons, -7, -7, 1, 0.45, 0.5);
     },
     setShadowVisibility(e: Event): void {

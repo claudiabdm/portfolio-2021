@@ -13,6 +13,7 @@
         { 'button--round': blok.isRound },
       ]"
       type="button"
+      :data-animation="!isSelected"
       @click="onClick"
     >
       {{ blok.text }}
