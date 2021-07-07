@@ -1,11 +1,11 @@
 <template>
   <div v-editable="blok" class="filter">
-    <div
-      v-show="isPrevVisible"
-      class="filter__scroll-shadow filter__scroll-shadow--prev"
-      data-test="prev"
-    ></div>
     <div class="filter__container">
+      <div
+        v-show="isPrevVisible"
+        class="filter__scroll-shadow filter__scroll-shadow--prev"
+        data-test="prev"
+      ></div>
       <ul ref="sliderScroll" class="filter__list">
         <li
           v-for="button in blok.buttonList"
@@ -20,12 +20,12 @@
           />
         </li>
       </ul>
+      <div
+        v-show="isNextVisible"
+        class="filter__scroll-shadow filter__scroll-shadow--next"
+        data-test="next"
+      ></div>
     </div>
-    <div
-      v-show="isNextVisible"
-      class="filter__scroll-shadow filter__scroll-shadow--next"
-      data-test="next"
-    ></div>
   </div>
 </template>
 
@@ -67,38 +67,6 @@ export default Vue.extend({
         this.$refs.sliderScroll as Element
       ).querySelectorAll('.button');
       this.$elasticAnimation(projectFilterButtons, -7, -7, 1, 0.45, 0.5);
-    },
-    onNext(): void {
-      if (!this.interval) {
-        this.interval = setInterval(
-          this.changeScrollPosition.bind(null, this.sliderScrollEl, this.offset)
-        );
-      }
-    },
-    onPrev() {
-      if (!this.interval) {
-        this.interval = setInterval(
-          this.changeScrollPosition.bind(
-            null,
-            this.sliderScrollEl,
-            -this.offset
-          )
-        );
-      }
-    },
-    changeScrollPosition(scrollElement: Element, offset: number): void {
-      const scrollPosition =
-        scrollElement.scrollLeft + scrollElement.clientWidth;
-      if (scrollPosition < scrollElement.scrollWidth) {
-        scrollElement.scrollBy({
-          left: offset,
-          behavior: 'smooth',
-        });
-      }
-    },
-    stopInterval(): void {
-      clearInterval(this.interval);
-      this.interval = 0;
     },
     setShadowVisibility(e: Event): void {
       const el = e.target as Element;
