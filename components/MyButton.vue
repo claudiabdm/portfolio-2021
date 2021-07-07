@@ -115,12 +115,7 @@ export default Vue.extend({
     border-radius: rem(50px);
     padding: rem(5px) rem(11px);
     font-size: rem(14px);
-    @media (hover: hover) and (pointer: fine) {
-      &:hover {
-        transform: translate3d(rem(-7px), rem(-7px), 0);
-        cursor: pointer;
-      }
-    }
+    transform: translate3d(rem(-7px), rem(-7px), 0);
   }
 
   &--selected {
