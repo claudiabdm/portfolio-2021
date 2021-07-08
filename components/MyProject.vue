@@ -1,12 +1,9 @@
 <template>
-  <section
-    v-editable="blok"
-    :class="['project', { 'project--row-reverse': isReverse }]"
-  >
+  <section v-editable="blok" class="project">
     <div class="project__group">
-      <h3 class="project__title" @mouseenter="onHover(blok.title)">
+      <h3 class="project__title">
         <span class="dot">></span>
-        <span :ref="blok._uid"></span
+        <span :ref="`${blok._uid}-title`"></span
         ><span :ref="`${blok._uid}-cursor`" class="dot">_</span>
       </h3>
       <p class="project__description">
@@ -17,7 +14,7 @@
           v-if="blok.demo.url"
           class="project__link"
           :link="blok.demo.url"
-          @mouseenter.native="onHover('Play with it')"
+          @mouseenter.native="onLinkHover('Play with it')"
         >
           Live
         </MyLink>
@@ -25,58 +22,79 @@
           v-if="blok.code.url"
           class="project__link"
           :link="blok.code.url"
-          @mouseenter.native="onHover('Check code')"
+          @mouseenter.native="onLinkHover('Check code')"
         >
           Code
         </MyLink>
       </div>
     </div>
-    <div class="project__media window" @mouseenter="onHover(blok.title)">
-      <div class="window__header">
-        <svg class="window__buttons">
-          <circle
-            stroke-width="2"
-            stroke="currentColor"
-            cx="12"
-            cy="12"
-            r="4"
+    <div class="project__media">
+      <div :ref="`${blok._uid}-window`" class="window">
+        <div class="window__header">
+          <svg class="window__buttons">
+            <circle
+              stroke-width="2"
+              stroke="currentColor"
+              cx="12"
+              cy="12"
+              r="4"
+            />
+            <circle
+              stroke-width="2"
+              stroke="currentColor"
+              cx="28"
+              cy="12"
+              r="4"
+            />
+            <circle
+              stroke-width="2"
+              stroke="currentColor"
+              cx="44"
+              cy="12"
+              r="4"
+            />
+          </svg>
+          <span class="window__title">{{ blok.title }}</span>
+        </div>
+        <picture class="window__image-wrapper">
+          <source
+            :srcset="
+              $responsiveImg.createSrcset(
+                blok.media.filename,
+                '1280x0/filters:format(webp)'
+              )
+            "
+            type="image/webp"
           />
-          <circle
-            stroke-width="2"
-            stroke="currentColor"
-            cx="28"
-            cy="12"
-            r="4"
+          <source
+            :srcset="
+              $responsiveImg.createSrcset(
+                blok.media.filename,
+                '1280x0/filters:format(png)'
+              )
+            "
+            type="image/png"
           />
-          <circle
-            stroke-width="2"
-            stroke="currentColor"
-            cx="44"
-            cy="12"
-            r="4"
+          <img
+            class="window__image"
+            :alt="blok.media.alt"
+            width="370"
+            height="231.25"
+            :src="$responsiveImg.createSrc(blok.media.filename, '1280x0')"
           />
-        </svg>
-        <span class="window__title">{{ blok.title }}</span>
-      </div>
-      <img
-        class="window__image"
-        :src="blok.media.filename"
-        :alt="blok.media.alt"
-        width="370"
-        height="200"
-        srcset=""
-      />
-      <svg style="width: 0; height: 0">
-        <filter id="darken">
-          <feColorMatrix
-            type="matrix"
-            values="0.75 0 0 0 0
+        </picture>
+        <svg style="width: 0; height: 0">
+          <filter id="darken">
+            <feColorMatrix
+              type="matrix"
+              values="0.75 0 0 0 0
               0 0.75 0 0 0
               0 0 0.75 0 0
               0 0 0 1 0 "
-          />
-        </filter>
-      </svg>
+            />
+          </filter>
+        </svg>
+      </div>
     </div>
   </section>
 </template>
@@ -84,11 +102,13 @@
 <script lang="ts">
 import Vue from 'vue';
 import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { TextPlugin } from 'gsap/TextPlugin';
 import { Project } from '~/types/components';
 
 if (process.client) {
   gsap.registerPlugin(TextPlugin);
+  gsap.registerPlugin(ScrollTrigger);
 }
 
 export default Vue.extend({
@@ -98,7 +118,7 @@ export default Vue.extend({
       type: Object as () => Project,
       default: () => ({} as Project),
     },
-    isReverse: {
+    animate: {
       type: Boolean,
       default: false,
     },
@@ -106,31 +126,40 @@ export default Vue.extend({
   data() {
     return {
       titleTimeline: null as unknown as gsap.core.Timeline,
+      titleScrollTimeline: null as unknown as gsap.core.Timeline,
       cursorTimeline: null as unknown as gsap.core.Timeline,
+      windowScollTimeline: null as unknown as gsap.core.Timeline,
       previousText: '',
       timeout: null as any,
+      lastFilter: 'show-all',
     };
   },
   mounted() {
     const cursorRef = this.$refs[`${this.blok._uid}-cursor`] as Element;
-    const projectRef = this.$refs[this.blok._uid] as Element;
-    this.cursorTimeline = this.createCursorTimeline(cursorRef);
-    this.titleTimeline = this.createTitleTimeline(projectRef, this.blok.title);
-    this.cursorTimeline.pause(0.5);
-    this.titleTimeline.eventCallback('onComplete', () => {
-      this.cursorTimeline.play();
-    });
+    const titleRef = this.$refs[`${this.blok._uid}-title`] as Element;
+    const windowRef = this.$refs[`${this.blok._uid}-window`] as Element;
+    this.cursorTimeline = this.createCursorTimeline(cursorRef).pause(0.5);
+    this.titleTimeline = this.createTitleTimeline(
+      titleRef,
+      this.blok.title
+    ).pause(0);
+    this.titleScrollTimeline = this.createTitleOnScrollTimeline(
+      titleRef,
+      this.blok.title
+    ).pause(0);
+    this.windowScollTimeline =
+      this.createWindowOnScrollTimeline(windowRef).pause(0);
+  },
+  destroyed() {
+    this.titleTimeline.kill();
+    this.titleScrollTimeline.kill();
+    this.cursorTimeline.kill();
+    this.windowScollTimeline.kill();
   },
   methods: {
-    createTitleTimeline(projectRef: Element, text: string) {
+    createTitleTimeline(titleRef: Element, text: string) {
       const tl = gsap.timeline();
-      tl.to(projectRef, {
-        duration: text.length / 8,
-        text: {
-          value: text,
-        },
-        ease: 'none',
-      });
+      tl.add(this.textAnimation(titleRef, text));
       return tl;
     },
     createCursorTimeline(cursorRef: Element) {
@@ -151,28 +180,72 @@ export default Vue.extend({
       );
       return tl;
     },
-    onHover(text: string) {
+    onLinkHover(text: string) {
       if (text === this.previousText) return;
       if (text !== this.blok.title && this.timeout > 0) {
         clearTimeout(this.timeout);
       }
+      this.titleScrollTimeline.pause(0);
       this.previousText = text;
-      const projectRef = this.$refs[this.blok._uid] as Element;
+      const titleRef = this.$refs[`${this.blok._uid}-title`] as Element;
       this.cursorTimeline.pause(0);
-      this.titleTimeline.timeScale(3);
       this.titleTimeline.reverse(this.titleTimeline.time());
       this.titleTimeline.eventCallback('onReverseComplete', () => {
-        this.titleTimeline = this.createTitleTimeline(projectRef, text);
-        this.titleTimeline.timeScale(3);
+        this.titleTimeline = this.createTitleTimeline(titleRef, text);
         this.titleTimeline.play(0);
         this.titleTimeline.eventCallback('onComplete', () => {
           this.cursorTimeline.restart();
           if (text !== this.blok.title) {
             this.timeout = setTimeout(() => {
-              this.onHover(this.blok.title);
+              this.onLinkHover(this.blok.title);
             }, 500);
           }
         });
+      });
+    },
+    createTitleOnScrollTimeline(
+      elem: Element,
+      text: string
+    ): gsap.core.Timeline {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: elem,
+          start: 'top bottom-=60px',
+          toggleActions: 'play reset play reset',
+        },
+      });
+      tl.add(this.textAnimation(elem, text));
+      tl.add(this.cursorTimeline.play(0));
+      return tl;
+    },
+    createWindowOnScrollTimeline(elem: Element): gsap.core.Timeline {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: elem,
+          start: 'bottom bottom',
+          end: 'top top',
+          toggleActions: 'play reverse play reverse',
+        },
+      });
+      tl.add(this.levelUpAnimation(elem, -10));
+      return tl;
+    },
+    textAnimation(elem: Element, text: string): gsap.core.Tween {
+      return gsap.to(elem, {
+        id: 'textAnimation',
+        duration: text.length / 12,
+        text: {
+          value: text,
+        },
+        ease: 'none',
+      });
+    },
+    levelUpAnimation(elem: Element, position: number): gsap.core.Tween {
+      return gsap.to(elem, {
+        x: position,
+        y: position,
+        ease: 'ease',
+        duration: 0.5,
       });
     },
   },
@@ -187,7 +260,7 @@ export default Vue.extend({
   height: 100%;
   display: grid;
   grid-template-areas: 'media' 'group';
-  grid-template-rows: 1fr 0.5fr;
+  grid-template-rows: max-content 1fr;
   row-gap: rem(20px);
   align-content: flex-start;
 
@@ -211,7 +284,8 @@ export default Vue.extend({
 
   &__links {
     @include flex(center, flex-start);
-    margin-top: rem(10px);
+    margin-top: auto;
+    padding-top: rem(10px);
   }
 
   &__link {
@@ -220,6 +294,8 @@ export default Vue.extend({
 
   &__media {
     grid-area: media;
+    border-radius: $border-radius;
+    background-color: var(--shadow);
   }
 }
 
@@ -230,7 +306,6 @@ export default Vue.extend({
   border-radius: $border-radius;
   color: var(--shadow);
   background-color: var(--secondary);
-  box-shadow: $box-shadow;
   overflow: hidden;
 
   &__header {
@@ -254,6 +329,9 @@ export default Vue.extend({
     text-align: left;
     font-family: var(--font-family-secondary);
     font-size: rem(14px);
+  }
+  &__image-wrapper {
+    display: flex;
   }
   &__image {
     @include size(100%, 100%);

@@ -46,6 +46,7 @@ export interface Project extends StoryblokComponent<'MyProject'> {
     linktype: 'url';
   };
   media: string;
+  tagList?: string[];
 }
 
 export interface ProjectFilter {
@@ -60,4 +61,6 @@ export interface ProjectList {
 }
 
 export interface MyProjectBlok
-  extends StoryData<StoryblokComponent<'MyProject'> & Project> {}
+  extends StoryData<StoryblokComponent<'MyProject'> & Project> {
+  order: number;
+}
