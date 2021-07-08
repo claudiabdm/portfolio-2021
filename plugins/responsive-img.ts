@@ -2,9 +2,9 @@ import Vue from 'vue';
 import { Plugin } from '@nuxt/types';
 
 class ResponsiveImage {
-  createSrcset(image: string, width: number, height: number = 0): string[] {
+  createSrcset(image: string, imageOptions: string): string[] {
     const sizeList = [320, 640, 768, 960, 1024, 1280];
-    const src = this.createSrc(image, `${width}x${height}`);
+    const src = this.createSrc(image, imageOptions);
     const srcset = [];
     for (const size of sizeList) {
       srcset.push(`${src} ${size}w`);
@@ -15,7 +15,7 @@ class ResponsiveImage {
   createSrc(image: string, imageOptions: string): string {
     const path = image.replace(
       '//a.storyblok.com',
-      `//img2.storyblok.com/${imageOptions}/filters:format(webp)`
+      `//img2.storyblok.com/${imageOptions}`
     );
     return path || '';
   }
