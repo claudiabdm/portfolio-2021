@@ -32,6 +32,7 @@ export default {
     '~/plugins/composition-api.ts',
     '~/plugins/rich-text-renderer.ts',
     '~/plugins/elastic-animation.client.ts',
+    '~/plugins/responsive-img.ts',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -90,9 +91,9 @@ export default {
         'projects/borify',
         'projects/cvfy',
         'projects/taya',
-        'projects/acnh-char-maker',
-        'projects/rock',
-        'projects/countdown',
+        'projects/ac-character-maker',
+        'projects/launch-countdown',
+        'projects/rock-paper-scissors',
       ];
 
       // other routes that are not in Storyblok with their slug.
