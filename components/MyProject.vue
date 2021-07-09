@@ -233,7 +233,7 @@ export default Vue.extend({
     textAnimation(elem: Element, text: string): gsap.core.Tween {
       return gsap.to(elem, {
         id: 'textAnimation',
-        duration: text.length / 12,
+        duration: text.length / 16,
         text: {
           value: text,
         },
