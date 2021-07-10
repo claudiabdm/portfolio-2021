@@ -15,13 +15,13 @@
       />
       <image
         class="hero-figure__img hero-figure__img--avatar"
-        href="@/assets/homie-05.png"
+        href="https://a.storyblok.com/f/95455/510x677/7d7ab33433/homie-05.png"
       />
       <image
         x="330"
         y="120"
         class="hero-figure__img hero-figure__img--window"
-        href="@/assets/homie-objects-browser.png"
+        href="https://a.storyblok.com/f/95455/271x271/da8634b97b/homie-objects-browser.png"
       />
       <defs>
         <filter id="darken">
