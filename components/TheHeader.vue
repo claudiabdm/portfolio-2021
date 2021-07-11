@@ -254,7 +254,7 @@ export default Vue.extend({
 
 .link {
   @include flex(center, center, column);
-  color: var(--primary-dark);
+  color: var(--primary);
   font-size: rem(12px);
   font-weight: 400;
   text-decoration: none;
@@ -263,7 +263,6 @@ export default Vue.extend({
   transition: color 0.15s linear;
   @media screen and (min-width: 1024px) {
     font-size: rem(16px);
-    color: var(--primary);
     font-weight: 700;
   }
 
