@@ -1,4 +1,3 @@
-import axios from 'axios';
 const isProd = process.env.NODE_ENV === 'production';
 const token = isProd
   ? process.env.STORYBLOK_PUBLISHED
@@ -33,6 +32,7 @@ export default {
     '~/plugins/rich-text-renderer.ts',
     '~/plugins/elastic-animation.client.ts',
     '~/plugins/responsive-img.ts',
+    '~/plugins/translate-slug.ts',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -61,7 +61,35 @@ export default {
         cacheProvider: 'memory',
       },
     ],
+    'nuxt-i18n',
   ],
+
+  i18n: {
+    strategy: 'prefix_except_default',
+    locales: [
+      {
+        code: 'en',
+        iso: 'en',
+        file: 'en.js',
+        name: 'English',
+      },
+      {
+        code: 'es',
+        iso: 'es',
+        file: 'es.js',
+        name: 'Español',
+      },
+    ],
+    lazy: true,
+    seo: false,
+    langDir: 'lang/',
+    defaultLocale: 'en',
+    parsePages: false,
+    detectBrowserLanguage: false,
+    vueI18n: {
+      fallbackLocale: 'en',
+    },
+  },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {},
@@ -76,50 +104,8 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     transpile: ['gsap'],
+    analize: true,
   },
 
-  generate: {
-    routes(callback) {
-      const version = isProd ? 'published' : 'draft';
-      let cacheVersion = 0;
-
-      const toIgnore = [
-        'home',
-        'projects/',
-        'projects/familyme',
-        'projects/acnh-search',
-        'projects/borify',
-        'projects/cvfy',
-        'projects/taya',
-        'projects/ac-character-maker',
-        'projects/launch-countdown',
-        'projects/rock-paper-scissors',
-      ];
-
-      // other routes that are not in Storyblok with their slug.
-      const routes = ['/']; // adds / directly
-
-      // Load space and receive latest cache version key to improve performance
-      axios
-        .get(`https://api.storyblok.com/v1/cdn/spaces/me?token=${token}`)
-        .then((spaceRes) => {
-          // timestamp of latest publish
-          cacheVersion = spaceRes.data.space.version;
-
-          // Call for all Links using the Links API: https://www.storyblok.com/docs/Delivery-Api/Links
-          axios
-            .get(
-              `https://api.storyblok.com/v1/cdn/links?token=${token}&version=${version}&cv=${cacheVersion}&per_page=100`
-            )
-            .then((res) => {
-              Object.keys(res.data.links).forEach((key) => {
-                if (!toIgnore.includes(res.data.links[key].slug)) {
-                  routes.push('/' + res.data.links[key].slug);
-                }
-              });
-              callback(null, routes);
-            });
-        });
-    },
-  },
+  crawler: false,
 };

@@ -30,7 +30,8 @@
       "storyblok-js-client/types",
       "@types/jest",
       "@marvr/storyblok-rich-text-vue-renderer/dist/packages/storyblok-rich-text-vue-renderer/src",
-      "@marvr/storyblok-rich-text-vue-renderer/dist/packages/storyblok-rich-text-types/src"
+      "@marvr/storyblok-rich-text-vue-renderer/dist/packages/storyblok-rich-text-types/src",
+      "nuxt-i18n",
     ]
   },
   "exclude": [
