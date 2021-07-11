@@ -14,16 +14,15 @@
 import Vue from 'vue';
 
 export default Vue.extend({
+  name: 'Index',
   asyncData(context) {
     const version =
       context.query._storyblok || context.isDev ? 'draft' : 'published';
-    const fullSlug =
-      context.route.path === '/' || context.route.path === ''
-        ? 'home'
-        : context.route.path;
     return context.app.$storyapi
-      .get(`cdn/stories/${fullSlug}`, {
+      .get('cdn/stories/home', {
         version,
+        language: context.i18n.locale,
+        resolve_links: 'url',
       })
       .then((res: { data: any }) => {
         return res.data;
@@ -51,7 +50,7 @@ export default Vue.extend({
     };
   },
   mounted() {
-    this.$nuxt.$storybridge(() => {
+    this.$nuxt.context.app.$storybridge(() => {
       const { StoryblokBridge } = window as any;
       const storyblokInstance = new StoryblokBridge();
 
