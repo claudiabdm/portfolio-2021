@@ -87,6 +87,7 @@ export default Vue.extend({
         {
           by_uuids: uuids.join(','),
           version,
+          language: this.$i18n.locale,
         }
       );
       const projects = data.stories.map((story: StoryData) => ({
