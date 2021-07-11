@@ -295,8 +295,10 @@ export default Vue.extend({
   }
 
   &__text {
+    color: var(--primary-dark);
     @media screen and (min-width: 1024px) {
       @include flex(center, center, column);
+      color: var(--primary);
       transform: scale3d(0, 0, 0);
       will-change: transform;
       transform-origin: center center;
