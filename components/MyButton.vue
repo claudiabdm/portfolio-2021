@@ -24,7 +24,7 @@
     <nuxt-link
       v-if="blok.isLink && blok.link.linktype === 'story'"
       class="button"
-      :to="blok.link.cached_url"
+      :to="translatedLink"
     >
       {{ blok.text }}
     </nuxt-link>
@@ -46,6 +46,9 @@ export default Vue.extend({
         isRound: false,
         isLink: false,
         link: {
+          story: {
+            full_slug: '',
+          },
           cached_url: '',
           linktype: '',
         },
@@ -54,6 +57,16 @@ export default Vue.extend({
     isSelected: {
       type: Boolean,
       default: () => false,
+    },
+  },
+  computed: {
+    translatedLink(): string {
+      const slug = this.blok.link.story.full_slug;
+      const locale = this.blok.link.story.full_slug.slice(0, 2);
+      if (slug.slice(-1) === '/') {
+        return locale === 'en' ? slug.slice(2, -1) : slug.slice(0, -1);
+      }
+      return locale === 'en' ? slug.slice(2) : slug;
     },
   },
   methods: {

@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { StoryData, StoryblokComponent } from 'storyblok-js-client/types';
 
 export interface Button {
@@ -8,8 +9,11 @@ export interface Button {
   link: {
     url: string;
     linktype: 'story';
-    // eslint-disable-next-line camelcase
     cached_url: string;
+    story: {
+      full_slug: string;
+      slug: string;
+    };
   };
 }
 
