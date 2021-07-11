@@ -296,6 +296,7 @@ export default Vue.extend({
     grid-area: media;
     border-radius: $border-radius;
     background-color: var(--shadow);
+    margin-left: rem(10px);
   }
 }
 
