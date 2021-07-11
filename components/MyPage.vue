@@ -42,21 +42,30 @@ export default Vue.extend({
       const tl = gsap.timeline({
         defaults: { ease: 'ease.in', duration: 0.5 },
       });
-
-      tl.set(pageTitle, {
-        opacity: 0,
-        yPercent: 50,
-      });
-      tl.from(page, {
-        autoAlpha: 0,
-      });
-      tl.to(pageTitle, {
-        opacity: 1,
-        yPercent: 0,
-      });
-      tl.from(pageGroup, {
-        autoAlpha: 0,
-      });
+      if (window.innerWidth > 1024) {
+        tl.set(pageTitle, {
+          opacity: 0,
+          yPercent: 50,
+        });
+        tl.from(page, {
+          autoAlpha: 0,
+        });
+        tl.to(pageTitle, {
+          opacity: 1,
+          yPercent: 0,
+        });
+        tl.from(pageGroup, {
+          autoAlpha: 0,
+        });
+      } else {
+        tl.from(page, {
+          autoAlpha: 0,
+          duration: 0.5,
+        });
+        tl.from(pageGroup, {
+          autoAlpha: 0,
+        });
+      }
     },
   },
 });
