@@ -10,17 +10,32 @@
         ]"
         @click="onSelectRoute(link.link)"
       >
-        <NuxtLink class="header__link link" :to="link.link">
+        <NuxtLink class="header__link link" :to="link.link" :exact="true">
           <div class="link__icon-wrapper">
             <svg class="link__icon">
-              <use :href="iconPath(link.text)" />
+              <use :href="iconPath(link.icon)" />
             </svg>
           </div>
           <span class="link__text">{{ link.text }}</span>
         </NuxtLink>
       </div>
     </nav>
-    <MyButtonDarkMode />
+    <div class="header__settings">
+      <div class="header__lang">
+        <NuxtLink
+          class="header__link link"
+          :to="switchLocalePath('en')"
+          :exact="true"
+        >
+          EN
+        </NuxtLink>
+        <span aria-hidden="true" class="header__separator">|</span>
+        <NuxtLink class="header__link link" :to="switchLocalePath('es')">
+          ES
+        </NuxtLink>
+      </div>
+      <MyButtonDarkMode />
+    </div>
   </header>
 </template>
 
@@ -28,35 +43,53 @@
 import Vue from 'vue';
 import gsap from 'gsap';
 export default Vue.extend({
+  // TODO make header links more dynamic with storyblok
   name: 'TheHeader',
   data() {
     return {
-      links: [
-        { link: '/', text: 'home' },
-        { link: '/projects', text: 'projects' },
-        { link: '/about', text: 'about' },
-      ],
       selectedRoute: '',
     };
   },
+  computed: {
+    links() {
+      return [
+        {
+          link: this.localePath({
+            name: 'index',
+          }),
+          text: this.$t('home'),
+          icon: 'home',
+        },
+        {
+          link: this.localePath({
+            name: 'slug',
+            params: { slug: this.$t('projectsUrl') as string },
+          }),
+          text: this.$t('projects'),
+          icon: 'projects',
+        },
+        {
+          link: this.localePath({
+            name: 'slug',
+            params: { slug: this.$t('aboutUrl') as string },
+          }),
+          text: this.$t('about'),
+          icon: 'about',
+        },
+      ];
+    },
+  },
   watch: {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     $route(to, _from) {
       if (this.selectedRoute !== to.path) {
         this.onSelectRoute(to.path);
+        this.disableAnimation();
       }
     },
   },
   mounted() {
     this.onSelectRoute(this.$route.path);
-    const nav = this.$refs.nav as Element;
-    const linkIcons = nav.querySelectorAll('.link__icon');
-    if (window.innerWidth < 1024) {
-      this.animateNav(nav);
-      this.animateLinkIcons(linkIcons, 2.5, 50);
-    } else {
-      this.animateLinkIcons(linkIcons, 0, -50);
-    }
+    this.animateHeader();
   },
   methods: {
     iconPath(icon: string): string {
@@ -98,6 +131,23 @@ export default Vue.extend({
         },
       });
     },
+    animateHeader(): void {
+      const nav = this.$refs.nav as Element;
+      const linkIcons = nav.querySelectorAll('.link__icon');
+      if (window.innerWidth < 1024) {
+        this.animateNav(nav);
+        this.animateLinkIcons(linkIcons, 2.5, 50);
+      } else {
+        this.animateLinkIcons(linkIcons, 0, -50);
+      }
+    },
+    disableAnimation(): void {
+      const nav = this.$refs.nav as Element;
+      const linkIcons = nav.querySelectorAll('.link__icon');
+      gsap.set([nav, linkIcons], {
+        autoAlpha: 1,
+      });
+    },
   },
 });
 </script>
@@ -126,7 +176,8 @@ export default Vue.extend({
     visibility: hidden;
     @media screen and (min-width: 1024px) {
       position: unset;
-      justify-content: flex-start;
+      flex-basis: 35%;
+      justify-content: space-between;
       margin-top: auto;
       border-top: none;
       background-color: transparent;
@@ -167,6 +218,38 @@ export default Vue.extend({
       }
     }
   }
+
+  &__settings {
+    @include size(100%, auto);
+    @include flex(center, space-between);
+  }
+
+  &__lang {
+    @include size(100%, auto);
+    @include flex(center, flex-start);
+    margin-right: 20px;
+    padding-left: 15px;
+    @media screen and (min-width: 1024px) {
+      @include flex(center, flex-end);
+    }
+    .link {
+      font-size: rem(16px);
+      font-weight: 700;
+    }
+    .link.nuxt-link-active {
+      text-decoration: underline;
+      text-decoration-color: var(--secondary);
+      text-decoration-skip-ink: none;
+      text-decoration-thickness: rem(2px);
+      text-underline-offset: rem(5px);
+    }
+  }
+
+  &__separator {
+    color: var(--tertiary);
+    font-weight: 700;
+    margin: 0 10px;
+  }
 }
 
 .link {
@@ -177,6 +260,7 @@ export default Vue.extend({
   text-decoration: none;
   text-transform: capitalize;
   -webkit-tap-highlight-color: transparent;
+  transition: color 0.15s linear;
   @media screen and (min-width: 1024px) {
     font-size: rem(16px);
     color: var(--primary);
