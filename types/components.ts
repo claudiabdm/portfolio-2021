@@ -68,3 +68,12 @@ export interface MyProjectBlok
   extends StoryData<StoryblokComponent<'MyProject'> & Project> {
   order: number;
 }
+
+export interface Image extends StoryblokComponent<'MyImage'> {
+  width: number;
+  height: number;
+  image: {
+    alt: string;
+    filename: string;
+  };
+}

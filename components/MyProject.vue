@@ -56,44 +56,17 @@
           </svg>
           <span class="window__title">{{ blok.title }}</span>
         </div>
-        <picture class="window__image-wrapper">
-          <source
-            :srcset="
-              $responsiveImg.createSrcset(
-                blok.media.filename,
-                '1280x0/filters:format(webp)'
-              )
-            "
-            type="image/webp"
-          />
-          <source
-            :srcset="
-              $responsiveImg.createSrcset(
-                blok.media.filename,
-                '1280x0/filters:format(png)'
-              )
-            "
-            type="image/png"
-          />
-          <img
-            class="window__image"
-            :alt="blok.media.alt"
-            width="370"
-            height="231.25"
-            :src="$responsiveImg.createSrc(blok.media.filename, '1280x0')"
-          />
-        </picture>
-        <svg style="width: 0; height: 0">
-          <filter id="darken">
-            <feColorMatrix
-              type="matrix"
-              values="0.75 0 0 0 0
-              0 0.75 0 0 0
-              0 0 0.75 0 0
-              0 0 0 1 0 "
-            />
-          </filter>
-        </svg>
+        <MyImage
+          class="window__image"
+          :blok="{
+            image: {
+              filename: blok.media.filename,
+              alt: blok.media.alt,
+            },
+            width: 370,
+            height: 231.25,
+          }"
+        />
       </div>
     </div>
   </section>
@@ -331,21 +304,12 @@ export default Vue.extend({
     font-family: var(--font-family-secondary);
     font-size: rem(14px);
   }
-  &__image-wrapper {
-    display: flex;
-  }
+
   &__image {
-    @include size(100%, 100%);
-    object-fit: cover;
-    object-position: left;
+    display: flex;
   }
 }
 
-.dark-scheme {
-  img {
-    filter: url(#darken);
-  }
-}
 .dot {
   color: var(--tertiary);
 }
