@@ -1,8 +1,8 @@
 <template>
   <div>
     <picture class="image-wrapper">
-      <source :srcset="srcset" type="image/webp" />
-      <source :srcset="srcset" type="image/png" />
+      <source :srcset="srcsetWebp" type="image/webp" />
+      <source :srcset="srcsetPng" type="image/png" />
       <img
         :class="['image', { 'image--auto-size': autoSize }]"
         :alt="blok.image.alt"
@@ -45,7 +45,13 @@ export default Vue.extend({
     src() {
       return this.$responsiveImg.createSrc(this.blok.image.filename, '1280x0');
     },
-    srcset() {
+    srcsetPng() {
+      return this.$responsiveImg.createSrcset(
+        this.blok.image.filename,
+        '1280x0/filters:format(png)'
+      );
+    },
+    srcsetWebp() {
       return this.$responsiveImg.createSrcset(
         this.blok.image.filename,
         '1280x0/filters:format(webp)'
