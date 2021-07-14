@@ -29,15 +29,12 @@
       d="M32,5V37a13.65,13.65,0,0,1,9.66-4H51V1H41.66A13.65,13.65,0,0,0,32,5Z"
     />
     <rect class="cls-10" x="3" y="41" width="58" height="2" />
-    <!-- <path
-      d="M57,6H56V5a1,1,0,0,0-1-1H52V1a1,1,0,0,0-1-1C42,0,37.12-.86,32,3.65,26.85-.88,22,0,13,0a1,1,0,0,0-1,1V4H9A1,1,0,0,0,8,5V6H7a5,5,0,0,0-5,5V47a5,5,0,0,0,5,5H24.92l-.62,7.92A2.31,2.31,0,0,1,22,62H20a1,1,0,0,0,0,2H44a1,1,0,0,0,0-2H42a2.3,2.3,0,0,1-2.3-2.07L39.08,52H57a5,5,0,0,0,5-5V11A5,5,0,0,0,57,6ZM54,6V36H34.84c3.95-2.54,6.81-2,16.16-2a1,1,0,0,0,1-1V6ZM50,2V32c-8.16,0-12.26-.66-17,2.83V5.42A12.56,12.56,0,0,1,41.66,2ZM14,2c7.83,0,12.48-.82,17,3.42V34.83C26.16,31.27,21.91,32,14,32ZM10,6h2V33a1,1,0,0,0,1,1c9.28,0,12.21-.54,16.16,2H10ZM7,8H8V37a1,1,0,0,0,1,1H55a1,1,0,0,0,1-1V8h1a3,3,0,0,1,3,3V42H4V11A3,3,0,0,1,7,8ZM38.35,62H25.64c.77-1.21.61-1.38,1.29-10H37.08C37.68,59.84,37.52,60.69,38.35,62ZM60,47a3,3,0,0,1-3,3H7a3,3,0,0,1-3-3V44H60Z" /> -->
     <path
       class="button"
       d="M31,48h2a0.5,0.5,0,0,0,0-2H31A0.5,0.5,0,0,0,31,48Z"
     />
     <g class="lines">
       <path
-        ref="line"
         class="stroke line"
         d="M18,8h9a0.5,0.5,0,0,0,0-0H18A0.5,0.5,0,0,0,18,8Z"
       />
@@ -85,32 +82,6 @@ import Vue from 'vue';
 
 export default Vue.extend({
   name: 'MyComputedSvg',
-  data() {
-    return {
-      start: undefined as unknown as number,
-    };
-  },
-  mounted() {
-    // const line = this.$refs.line as SVGPathElement;
-    // this.drawLine(line);
-  },
-  methods: {
-    drawLine(path: SVGPathElement) {
-      const length = path.getTotalLength();
-      // Clear any previous transition
-      path.style.transition = 'none';
-      // Set up the starting positions
-      path.style.strokeDasharray = `${length} ${length}`;
-      path.style.strokeDashoffset = `${length}`;
-      // Trigger a layout so styles are calculated & the browser
-      // picks up the starting position before animating
-      path.getBoundingClientRect();
-      // Define our transition
-      path.style.transition = 'stroke-dashoffset 2s 1s ease-in-out';
-      // Go!
-      path.style.strokeDashoffset = `${length / 2}`;
-    },
-  },
 });
 </script>
 
