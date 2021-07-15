@@ -81,7 +81,7 @@
 import Vue from 'vue';
 
 export default Vue.extend({
-  name: 'MyComputedSvg',
+  name: 'SvgComputer',
 });
 </script>
 
