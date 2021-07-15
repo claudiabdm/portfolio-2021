@@ -3,7 +3,7 @@
     <SvgCorner class="hero__corner" />
     <div ref="heroGroup" class="hero__group">
       <SvgPoints class="hero__points" />
-      <MyRichText ref="heroText" class="hero__text" :blok="blok.text" />
+      <MyRichText ref="heroText" class="hero__text" :text="blok.text" />
       <MyButtonList
         ref="heroButtons"
         class="hero__buttons"

@@ -1,6 +1,6 @@
 <template>
   <div class="rich-text">
-    <RichTextRenderer :document="blok" />
+    <RichTextRenderer :document="text" />
   </div>
 </template>
 
@@ -9,7 +9,7 @@ import Vue from 'vue';
 
 export default Vue.extend({
   props: {
-    blok: {
+    text: {
       type: Object,
       default: () => {},
     },
@@ -115,5 +115,9 @@ export default Vue.extend({
 .text-6xl + .dot {
   color: var(--tertiary);
   font-size: $text-6xl;
+}
+.text-4xl + .dot {
+  color: var(--tertiary);
+  font-size: $text-4xl;
 }
 </style>
