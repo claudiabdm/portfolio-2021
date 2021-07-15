@@ -77,3 +77,7 @@ export interface Image extends StoryblokComponent<'MyImage'> {
     filename: string;
   };
 }
+
+export interface AnimatedSvg extends StoryblokComponent<'MyAnimatedSvg'> {
+  name: 'Computer' | 'TechCompanies';
+}
