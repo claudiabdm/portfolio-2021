@@ -113,12 +113,12 @@ export default Vue.extend({
   }
   &:last-child {
     margin-bottom: $nav-height;
+    @media screen and (min-width: 1024px) {
+      margin-bottom: 25vh;
+    }
   }
   @media screen and (min-width: 1024px) {
     flex-direction: row;
-    &:last-child {
-      margin-bottom: 25vh;
-    }
   }
   &--reversed {
     @media screen and (min-width: 1024px) {

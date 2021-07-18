@@ -33,7 +33,7 @@ export default Vue.extend({
   }
 
   p {
-    line-height: 1.5;
+    line-height: 1.75;
   }
 
   img {
