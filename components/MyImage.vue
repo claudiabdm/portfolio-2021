@@ -9,6 +9,7 @@
         :width="blok.width"
         :height="blok.height"
         :src="src"
+        :style="{ borderRadius }"
       />
     </picture>
     <svg style="width: 0; height: 0">
@@ -39,6 +40,10 @@ export default Vue.extend({
     autoSize: {
       type: Boolean,
       default: true,
+    },
+    borderRadius: {
+      type: String,
+      default: '0',
     },
   },
   computed: {
