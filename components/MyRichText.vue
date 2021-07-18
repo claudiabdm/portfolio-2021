@@ -72,7 +72,7 @@ export default Vue.extend({
     margin-top: 10px;
     counter-increment: ol;
     &::marker {
-      color: var(--error);
+      color: var(--secondary);
     }
   }
 }
