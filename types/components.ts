@@ -81,3 +81,21 @@ export interface Image extends StoryblokComponent<'MyImage'> {
 export interface AnimatedSvg extends StoryblokComponent<'MyAnimatedSvg'> {
   name: 'Computer' | 'TechCompanies';
 }
+
+export interface Figure
+  extends StoryblokComponent<'MyAnimatedSvg' | 'MyImage'> {}
+
+export interface Paragraph extends StoryblokComponent<'MyParagraph'> {
+  isReversed: boolean;
+  text: {
+    type: 'doc';
+    content: Object[];
+  };
+  figure: Figure[];
+  linkText: string;
+  link: {
+    url: string;
+    linktype: 'url' | 'asset';
+    cached_url: string;
+  };
+}
