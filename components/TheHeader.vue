@@ -159,11 +159,12 @@ export default Vue.extend({
 .header {
   @include size(100%, auto);
   @include flex(center, flex-end);
-  position: relative;
-  padding: rem(10px);
   max-width: $max-width;
+  position: relative;
   margin-left: auto;
   margin-right: auto;
+  padding: rem(10px);
+  font-family: var(--font-family-secondary);
   z-index: 2;
 
   &__nav {
@@ -256,14 +257,13 @@ export default Vue.extend({
   @include flex(center, center, column);
   color: var(--primary);
   font-size: rem(12px);
-  font-weight: 400;
+  font-weight: 700;
   text-decoration: none;
   text-transform: capitalize;
   -webkit-tap-highlight-color: transparent;
   transition: color 0.15s linear;
   @media screen and (min-width: 1024px) {
     font-size: rem(16px);
-    font-weight: 700;
   }
 
   &__icon-wrapper {
