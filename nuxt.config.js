@@ -33,6 +33,7 @@ export default {
     '~/plugins/elastic-animation.client.ts',
     '~/plugins/responsive-img.ts',
     '~/plugins/translate-slug.ts',
+    '~/plugins/elevate-animation.client.ts',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

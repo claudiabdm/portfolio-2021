@@ -120,8 +120,7 @@ export default Vue.extend({
       titleRef,
       this.blok.title
     ).pause(0);
-    this.windowScollTimeline =
-      this.createWindowOnScrollTimeline(windowRef).pause(0);
+    this.windowScollTimeline = this.$elevateAnimation(windowRef).pause(0);
   },
   destroyed() {
     this.titleTimeline.kill();
@@ -191,18 +190,6 @@ export default Vue.extend({
       tl.add(this.cursorTimeline.play(0));
       return tl;
     },
-    createWindowOnScrollTimeline(elem: Element): gsap.core.Timeline {
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: elem,
-          start: 'bottom bottom',
-          end: 'top top',
-          toggleActions: 'play reverse play reverse',
-        },
-      });
-      tl.add(this.levelUpAnimation(elem, -10));
-      return tl;
-    },
     textAnimation(elem: Element, text: string): gsap.core.Tween {
       return gsap.to(elem, {
         id: 'textAnimation',
@@ -211,14 +198,6 @@ export default Vue.extend({
           value: text,
         },
         ease: 'none',
-      });
-    },
-    levelUpAnimation(elem: Element, position: number): gsap.core.Tween {
-      return gsap.to(elem, {
-        x: position,
-        y: position,
-        ease: 'ease',
-        duration: 0.5,
       });
     },
   },
