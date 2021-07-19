@@ -11,7 +11,13 @@
     <div class="profile__wrapper">
       <ul ref="profileLinks" class="profile__links">
         <li v-for="link in links" :key="link.id" class="profile__link">
-          <a class="profile__a" :href="link.url" target="_blank" rel="noopener">
+          <a
+            class="profile__a"
+            :href="link.url"
+            target="_blank"
+            rel="noopener"
+            :aria-label="`Go to ${link.id}`"
+          >
             <svg class="profile__svg">
               <use :href="iconPath(link.id)" />
             </svg>
