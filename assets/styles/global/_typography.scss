@@ -1,4 +1,25 @@
-@import url('https://fonts.googleapis.com/css2?family=Jost:wght@700&family=Open+Sans:wght@300;700&display=swap');
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url(~assets/fonts/OpenSans-Light.ttf);
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(~assets/fonts/OpenSans-Bold.ttf);
+}
+@font-face {
+  font-family: 'Jost';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(~assets/fonts/Jost-Bold.ttf);
+}
+
 
 $font-weight-normal: 300;
 $font-weight-bold: 700;
