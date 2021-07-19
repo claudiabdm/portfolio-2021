@@ -24,7 +24,6 @@ export default {
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: '' },
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
     htmlAttrs: {
       lang: 'en',
     },
@@ -107,14 +106,24 @@ export default {
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
     manifest: {
+      name: 'Claudia Benito: Front-end developer',
+      description:
+        'I am a front-end developer with a passion for building user friendly and performant SPAs and JAMstack sites.',
+      short_name: 'claudiabdm',
       lang: 'en',
+      background_color: '#b8c1ec',
+    },
+    icon: {
+      fileName: 'logo.png',
+    },
+    meta: {
+      theme_color: '#b8c1ec',
     },
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     transpile: ['gsap'],
-    analize: true,
   },
 
   crawler: false,
