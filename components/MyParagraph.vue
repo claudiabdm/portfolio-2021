@@ -76,9 +76,9 @@ export default Vue.extend({
 
 .paragraph {
   @include flex(center, flex-start, column-reverse);
-  padding: 0 rem(25px);
-  margin-bottom: 25vh;
+  padding: 0 rem(25px) 25vh;
   &:first-child {
+    padding-bottom: 0;
     margin-bottom: 50vh;
     position: relative;
     &::before {
@@ -114,9 +114,9 @@ export default Vue.extend({
     }
   }
   &:last-child {
-    margin-bottom: $nav-height;
+    padding-bottom: $nav-height;
     @media screen and (min-width: 1024px) {
-      margin-bottom: 25vh;
+      padding-bottom: 25vh;
     }
   }
   @media screen and (min-width: 1024px) {
