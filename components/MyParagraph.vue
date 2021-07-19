@@ -84,22 +84,24 @@ export default Vue.extend({
     &::before {
       content: 'SCROLL';
       position: absolute;
-      top: 110%;
+      top: 105%;
       color: var(--secondary);
       font-size: rem(12px);
-      font-weight: 300;
       font-family: var(--font-family-secondary);
-      opacity: 1;
-      animation: bounce 1s infinite alternate-reverse ease-in-out;
+      opacity: 0.75;
+      animation: bounce 1.5s infinite alternate-reverse ease-in-out;
     }
     &::after {
       content: '';
       position: absolute;
-      top: 120%;
+      top: 112%;
       width: rem(1px);
-      height: 35vh;
+      height: 40vh;
       background-color: var(--secondary);
       opacity: 0.75;
+      @media screen and (min-width: 1024px) {
+        left: 4%;
+      }
     }
     .paragraph__text {
       flex-basis: 70%;
