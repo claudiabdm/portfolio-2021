@@ -45,8 +45,18 @@ export default Vue.extend({
     return {
       story: {
         id: '',
-        content: {},
+        content: {
+          seo: {
+            title: 'Claudia Benito: Front-end developer',
+          },
+        },
       },
+    };
+  },
+  head(): Object {
+    return {
+      title: this.story.content.seo.title,
+      meta: [...this.$getMetaTags(this.story.content.seo)],
     };
   },
   mounted() {

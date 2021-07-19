@@ -14,13 +14,20 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'portfolio-2021',
+    titleTemplate: (titleChunk) => {
+      return titleChunk.includes('Claudia Benito:')
+        ? titleChunk
+        : `${titleChunk} - Claudia Benito`;
+    },
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: '' },
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+    htmlAttrs: {
+      lang: 'en',
+    },
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
@@ -34,6 +41,8 @@ export default {
     '~/plugins/responsive-img.ts',
     '~/plugins/translate-slug.ts',
     '~/plugins/elevate-animation.client.ts',
+    '~/plugins/get-meta-tags.ts',
+    '~/plugins/get-json-ld-breadcrumbs.ts',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

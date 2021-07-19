@@ -52,8 +52,19 @@ export default Vue.extend({
     return {
       story: {
         id: '',
-        content: {},
+        content: {
+          seo: {
+            title: '',
+          },
+        },
       },
+    };
+  },
+  head(): Object {
+    return {
+      title: this.story.content.seo.title,
+      meta: [...this.$getMetaTags(this.story.content.seo)],
+      script: [...this.$getJsonLd(this)],
     };
   },
   mounted() {
