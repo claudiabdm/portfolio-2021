@@ -3,7 +3,7 @@
     <nav ref="nav" class="header__nav">
       <div
         v-for="link in links"
-        :key="link.link"
+        :key="link.icon"
         :class="[
           'header__link-wrapper',
           { 'header__link-wrapper--active': selectedRoute === link.link },

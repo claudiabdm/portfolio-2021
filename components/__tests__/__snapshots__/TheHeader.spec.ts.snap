@@ -4,17 +4,12 @@ exports[`TheHeader should match the snapshot 1`] = `
 <header
   class="header"
 >
-  <div
-    class="header__logo"
-  >
-    logo
-  </div>
-   
   <nav
     class="header__nav"
+    style="transform: translate(0, 0); opacity: 1; visibility: inherit;"
   >
     <div
-      class="header__link-wrapper header__link-wrapper--active"
+      class="header__link-wrapper"
     >
       <a
         class="header__link link"
@@ -24,6 +19,7 @@ exports[`TheHeader should match the snapshot 1`] = `
         >
           <svg
             class="link__icon"
+            style="transform: translate(0%, -50%) ; opacity: 0; visibility: hidden;"
           >
             <use
               href="[object Object]#home"
@@ -49,6 +45,7 @@ exports[`TheHeader should match the snapshot 1`] = `
         >
           <svg
             class="link__icon"
+            style="transform: translate(0%, -50%) ; opacity: 0; visibility: hidden;"
           >
             <use
               href="[object Object]#projects"
@@ -74,6 +71,7 @@ exports[`TheHeader should match the snapshot 1`] = `
         >
           <svg
             class="link__icon"
+            style="transform: translate(0%, -50%) ; opacity: 0; visibility: hidden;"
           >
             <use
               href="[object Object]#about"
@@ -90,6 +88,37 @@ exports[`TheHeader should match the snapshot 1`] = `
     </div>
   </nav>
    
-  <div />
+  <div
+    class="header__settings"
+  >
+    <div
+      class="header__lang"
+    >
+      <a
+        class="header__link link"
+      >
+        
+        EN
+      
+      </a>
+       
+      <span
+        aria-hidden="true"
+        class="header__separator"
+      >
+        |
+      </span>
+       
+      <a
+        class="header__link link"
+      >
+        
+        ES
+      
+      </a>
+    </div>
+     
+    <div />
+  </div>
 </header>
 `;

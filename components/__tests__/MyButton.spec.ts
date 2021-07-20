@@ -34,6 +34,10 @@ describe('MyButton', () => {
         link: {
           cached_url: '',
           linktype: '',
+          story: {
+            full_slug: '',
+            slug: '',
+          },
         },
       },
     });
@@ -54,6 +58,10 @@ describe('MyButton', () => {
           link: {
             cached_url: '',
             linktype: 'story',
+            story: {
+              full_slug: '',
+              slug: '',
+            },
           },
         },
       },
@@ -88,5 +96,57 @@ describe('MyButton', () => {
       .exists();
     expect(button).toBeTruthy();
     expect(buttonContainer).toBeTruthy();
+  });
+
+  it('should return correct translated link when slug starts with en', async () => {
+    await wrapper.setProps({
+      blok: {
+        link: {
+          story: {
+            full_slug: 'en/projects',
+          },
+        },
+      },
+    });
+    expect(wrapper.vm.translatedLink).toBe('/projects');
+  });
+
+  it('should return correct translated link when slug starts with es', async () => {
+    await wrapper.setProps({
+      blok: {
+        link: {
+          story: {
+            full_slug: 'es/projects',
+          },
+        },
+      },
+    });
+    expect(wrapper.vm.translatedLink).toBe('es/projects');
+  });
+
+  it('should return correct translated link when slug starts with en and ends with /', async () => {
+    await wrapper.setProps({
+      blok: {
+        link: {
+          story: {
+            full_slug: 'en/projects/',
+          },
+        },
+      },
+    });
+    expect(wrapper.vm.translatedLink).toBe('/projects');
+  });
+
+  it('should return correct translated link when slug starts with es and ends with /', async () => {
+    await wrapper.setProps({
+      blok: {
+        link: {
+          story: {
+            full_slug: 'es/projects/',
+          },
+        },
+      },
+    });
+    expect(wrapper.vm.translatedLink).toBe('es/projects');
   });
 });

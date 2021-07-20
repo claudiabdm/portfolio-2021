@@ -31,7 +31,7 @@
       "@types/jest",
       "@marvr/storyblok-rich-text-vue-renderer/dist/packages/storyblok-rich-text-vue-renderer/src",
       "@marvr/storyblok-rich-text-vue-renderer/dist/packages/storyblok-rich-text-types/src",
-      "nuxt-i18n",
+      "nuxt-i18n"
     ]
   },
   "exclude": [
