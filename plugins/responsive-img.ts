@@ -3,10 +3,10 @@ import { Plugin } from '@nuxt/types';
 
 class ResponsiveImage {
   createSrcset(image: string, imageOptions: string): string[] {
-    const sizeList = [320, 640, 768, 960, 1024, 1280];
-    const src = this.createSrc(image, imageOptions);
+    const sizeList = [320, 640, 768];
     const srcset = [];
     for (const size of sizeList) {
+      const src = this.createSrc(image, `${size}x0/${imageOptions}`);
       srcset.push(`${src} ${size}w`);
     }
     return srcset;

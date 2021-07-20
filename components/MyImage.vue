@@ -53,13 +53,13 @@ export default Vue.extend({
     srcsetPng() {
       return this.$responsiveImg.createSrcset(
         this.blok.image.filename,
-        '1280x0/filters:format(png)'
+        'filters:format(png)'
       );
     },
     srcsetWebp() {
       return this.$responsiveImg.createSrcset(
         this.blok.image.filename,
-        '1280x0/filters:format(webp)'
+        'filters:format(webp)'
       );
     },
   },
