@@ -30,14 +30,9 @@
 <script lang="ts">
 import Vue from 'vue';
 import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { StoryData } from 'storyblok-js-client/types';
 import MyProject from './MyProject.vue';
 import { FilterButton, MyProjectBlok, ProjectList } from '~/types/components';
-
-if (process.client) {
-  gsap.registerPlugin(ScrollTrigger);
-}
 
 export default Vue.extend({
   name: 'MyProjectList',
@@ -120,9 +115,6 @@ export default Vue.extend({
     },
     refreshScroll(): void {
       this.setOverflow('auto');
-      this.$nextTick(() => {
-        ScrollTrigger.refresh();
-      });
     },
   },
 });

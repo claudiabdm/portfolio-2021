@@ -2,6 +2,25 @@ import Vue from 'vue';
 import { Plugin } from '@nuxt/types';
 import { gsap } from 'gsap';
 
+function createElevateObserver(
+  timeline: gsap.core.Timeline
+): IntersectionObserver {
+  return new IntersectionObserver(
+    (entries: IntersectionObserverEntry[]): void => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) {
+          timeline.play();
+        } else {
+          timeline.reverse();
+        }
+      }
+    },
+    {
+      threshold: 1,
+    }
+  );
+}
+
 function levelUpAnimation(elem: Element, position: number): gsap.core.Tween {
   return gsap.to(elem, {
     x: position,
@@ -11,38 +30,33 @@ function levelUpAnimation(elem: Element, position: number): gsap.core.Tween {
   });
 }
 
-function elevateAnimation(target: Element): gsap.core.Timeline {
-  const tl = gsap.timeline({
-    scrollTrigger: {
-      trigger: target,
-      start: 'bottom bottom',
-      end: 'top top',
-      toggleActions: 'play reverse play reverse',
-    },
-  });
+function elevateAnimationObserver(target: Element): IntersectionObserver {
+  const tl = gsap.timeline();
   tl.add(levelUpAnimation(target, -10));
-  return tl;
+  const observer = createElevateObserver(tl);
+  observer.observe(target.parentElement as HTMLElement);
+  return observer;
 }
 
 declare module 'vue/types/vue' {
   interface Vue {
-    $elevateAnimation(target: Element): gsap.core.Timeline;
+    $elevateAnimationObserver(target: Element): IntersectionObserver;
   }
 }
 
-Vue.prototype.$elevateAnimation = elevateAnimation;
+Vue.prototype.$elevateAnimationObserver = elevateAnimationObserver;
 
 declare module '@nuxt/types' {
   interface NuxtAppOptions {
-    $elevateAnimation(target: Element): gsap.core.Timeline;
+    $elevateAnimationObserver(target: Element): IntersectionObserver;
   }
   interface Context {
-    $elevateAnimation(target: Element): gsap.core.Timeline;
+    $elevateAnimationObserver(target: Element): IntersectionObserver;
   }
 }
 
-const elevateAnimationPlugin: Plugin = (_ctx, inject) => {
-  inject('elevateAnimation', elevateAnimation);
+const elevateAnimationObserverPlugin: Plugin = (_ctx, inject) => {
+  inject('elevateAnimationObserver', elevateAnimationObserver);
 };
 
-export default elevateAnimationPlugin;
+export default elevateAnimationObserverPlugin;

@@ -31,12 +31,6 @@
 <script lang="ts">
 import Vue from 'vue';
 import MyImage from '@/components/MyImage.vue';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-if (process.client) {
-  gsap.registerPlugin(ScrollTrigger);
-}
 
 export default Vue.extend({
   name: 'MyProfile',
@@ -46,6 +40,12 @@ export default Vue.extend({
       type: Object,
       default: () => {},
     },
+  },
+  data() {
+    return {
+      profileImgObserver: null as unknown as IntersectionObserver,
+      linksObserver: null as unknown as IntersectionObserver,
+    };
   },
   computed: {
     links() {
@@ -59,8 +59,12 @@ export default Vue.extend({
   mounted() {
     const profile = this.$refs.profileImg as Vue;
     const links = this.$refs.profileLinks as Element;
-    this.$elevateAnimation(profile.$el);
-    this.$elevateAnimation(links);
+    this.profileImgObserver = this.$elevateAnimationObserver(profile.$el);
+    this.linksObserver = this.$elevateAnimationObserver(links);
+  },
+  beforeDestroy() {
+    this.profileImgObserver.disconnect();
+    this.linksObserver.disconnect();
   },
   methods: {
     iconPath(icon: string): string {

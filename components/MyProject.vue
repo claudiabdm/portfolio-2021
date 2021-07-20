@@ -75,13 +75,11 @@
 <script lang="ts">
 import Vue from 'vue';
 import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { TextPlugin } from 'gsap/TextPlugin';
 import { Project } from '~/types/components';
 
 if (process.client) {
   gsap.registerPlugin(TextPlugin);
-  gsap.registerPlugin(ScrollTrigger);
 }
 
 export default Vue.extend({
@@ -101,10 +99,11 @@ export default Vue.extend({
       titleTimeline: null as unknown as gsap.core.Timeline,
       titleScrollTimeline: null as unknown as gsap.core.Timeline,
       cursorTimeline: null as unknown as gsap.core.Timeline,
-      windowScollTimeline: null as unknown as gsap.core.Timeline,
       previousText: '',
       timeout: null as any,
       lastFilter: 'show-all',
+      titleObserver: null as unknown as IntersectionObserver,
+      windowObserver: null as unknown as IntersectionObserver,
     };
   },
   mounted() {
@@ -116,19 +115,42 @@ export default Vue.extend({
       titleRef,
       this.blok.title
     ).pause(0);
-    this.titleScrollTimeline = this.createTitleOnScrollTimeline(
+    this.titleScrollTimeline = this.createTitleTimeline(
       titleRef,
       this.blok.title
-    ).pause(0);
-    this.windowScollTimeline = this.$elevateAnimation(windowRef).pause(0);
+    )
+      .pause(0)
+      .add(this.cursorTimeline.play(0));
+    this.windowObserver = this.$elevateAnimationObserver(windowRef);
+    this.titleObserver = this.createTitleObserver(
+      titleRef,
+      this.titleScrollTimeline
+    );
   },
-  destroyed() {
+  beforeDestroy() {
     this.titleTimeline.kill();
     this.titleScrollTimeline.kill();
     this.cursorTimeline.kill();
-    this.windowScollTimeline.kill();
+    this.titleObserver.disconnect();
+    this.windowObserver.disconnect();
   },
   methods: {
+    createTitleObserver(
+      target: Element,
+      timeline: gsap.core.Timeline
+    ): IntersectionObserver {
+      const observer = new IntersectionObserver(
+        (entries: IntersectionObserverEntry[]): void => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              timeline.restart();
+            }
+          }
+        }
+      );
+      observer.observe(target);
+      return observer;
+    },
     createTitleTimeline(titleRef: Element, text: string) {
       const tl = gsap.timeline();
       tl.add(this.textAnimation(titleRef, text));
@@ -174,21 +196,6 @@ export default Vue.extend({
           }
         });
       });
-    },
-    createTitleOnScrollTimeline(
-      elem: Element,
-      text: string
-    ): gsap.core.Timeline {
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: elem,
-          start: 'top bottom-=60px',
-          toggleActions: 'play reset play reset',
-        },
-      });
-      tl.add(this.textAnimation(elem, text));
-      tl.add(this.cursorTimeline.play(0));
-      return tl;
     },
     textAnimation(elem: Element, text: string): gsap.core.Tween {
       return gsap.to(elem, {
