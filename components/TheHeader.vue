@@ -98,23 +98,29 @@ export default Vue.extend({
     onSelectRoute(link: string): void {
       this.selectedRoute = link;
     },
-    animateNav(nav: Element): void {
+    animateNav(
+      nav: Element,
+      yPercent: number,
+      duration: number,
+      delay: number
+    ): void {
       gsap.set(nav, {
         autoAlpha: 0,
-        yPercent: 100,
+        yPercent,
       });
       gsap.to(nav, {
         autoAlpha: 1,
-        duration: 0.5,
         yPercent: 0,
-        delay: 2,
         ease: 'ease.in',
+        duration,
+        delay,
       });
     },
     animateLinkIcons(
       linkIcons: NodeListOf<Element>,
-      delay: number,
-      yPercent: number
+      yPercent: number,
+      duration: number,
+      delay: number
     ): void {
       gsap.set(linkIcons, {
         autoAlpha: 0,
@@ -122,10 +128,10 @@ export default Vue.extend({
       });
       gsap.to(linkIcons, {
         autoAlpha: 1,
-        duration: 1,
         yPercent: 0,
         ease: 'elastic',
         delay,
+        duration,
         stagger: {
           amount: 0.5,
         },
@@ -135,10 +141,11 @@ export default Vue.extend({
       const nav = this.$refs.nav as Element;
       const linkIcons = nav.querySelectorAll('.link__icon');
       if (window.innerWidth < 1024) {
-        this.animateNav(nav);
-        this.animateLinkIcons(linkIcons, 2.5, 50);
+        this.animateNav(nav, 100, 0.5, 2);
+        this.animateLinkIcons(linkIcons, 50, 1, 2.5);
       } else {
-        this.animateLinkIcons(linkIcons, 0, -50);
+        this.animateNav(nav, 0, 0, 0);
+        this.animateLinkIcons(linkIcons, -50, 1, 0);
       }
     },
     disableAnimation(): void {
@@ -181,9 +188,9 @@ export default Vue.extend({
       justify-content: space-between;
       margin-top: auto;
       border-top: none;
-      background-color: transparent;
       padding-left: 10px;
-      visibility: visible;
+      background-color: transparent;
+      transition: none;
     }
   }
   &__link {
