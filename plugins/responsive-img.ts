@@ -2,8 +2,11 @@ import Vue from 'vue';
 import { Plugin } from '@nuxt/types';
 
 class ResponsiveImage {
-  createSrcset(image: string, imageOptions: string): string[] {
-    const sizeList = [320, 640, 768];
+  createSrcset(
+    image: string,
+    imageOptions: string,
+    sizeList: number[] = [320, 640]
+  ): string[] {
     const srcset = [];
     for (const size of sizeList) {
       const src = this.createSrc(image, `${size}x0/${imageOptions}`);

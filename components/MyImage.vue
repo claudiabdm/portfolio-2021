@@ -45,6 +45,10 @@ export default Vue.extend({
       type: String,
       default: '0',
     },
+    sizeList: {
+      type: Array as () => number[],
+      default: () => [320, 640],
+    },
   },
   computed: {
     src() {
@@ -53,13 +57,15 @@ export default Vue.extend({
     srcsetPng() {
       return this.$responsiveImg.createSrcset(
         this.blok.image.filename,
-        'filters:format(png)'
+        'filters:format(png)',
+        this.sizeList
       );
     },
     srcsetWebp() {
       return this.$responsiveImg.createSrcset(
         this.blok.image.filename,
-        'filters:format(webp)'
+        'filters:format(webp)',
+        this.sizeList
       );
     },
   },

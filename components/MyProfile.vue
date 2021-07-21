@@ -4,7 +4,8 @@
       <MyImage
         ref="profileImg"
         class="profile__img"
-        :blok="{ image: blok.profileImg, width: 300, height: 300 }"
+        :blok="{ image: blok.profileImg, width: 230, height: 230 }"
+        :size-list="[200, 250]"
         border-radius="50%"
       />
     </div>
