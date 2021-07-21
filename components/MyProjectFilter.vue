@@ -66,7 +66,11 @@ export default Vue.extend({
       const projectFilterButtons = (
         this.$refs.sliderScroll as Element
       ).querySelectorAll('[data-animation="true"]');
-      this.$elasticAnimation(projectFilterButtons, -7, -7, 1, 0.45, 0.5);
+      if (window.innerWidth < 1024) {
+        this.$elasticAnimation(projectFilterButtons, -7, -7, 1, 0.25, 0);
+      } else {
+        this.$elasticAnimation(projectFilterButtons, -7, -7, 1, 0.45, 0);
+      }
     },
     setShadowVisibility(e: Event): void {
       const el = e.target as Element;

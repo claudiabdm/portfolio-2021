@@ -62,14 +62,11 @@ export default Vue.extend({
     },
   },
   mounted() {
-    gsap.set(this.$refs.projectList as Element, {
-      autoAlpha: 0,
-    });
-    gsap.to(this.$refs.projectList as Element, {
-      autoAlpha: 1,
-      duration: 1,
-      delay: 2,
-    });
+    if (window.innerWidth < 1024) {
+      this.animateFading(1);
+    } else {
+      this.animateFading(2);
+    }
   },
   methods: {
     async fetchProjects(uuids: string[]): Promise<MyProjectBlok[]> {
@@ -115,6 +112,16 @@ export default Vue.extend({
     },
     refreshScroll(): void {
       this.setOverflow('auto');
+    },
+    animateFading(delay: number) {
+      gsap.set(this.$refs.projectList as Element, {
+        autoAlpha: 0,
+      });
+      gsap.to(this.$refs.projectList as Element, {
+        autoAlpha: 1,
+        duration: 1,
+        delay,
+      });
     },
   },
 });

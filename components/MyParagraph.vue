@@ -23,6 +23,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import MyProfile from '@/components/MyProfile.vue';
 import { Paragraph } from '@/types/components';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -33,6 +34,7 @@ if (process.client) {
 
 export default Vue.extend({
   name: 'MyParagraph',
+  components: { MyProfile },
   props: {
     blok: {
       type: Object as () => Paragraph,
