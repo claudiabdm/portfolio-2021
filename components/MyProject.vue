@@ -1,11 +1,11 @@
 <template>
   <section v-editable="blok" class="project">
     <div class="project__group">
-      <h3 class="project__title">
+      <h2 class="project__title">
         <span class="dot">></span>
         <span :ref="`${blok._uid}-title`"></span
         ><span :ref="`${blok._uid}-cursor`" class="dot">_</span>
-      </h3>
+      </h2>
       <p class="project__description">
         {{ blok.description }}
       </p>

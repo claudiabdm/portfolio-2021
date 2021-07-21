@@ -1,8 +1,8 @@
 <template>
   <section ref="page" v-editable="blok" class="page">
-    <h2 ref="pageTitle" class="page__title">
+    <h1 ref="pageTitle" class="page__title">
       {{ blok.title }}<span class="dot">.</span>
-    </h2>
+    </h1>
     <div ref="pageGroup" class="page__group">
       <component
         :is="component.component"
