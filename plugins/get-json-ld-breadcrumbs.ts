@@ -20,7 +20,7 @@ function getBreadcrumbList(path: string): NodeObject {
         '@type': 'ListItem',
         position: idx + 1,
         name: elem,
-        item: `${process.env.baseUrl}/${currentPath}`,
+        item: `https://www.claudiabdm.com/${currentPath}`,
       });
       return itemList;
     },
