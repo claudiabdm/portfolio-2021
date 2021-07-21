@@ -23,9 +23,19 @@ function getMetaTags(seo: any): Array<Object> {
       content: seo.twitter_description || seo.description,
     },
     {
+      hid: 'twitter:card',
+      name: 'twitter:card',
+      content: 'summary_large_image',
+    },
+    {
       hid: 'twitter:image',
       name: 'twitter:image',
       content: seo.twitter_image || defaultImg,
+    },
+    {
+      hid: 'twitter:creator',
+      name: 'twitter:creator',
+      content: '@claudiabdm',
     },
     {
       hid: 'og:title',
