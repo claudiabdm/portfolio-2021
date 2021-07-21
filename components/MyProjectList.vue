@@ -32,11 +32,12 @@ import Vue from 'vue';
 import { gsap } from 'gsap';
 import { StoryData } from 'storyblok-js-client/types';
 import MyProject from './MyProject.vue';
+import MyProjectFilter from './MyProjectFilter.vue';
 import { FilterButton, MyProjectBlok, ProjectList } from '~/types/components';
 
 export default Vue.extend({
   name: 'MyProjectList',
-  components: { MyProject },
+  components: { MyProject, MyProjectFilter },
   props: {
     blok: {
       type: Object as () => ProjectList,
@@ -144,11 +145,12 @@ export default Vue.extend({
     );
     justify-content: center;
     gap: rem(50px);
-    margin-top: rem(100px);
+    margin-top: rem(50px);
     @media screen and (min-width: 1024px) {
       grid-template-columns: repeat(auto-fit, minmax(370px, 1fr));
       justify-content: flex-start;
       gap: rem(100px);
+      margin-top: rem(100px);
     }
   }
 }
