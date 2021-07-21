@@ -1,3 +1,4 @@
+import { generateStoryblokRoutes } from './storyblok-sitemap-routes';
 const isProd = process.env.NODE_ENV === 'production';
 const token = isProd
   ? process.env.STORYBLOK_PUBLISHED
@@ -71,6 +72,7 @@ export default {
       },
     ],
     'nuxt-i18n',
+    '@nuxtjs/sitemap',
   ],
 
   i18n: {
@@ -127,4 +129,12 @@ export default {
   },
 
   crawler: false,
+
+  sitemap: {
+    hostname: 'https://www.claudiabdm.com',
+    i18n: true,
+    locales: ['en', 'es'],
+    routesNameSeparator: '___',
+    routes: generateStoryblokRoutes,
+  },
 };

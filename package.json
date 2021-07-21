@@ -15,6 +15,7 @@
     "@marvr/storyblok-rich-text-vue-renderer": "^2.0.1",
     "@nuxtjs/axios": "^5.13.1",
     "@nuxtjs/pwa": "^3.3.5",
+    "@nuxtjs/sitemap": "^2.4.0",
     "@types/jest": "^26.0.23",
     "@types/jsonld": "^1.5.6",
     "@vue/composition-api": "^1.0.0-rc.12",
