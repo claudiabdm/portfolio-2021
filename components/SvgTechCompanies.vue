@@ -170,12 +170,12 @@ export default Vue.extend({
 .building {
   fill: var(--primary-light);
   animation-name: stretch;
-  animation-duration: 1s;
+  animation-duration: 0.75s;
   animation-iteration-count: infinite;
   animation-direction: alternate-reverse;
   animation-timing-function: linear;
   &--side {
-    animation-delay: 1s;
+    animation-delay: 0.75s;
     fill: var(--tertiary);
   }
 }
@@ -197,7 +197,7 @@ export default Vue.extend({
     transform: translate3d(0, 0, 0);
   }
   to {
-    transform: translate3d(0, 5%, 0);
+    transform: translate3d(0, 5px, 0);
   }
 }
 </style>
