@@ -52,6 +52,7 @@ export default Vue.extend({
     links() {
       return [
         { ...this.blok.linkedin, id: 'linkedin' },
+        { ...this.blok.twitter, id: 'twitter' },
         { ...this.blok.github, id: 'github' },
         { ...this.blok.codepen, id: 'codepen' },
       ];
