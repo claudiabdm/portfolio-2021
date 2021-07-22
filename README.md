@@ -1,5 +1,13 @@
 # portfolio-2021
 
+## Assets attribution
+
+Color palette was chosen from https://www.happyhues.co/palettes/12 created by Mackenzie Child https://www.mackenziechild.me/.
+
+3D images are from the Homies3D kit in Figma created by Doğukan Karapınar https://homies3d.com/.
+
+SVG illustrations (except camera) are from https://www.drawkit.io/.
+
 ## Build Setup
 
 ```bash
