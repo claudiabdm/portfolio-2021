@@ -17,8 +17,7 @@ import { StoryData } from 'storyblok-js-client/types';
 export default Vue.extend({
   name: 'Page',
   async asyncData(context) {
-    const version =
-      context.query._storyblok || context.isDev ? 'draft' : 'published';
+    const version = 'draft';
     const fullSlug = context.params.slug;
     const locale = context.i18n.locale;
     try {

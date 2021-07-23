@@ -1,8 +1,5 @@
 import { generateStoryblokRoutes } from './storyblok-sitemap-routes';
-const isProd = process.env.NODE_ENV === 'production';
-const token = isProd
-  ? process.env.STORYBLOK_PUBLISHED
-  : process.env.STORYBLOK_PREVIEW;
+const token = process.env.STORYBLOK_PREVIEW;
 
 export default {
   // Target: https://go.nuxtjs.dev/config-target

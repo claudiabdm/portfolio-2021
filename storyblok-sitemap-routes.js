@@ -1,7 +1,8 @@
 const axios = require('axios').default;
+const token = process.env.STORYBLOK_PREVIEW;
 export async function generateStoryblokRoutes() {
   const spaceRes = await axios.get(
-    `https://api.storyblok.com/v1/cdn/spaces/me?token=6UGOBSieZjWsLODc3Avgugtt`
+    `https://api.storyblok.com/v1/cdn/spaces/me?token=${token}`
   );
   const routes = ['/'];
 
@@ -10,7 +11,7 @@ export async function generateStoryblokRoutes() {
 
   // Call for all Links using the Links API: https://www.storyblok.com/docs/Delivery-Api/Links
   const res = await axios.get(
-    `https://api.storyblok.com/v1/cdn/links?token=6UGOBSieZjWsLODc3Avgugtt&version=published&cv=${cacheVersion}&per_page=100`
+    `https://api.storyblok.com/v1/cdn/links?token=${token}&version=draft&cv=${cacheVersion}&per_page=100`
   );
 
   Object.keys(res.data.links).forEach((key) => {
