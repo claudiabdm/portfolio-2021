@@ -18,7 +18,7 @@
     "@nuxtjs/sitemap": "^2.4.0",
     "@types/jest": "^26.0.24",
     "@types/jsonld": "^1.5.6",
-    "@vue/composition-api": "^1.0.3",
+    "@vue/composition-api": "^1.0.4",
     "core-js": "^3.15.2",
     "fibers": "^5.0.0",
     "gsap": "^3.7.1",
