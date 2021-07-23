@@ -71,10 +71,7 @@ export default Vue.extend({
   },
   methods: {
     async fetchProjects(uuids: string[]): Promise<MyProjectBlok[]> {
-      const version =
-        this.$nuxt.context.query._storyblok || this.$nuxt.context.isDev
-          ? 'draft'
-          : 'published';
+      const version = 'draft';
       const { data } = await this.$nuxt.context.app.$storyapi.get(
         'cdn/stories/',
         {
