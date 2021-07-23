@@ -3,6 +3,7 @@ const isProd = process.env.NODE_ENV === 'production';
 const token = isProd
   ? process.env.STORYBLOK_PUBLISHED
   : process.env.STORYBLOK_PREVIEW;
+const version = isProd ? 'published' : 'draft';
 
 export default {
   // Target: https://go.nuxtjs.dev/config-target
@@ -135,6 +136,6 @@ export default {
     i18n: true,
     locales: ['en', 'es'],
     routesNameSeparator: '___',
-    routes: generateStoryblokRoutes,
+    routes: generateStoryblokRoutes.bind(null, token, version),
   },
 };
