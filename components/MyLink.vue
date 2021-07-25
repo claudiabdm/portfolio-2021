@@ -31,7 +31,7 @@ export default Vue.extend({
 @use '~/assets/styles/global/variables' as *;
 @use '~/assets/styles/mixins/mixins' as *;
 .link {
-  @include flex(center, flex-start);
+  @include inline-flex(center, flex-start);
   color: var(--primary);
   background-color: transparent;
   font-weight: 700;
