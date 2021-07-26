@@ -132,6 +132,6 @@ export default {
     i18n: true,
     locales: ['en', 'es'],
     routesNameSeparator: '___',
-    routes: generateStoryblokRoutes.bind(null, token, version),
+    routes: generateStoryblokRoutes.bind(null, token, 'draft'),
   },
 };
