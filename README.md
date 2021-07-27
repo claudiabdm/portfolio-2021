@@ -1,4 +1,4 @@
-![Claudia Benito's website screenshot](https://a.storyblok.com/f/95455/1280x800/1896baa7fe/claudiabdm-web.png)
+![Claudia Benito's website screenshot](https://a.storyblok.com/f/95455/1280x800/7f941d0214/portfolio-light.png)
 
 <img src="https://github.com/claudiabdm/portfolio-2021/blob/main/static/logo.png" width="60" height="60" alt="Claudia Benito's website logo" align="right">
 
