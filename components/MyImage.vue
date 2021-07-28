@@ -1,14 +1,15 @@
 <template>
   <div>
-    <picture class="image-wrapper">
-      <source :srcset="srcsetWebp" type="image/webp" />
-      <source :srcset="srcsetPng" type="image/png" />
+    <picture ref="picture" class="image-wrapper">
+      <source :data-srcset="srcsetWebp" type="image/webp" />
+      <source :data-srcset="srcsetPng" type="image/png" />
       <img
         :class="['image', { 'image--auto-size': autoSize }]"
         :alt="blok.image.alt"
         :width="blok.width"
         :height="blok.height"
-        :src="src"
+        :data-src="src"
+        src="placeholder.svg"
         :style="{ borderRadius }"
       />
     </picture>
@@ -50,6 +51,37 @@ export default Vue.extend({
       default: () => [320, 640],
     },
   },
+  data() {
+    return {
+      pictureObserver: null as unknown as IntersectionObserver,
+    };
+  },
+  head() {
+    return {
+      link: [
+        {
+          rel: 'preload',
+          as: 'image',
+          href: this.$responsiveImg.createSrc(
+            this.blok.image.filename,
+            '1280x0'
+          ),
+          imagesrcset: [
+            ...this.$responsiveImg.createSrcset(
+              this.blok.image.filename,
+              'filters:format(png)',
+              this.sizeList
+            ),
+            ...this.$responsiveImg.createSrcset(
+              this.blok.image.filename,
+              'filters:format(webp)',
+              this.sizeList
+            ),
+          ],
+        },
+      ],
+    };
+  },
   computed: {
     src() {
       return this.$responsiveImg.createSrc(this.blok.image.filename, '1280x0');
@@ -69,6 +101,48 @@ export default Vue.extend({
       );
     },
   },
+  mounted() {
+    const picture = this.$refs.picture as HTMLPictureElement;
+    this.pictureObserver = new IntersectionObserver(this.handleIntersect, {
+      threshold: 0.5,
+    });
+    this.pictureObserver.observe(picture);
+  },
+  beforeDestroy() {
+    this.pictureObserver.disconnect();
+  },
+  methods: {
+    loadImage(pictureElement: HTMLPictureElement): void {
+      if (pictureElement) {
+        const img = pictureElement.querySelector('img') as HTMLImageElement;
+        img.addEventListener(
+          'load',
+          () => {
+            img.classList.add('loaded');
+          },
+          { once: true }
+        );
+        img.src = pictureElement.dataset.src as string;
+        const sources = Array.from(
+          pictureElement.querySelectorAll('source')
+        ) as HTMLSourceElement[];
+        for (const source of sources) {
+          source.srcset = source.dataset.srcset as string;
+        }
+      }
+    },
+    handleIntersect(
+      entries: IntersectionObserverEntry[],
+      observer: IntersectionObserver
+    ): void {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          this.loadImage(entry.target as HTMLPictureElement);
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+  },
 });
 </script>
 
@@ -77,8 +151,12 @@ export default Vue.extend({
 
 .image-wrapper {
   display: flex;
+  transition: filter 0.15s 0.5s linear;
 }
 .image {
+  opacity: 0;
+  filter: blur(rem(5px));
+  transition: filter 0.15s 0.25s linear, opacity 0.15s linear;
   &--auto-size {
     @include size(100%, 100%);
     object-fit: cover;
@@ -86,8 +164,13 @@ export default Vue.extend({
   }
 }
 
+.loaded {
+  opacity: 1;
+  filter: none;
+}
+
 .dark-scheme {
-  img {
+  .image-wrapper {
     filter: url(#darken);
   }
 }
