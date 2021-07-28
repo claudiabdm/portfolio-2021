@@ -51,11 +51,6 @@ export default Vue.extend({
       default: () => [320, 480],
     },
   },
-  data() {
-    return {
-      pictureObserver: null as unknown as IntersectionObserver,
-    };
-  },
   head() {
     return {
       link: [
@@ -103,10 +98,10 @@ export default Vue.extend({
   },
   mounted() {
     const picture = this.$refs.picture as HTMLPictureElement;
-    this.pictureObserver = new IntersectionObserver(this.handleIntersect, {
+    const pictureObserver = new IntersectionObserver(this.handleIntersect, {
       threshold: 0.5,
     });
-    this.pictureObserver.observe(picture);
+    pictureObserver.observe(picture);
   },
   methods: {
     loadImage(pictureElement: HTMLPictureElement): void {
