@@ -48,7 +48,7 @@ export default Vue.extend({
     },
     sizeList: {
       type: Array as () => number[],
-      default: () => [320, 480],
+      default: () => [320, 480, 640],
     },
   },
   head() {
@@ -61,18 +61,11 @@ export default Vue.extend({
             this.blok.image.filename,
             '1280x0'
           ),
-          imagesrcset: [
-            ...this.$responsiveImg.createSrcset(
-              this.blok.image.filename,
-              'filters:format(png)',
-              this.sizeList
-            ),
-            ...this.$responsiveImg.createSrcset(
-              this.blok.image.filename,
-              'filters:format(webp)',
-              this.sizeList
-            ),
-          ],
+          imagesrcset: this.$responsiveImg.createSrcset(
+            this.blok.image.filename,
+            'filters:format(webp)',
+            this.sizeList
+          ),
         },
       ],
     };
