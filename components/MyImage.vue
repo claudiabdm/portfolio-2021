@@ -48,7 +48,7 @@ export default Vue.extend({
     },
     sizeList: {
       type: Array as () => number[],
-      default: () => [320, 640],
+      default: () => [320, 480],
     },
   },
   data() {
@@ -108,27 +108,18 @@ export default Vue.extend({
     });
     this.pictureObserver.observe(picture);
   },
-  beforeDestroy() {
-    this.pictureObserver.disconnect();
-  },
   methods: {
     loadImage(pictureElement: HTMLPictureElement): void {
       if (pictureElement) {
-        const img = pictureElement.querySelector('img') as HTMLImageElement;
-        img.addEventListener(
-          'load',
-          () => {
-            img.classList.add('loaded');
-          },
-          { once: true }
-        );
-        img.src = pictureElement.dataset.src as string;
         const sources = Array.from(
           pictureElement.querySelectorAll('source')
         ) as HTMLSourceElement[];
         for (const source of sources) {
           source.srcset = source.dataset.srcset as string;
         }
+        const img = pictureElement.querySelector('img') as HTMLImageElement;
+        img.src = pictureElement.dataset.src as string;
+        img.classList.add('loaded');
       }
     },
     handleIntersect(
@@ -155,8 +146,8 @@ export default Vue.extend({
 }
 .image {
   opacity: 0;
-  filter: blur(rem(5px));
-  transition: filter 0.15s 0.25s linear, opacity 0.15s linear;
+  // filter: blur(rem(5px));
+  transition: opacity 0.15s linear;
   &--auto-size {
     @include size(100%, 100%);
     object-fit: cover;
@@ -166,7 +157,7 @@ export default Vue.extend({
 
 .loaded {
   opacity: 1;
-  filter: none;
+  // filter: none;
 }
 
 .dark-scheme {
