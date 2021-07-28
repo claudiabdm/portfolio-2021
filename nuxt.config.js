@@ -125,6 +125,10 @@ export default {
     transpile: ['gsap'],
   },
 
+  render: {
+    resourceHints: false,
+  },
+
   crawler: false,
 
   sitemap: {
