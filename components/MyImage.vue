@@ -146,8 +146,8 @@ export default Vue.extend({
 }
 .image {
   opacity: 0;
-  // filter: blur(rem(5px));
-  transition: opacity 0.15s linear;
+  filter: blur(rem(5px));
+  transition: filter 0.15s 0.25s linear, opacity 0.15s linear;
   &--auto-size {
     @include size(100%, 100%);
     object-fit: cover;
@@ -157,7 +157,7 @@ export default Vue.extend({
 
 .loaded {
   opacity: 1;
-  // filter: none;
+  filter: none;
 }
 
 .dark-scheme {
