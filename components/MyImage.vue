@@ -130,12 +130,10 @@ export default Vue.extend({
 
 .image-wrapper {
   display: flex;
-  transition: filter 0.15s 0.5s linear;
 }
 .image {
   opacity: 0;
-  filter: blur(rem(5px));
-  transition: filter 0.15s 0.25s linear, opacity 0.15s linear;
+  transition: opacity 0.2s 0.15s ease-out;
   &--auto-size {
     @include size(100%, 100%);
     object-fit: cover;
@@ -145,11 +143,10 @@ export default Vue.extend({
 
 .loaded {
   opacity: 1;
-  filter: none;
 }
 
 .dark-scheme {
-  .image-wrapper {
+  .image {
     filter: url(#darken);
   }
 }
