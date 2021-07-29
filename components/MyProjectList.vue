@@ -17,8 +17,8 @@
           class="projects__project list-complete-item"
         >
           <MyProject
+            :key="`${project.uuid}-component`"
             :ref="project.uuid"
-            :animate="filteredProjectsChanged"
             :blok="project.content"
           />
         </li>
@@ -49,7 +49,6 @@ export default Vue.extend({
       projects: [] as MyProjectBlok[],
       projectsUuid: [] as string[],
       selectedFilter: 'show-all',
-      filteredProjectsChanged: false,
     };
   },
   async fetch() {

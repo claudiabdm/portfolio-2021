@@ -89,10 +89,6 @@ export default Vue.extend({
       type: Object as () => Project,
       default: () => ({} as Project),
     },
-    animate: {
-      type: Boolean,
-      default: false,
-    },
   },
   data() {
     return {
