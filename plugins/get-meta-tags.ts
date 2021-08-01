@@ -23,6 +23,16 @@ function getMetaTags(seo: any): Array<Object> {
       content: seo.twitter_description || seo.description,
     },
     {
+      hid: 'twitter:url',
+      property: 'twitter:url',
+      content: 'https://www.claudiabdm.com',
+    },
+    {
+      hid: 'twitter:site',
+      property: 'twitter:site',
+      content: '@claudiabdm',
+    },
+    {
       hid: 'twitter:card',
       name: 'twitter:card',
       content: 'summary_large_image',
@@ -31,6 +41,11 @@ function getMetaTags(seo: any): Array<Object> {
       hid: 'twitter:image',
       name: 'twitter:image',
       content: seo.twitter_image || defaultImg,
+    },
+    {
+      hid: 'twitter:image:alt',
+      name: 'twitter:image:alt',
+      content: 'Card with the text Claudia Benito Front-end Developer',
     },
     {
       hid: 'twitter:creator',
@@ -49,9 +64,29 @@ function getMetaTags(seo: any): Array<Object> {
       content: seo.og_description || seo.description,
     },
     {
+      hid: 'og:url',
+      property: 'og:url',
+      content: 'https://www.claudiabdm.com',
+    },
+    {
+      hid: 'og:site_name',
+      property: 'og:site_name',
+      content: 'https://www.claudiabdm.com',
+    },
+    {
+      hid: 'og:type',
+      property: 'og:type',
+      content: 'website',
+    },
+    {
       hid: 'og:image',
       property: 'og:image',
       content: seo.og_image || defaultImg,
+    },
+    {
+      hid: 'og:image:alt',
+      name: 'og:image:alt',
+      content: 'Card with the text Claudia Benito Front-end Developer',
     },
     {
       hid: 'mobile-web-app-capable',

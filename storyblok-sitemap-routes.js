@@ -14,19 +14,42 @@ export async function generateStoryblokRoutes(token, version) {
   );
 
   Object.keys(res.data.links).forEach((key) => {
-    if (
-      !res.data.links[key].slug.includes('projects/') &&
-      !res.data.links[key].slug.includes('home')
-    ) {
-      if (res.data.links[key].alternates.length > 0) {
-        res.data.links[key].alternates.forEach((alt) => {
-          routes.push({
-            url: `/${res.data.links[key].slug}`,
+    if (!res.data.links[key].slug.includes('projects/')) {
+      if (res.data.links[key].slug.includes('home')) {
+        routes.push(
+          {
+            url: '/',
             links: [
-              { lang: 'en', url: `/${res.data.links[key].slug}` },
-              { lang: 'es', url: `/${alt.lang}/${alt.path}` },
+              { lang: 'en', url: '/' },
+              { lang: 'es', url: '/es' },
             ],
-          });
+          },
+          {
+            url: '/es',
+            links: [
+              { lang: 'en', url: '/' },
+              { lang: 'es', url: '/es' },
+            ],
+          }
+        );
+      } else if (res.data.links[key].alternates.length > 0) {
+        res.data.links[key].alternates.forEach((alt) => {
+          routes.push(
+            {
+              url: `/${res.data.links[key].slug}`,
+              links: [
+                { lang: 'en', url: `/${res.data.links[key].slug}` },
+                { lang: 'es', url: `/${alt.lang}/${alt.path}` },
+              ],
+            },
+            {
+              url: `/${alt.lang}/${alt.path}`,
+              links: [
+                { lang: 'en', url: `/${res.data.links[key].slug}` },
+                { lang: 'es', url: `/${alt.lang}/${alt.path}` },
+              ],
+            }
+          );
         });
       } else {
         routes.push({

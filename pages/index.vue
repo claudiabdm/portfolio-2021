@@ -57,6 +57,19 @@ export default Vue.extend({
     return {
       title: this.story.content.seo.title,
       meta: [...this.$getMetaTags(this.story.content.seo)],
+      script: [
+        {
+          type: 'application/ld+json',
+          json: {
+            '@context': 'http://schema.org/',
+            '@type': 'Person',
+            name: 'Claudia Benito',
+            alternateName: 'claudiabdm',
+            jobTitle: 'Front-end developer',
+            url: 'http://www.claudiabdm.com',
+          },
+        },
+      ],
     };
   },
   mounted() {
