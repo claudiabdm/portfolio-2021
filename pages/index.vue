@@ -47,7 +47,7 @@ export default Vue.extend({
         id: '',
         content: {
           seo: {
-            title: 'Claudia Benito: Front-end developer',
+            title: '',
           },
         },
       },
