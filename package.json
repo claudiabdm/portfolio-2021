@@ -16,7 +16,7 @@
     "@nuxtjs/axios": "^5.13.1",
     "@nuxtjs/pwa": "^3.3.5",
     "@nuxtjs/sitemap": "^2.4.0",
-    "@types/jest": "^26.0.24",
+    "@types/jest": "^27.0.0",
     "@types/jsonld": "^1.5.6",
     "@vue/composition-api": "^1.0.5",
     "core-js": "^3.16.1",
