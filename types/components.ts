@@ -87,6 +87,7 @@ export interface Figure
 
 export interface Paragraph extends StoryblokComponent<'MyParagraph'> {
   isReversed: boolean;
+  showScroll: boolean;
   text: {
     type: 'doc';
     content: Object[];

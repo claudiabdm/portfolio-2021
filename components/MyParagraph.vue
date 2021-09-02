@@ -1,15 +1,23 @@
 <template>
   <section
     v-editable="blok"
-    :class="['paragraph', { 'paragraph--reversed': blok.isReversed }]"
+    :class="[
+      'paragraph',
+      { 'paragraph--reversed': blok.isReversed },
+      { 'paragraph--scroll': blok.showScroll },
+    ]"
   >
     <div :ref="blok._uid" class="paragraph__text">
-      <MyRichText :text="blok.text" />
+      <MyRichText v-if="blok.text" :text="blok.text" />
       <MyLink v-if="blok.linkText && blok.link.url" :link="blok.link.url">{{
         blok.linkText
       }}</MyLink>
     </div>
-    <div :ref="blok.figure[0]._uid" class="paragraph__figure">
+    <div
+      v-if="blok.figure[0] != null"
+      :ref="blok.figure[0]._uid"
+      class="paragraph__figure"
+    >
       <component
         :is="blok.figure[0].component"
         v-if="blok.figure.length > 0"
@@ -38,14 +46,16 @@ export default Vue.extend({
   props: {
     blok: {
       type: Object as () => Paragraph,
-      default: () => ({} as Paragraph),
+      default: () => ({ showScroll: false } as Paragraph),
     },
   },
   mounted() {
+    if (this.blok.figure[0] != null) {
+      const figure = this.$refs[this.blok.figure[0]._uid] as Element;
+      this.createScrollTriggerTl(figure);
+    }
     const paragraph = this.$refs[this.blok._uid] as Element;
-    const figure = this.$refs[this.blok.figure[0]._uid] as Element;
     this.createScrollTriggerTl(paragraph);
-    this.createScrollTriggerTl(figure);
   },
   methods: {
     createScrollTriggerTl(target: Element): gsap.core.Timeline {
@@ -79,7 +89,7 @@ export default Vue.extend({
 .paragraph {
   @include flex(center, flex-start, column-reverse);
   padding: 0 rem(25px) 25vh;
-  &:first-child {
+  &--scroll {
     padding-bottom: 0;
     margin-bottom: 50vh;
     position: relative;
