@@ -71,6 +71,14 @@ export default Vue.extend({
         {
           link: this.localePath({
             name: 'slug',
+            params: { slug: this.$t('blogUrl') as string },
+          }),
+          text: this.$t('blog'),
+          icon: 'blog',
+        },
+        {
+          link: this.localePath({
+            name: 'slug',
             params: { slug: this.$t('aboutUrl') as string },
           }),
           text: this.$t('about'),

@@ -5,4 +5,5 @@ export default {
   homeUrl: '/es',
   projectsUrl: 'proyectos',
   aboutUrl: 'sobre-mi',
+  blogUrl: 'blog',
 };

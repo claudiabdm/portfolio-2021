@@ -74,6 +74,32 @@ exports[`TheHeader should match the snapshot 1`] = `
             style="transform: translate(0%, -50%) ; opacity: 0; visibility: hidden;"
           >
             <use
+              href="[object Object]#blog"
+            />
+          </svg>
+        </div>
+         
+        <span
+          class="link__text"
+        >
+          blog
+        </span>
+      </a>
+    </div>
+    <div
+      class="header__link-wrapper"
+    >
+      <a
+        class="header__link link"
+      >
+        <div
+          class="link__icon-wrapper"
+        >
+          <svg
+            class="link__icon"
+            style="transform: translate(0%, -50%) ; opacity: 0; visibility: hidden;"
+          >
+            <use
               href="[object Object]#about"
             />
           </svg>
