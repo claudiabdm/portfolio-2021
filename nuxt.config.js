@@ -66,7 +66,7 @@ export default {
         cacheProvider: 'memory',
       },
     ],
-    'nuxt-i18n',
+    '@nuxtjs/i18n',
     '@nuxtjs/sitemap',
   ],
 
