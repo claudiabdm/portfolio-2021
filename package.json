@@ -14,16 +14,16 @@
   "dependencies": {
     "@marvr/storyblok-rich-text-vue-renderer": "^2.0.1",
     "@nuxtjs/axios": "^5.13.1",
+    "@nuxtjs/i18n": "^7.0.3",
     "@nuxtjs/pwa": "^3.3.5",
     "@nuxtjs/sitemap": "^2.4.0",
     "@types/jest": "^27.0.1",
     "@types/jsonld": "^1.5.6",
-    "core-js": "^3.17.1",
     "@vue/composition-api": "^1.1.4",
+    "core-js": "^3.17.1",
     "fibers": "^5.0.0",
     "gsap": "^3.7.1",
-    "nuxt": "^2.15.8",
-    "@nuxtjs/i18n": "^7.0.3"
+    "nuxt": "^2.15.8"
   },
   "devDependencies": {
     "@nuxt/types": "^2.15.8",
@@ -41,10 +41,10 @@
     "eslint-plugin-vue": "^7.17.0",
     "jest": "^26.6.3",
     "prettier": "^2.3.2",
-    "ts-jest": "^26.5.4",
-    "vue-jest": "^3.0.4",
     "sass": "^1.38.2",
     "sass-loader": "^10.1.1",
-    "storyblok-nuxt": "^2.0.1"
+    "storyblok-nuxt": "^2.0.1",
+    "ts-jest": "^26.5.4",
+    "vue-jest": "^3.0.4"
   }
 }

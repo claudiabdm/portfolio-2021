@@ -123,7 +123,12 @@ export default {
     transpile: ['gsap'],
   },
 
-  crawler: false,
+  generate: {
+    routes() {
+      return generateStoryblokRoutes(token, version).then((routes) => routes);
+    },
+    crawler: false,
+  },
 
   sitemap: {
     hostname: 'https://www.claudiabdm.com',

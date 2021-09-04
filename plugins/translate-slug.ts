@@ -4,14 +4,22 @@ import Vue from 'vue';
 import { Plugin } from '@nuxt/types';
 import { StoryData } from 'storyblok-js-client/types';
 
+interface translatedSlugs {
+  [key: string]: { slug: string; post?: string };
+}
+
 const translateSlug = (
   story: StoryData & {
     translated_slugs: { path: string; lang: string }[];
   }
-): { [key: string]: { slug: string } } => {
-  const slugs: { [key: string]: { slug: string } } = {
-    en: { slug: story.slug },
-  };
+): translatedSlugs => {
+  const slugs: translatedSlugs = (function defaultTranslatedSlugs() {
+    if (story.content.component === 'MyPost') {
+      return { en: { slug: 'blog', post: story.slug } };
+    }
+    return { en: { slug: story.slug } };
+  })();
+
   story.translated_slugs.forEach((translatedSlug) => {
     let translatedPath = translatedSlug.path;
 
@@ -21,8 +29,13 @@ const translateSlug = (
     }
     const translatedPathSplit = translatedPath.split('/');
     const slug = translatedPathSplit[translatedPathSplit.length - 1];
-    slugs[translatedSlug.lang] = { slug };
+    if (story.content.component === 'MyPost') {
+      slugs[translatedSlug.lang] = { slug: 'blog', post: slug };
+    } else {
+      slugs[translatedSlug.lang] = { slug };
+    }
   });
+
   return slugs;
 };
 
@@ -32,9 +45,7 @@ declare module 'vue/types/vue' {
       story: StoryData & {
         translated_slugs: { path: string; lang: string }[];
       }
-    ): {
-      [key: string]: { slug: string };
-    };
+    ): translatedSlugs;
   }
 }
 
@@ -46,18 +57,14 @@ declare module '@nuxt/types' {
       story: StoryData & {
         translated_slugs: { path: string; lang: string }[];
       }
-    ): {
-      [key: string]: { slug: string };
-    };
+    ): translatedSlugs;
   }
   interface Context {
     $translateSlug(
       story: StoryData & {
         translated_slugs: { path: string; lang: string }[];
       }
-    ): {
-      [key: string]: { slug: string };
-    };
+    ): translatedSlugs;
   }
 }
 
