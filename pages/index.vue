@@ -11,52 +11,21 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import { defineComponent } from '@nuxtjs/composition-api';
+import { useStory } from '~/composables/useStory';
+import { useStoryBridge } from '~/composables/useStoryBridge';
 
-export default Vue.extend({
+export default defineComponent({
   name: 'Index',
-  asyncData(context) {
-    const version =
-      context.query._storyblok || context.isDev ? 'draft' : 'published';
-    return context.app.$storyapi
-      .get('cdn/stories/home', {
-        version,
-        language: context.i18n.locale,
-        resolve_links: 'url',
-      })
-      .then((res: { data: any }) => {
-        return res.data;
-      })
-      .catch((res: { response: { status: any; data: any } }): void => {
-        if (!res.response) {
-          context.error({
-            statusCode: 404,
-            message: 'Failed to receive content form api',
-          });
-        } else {
-          context.error({
-            statusCode: res.response.status,
-            message: res.response.data,
-          });
-        }
-      });
-  },
-  data() {
-    return {
-      story: {
-        id: '',
-        content: {
-          seo: {
-            title: '',
-          },
-        },
-      },
-    };
+  setup() {
+    const story = useStory('home');
+    useStoryBridge(story);
+    return { story };
   },
   head(): Object {
     return {
-      title: this.story.content.seo.title,
-      meta: [...this.$getMetaTags(this.story.content.seo)],
+      title: this.story?.content.seo.title,
+      meta: [...this.$getMetaTags(this.story?.content.seo)],
       script: [
         {
           type: 'application/ld+json',
@@ -71,25 +40,6 @@ export default Vue.extend({
         },
       ],
     };
-  },
-  mounted() {
-    this.$nuxt.context.app.$storybridge(() => {
-      const { StoryblokBridge } = window as any;
-      const storyblokInstance = new StoryblokBridge();
-
-      storyblokInstance.on(
-        ['input', 'published', 'change'],
-        (event: StoryblokEventPayload) => {
-          if (event.action === 'input') {
-            if (event.story.id === this.story.id) {
-              this.story.content = event.story.content;
-            }
-          } else {
-            window.location.reload();
-          }
-        }
-      );
-    });
   },
 });
 </script>
