@@ -20,7 +20,7 @@
     "@types/jest": "^27.0.1",
     "@types/jsonld": "^1.5.6",
     "@vue/composition-api": "^1.1.4",
-    "core-js": "^3.17.1",
+    "core-js": "^3.18.0",
     "fibers": "^5.0.0",
     "gsap": "^3.7.1",
     "nuxt": "^2.15.8"
