@@ -2393,10 +2393,10 @@
   optionalDependencies:
     prettier "^1.18.2"
 
-"@vue/composition-api@^1.1.4":
-  version "1.1.4"
-  resolved "https://registry.yarnpkg.com/@vue/composition-api/-/composition-api-1.1.4.tgz#b4cd566e575350b86c22fa02632e4a356ac2e26e"
-  integrity sha512-f618a79X0VepQUoZofaAYzaherBuzfIIYah4gQPcwmXgN3oeuGdhO7DY2s3Rjcw7r9yTEh5sQIowbNWy6INGjg==
+"@vue/composition-api@^1.2.1":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@vue/composition-api/-/composition-api-1.2.1.tgz#88ffd9eb7c9ca8989d4ee65f55f2fd2303b20d6c"
+  integrity sha512-Gea21Vyl2PVDLc6Fq1rr5poI2qU+1WjGze6oykWDSiGEII72n11XdZOSqF6BA53CXZZVs27cz3S3mfJM0a59Vw==
   dependencies:
     tslib "^2.3.0"
 
