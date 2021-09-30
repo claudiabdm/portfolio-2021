@@ -50,3 +50,14 @@ jobs:
 
       - name: Run tests 🧪
         run: yarn test
+      
+      - name: Automerge dependabot 📥
+        uses: fastify/github-action-merge-dependabot@v2.1.1
+        if: ${{ github.actor == 'dependabot[bot]' && github.event_name == 'pull_request' }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Publish 🚀
+        uses: netlify/actions/build@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
