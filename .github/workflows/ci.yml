@@ -56,3 +56,4 @@ jobs:
         if: ${{ github.actor == 'dependabot[bot]' && github.event_name == 'pull_request' }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          exclude: 'sass-loader'
