@@ -33,7 +33,8 @@
 </template>
 
 <script lang="ts">
-import Vue, { PropType } from 'vue';
+import Vue from 'vue';
+import { PropType } from 'vue/types';
 import { Button } from 'types/components';
 
 export default Vue.extend({
@@ -80,7 +81,7 @@ export default Vue.extend({
 <style scoped lang="scss">
 @use '~/assets/styles/global/variables' as *;
 @use '~/assets/styles/mixins/mixins' as *;
-@use "sass:color" as color;
+@use 'sass:color' as color;
 
 .button-container {
   @include size(max-content, max-content);
