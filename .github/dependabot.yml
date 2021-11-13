@@ -15,6 +15,8 @@ updates:
     prefix: fix
     prefix-development: chore
     include: scope
+  ignore:
+    - dependency-name: "sass-loader"
 # Fetch and update latest `github-actions` pkgs
 - package-ecosystem: github-actions
   directory: '/'
