@@ -52,7 +52,7 @@ jobs:
         run: yarn test
       
       - name: Automerge dependabot 📥
-        uses: fastify/github-action-merge-dependabot@v2.5.0
+        uses: fastify/github-action-merge-dependabot@v3.0.2
         if: ${{ github.actor == 'dependabot[bot]' && github.event_name == 'pull_request' }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
