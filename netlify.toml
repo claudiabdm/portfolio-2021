@@ -4,3 +4,4 @@
 [build.environment]
   # use the latest stable node version
   NODE_VERSION = "16"
+  PYTHON_VERSION= "3.7"
