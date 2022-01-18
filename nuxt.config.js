@@ -11,7 +11,7 @@ export default {
 
   server: {
     port: 3000, // default: 3000
-    host: '192.168.3.35', // default: localhost
+    // host: '192.168.3.35', // default: localhost
   },
 
   // Global page headers: https://go.nuxtjs.dev/config-head
