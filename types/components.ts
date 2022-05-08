@@ -73,6 +73,7 @@ export interface Image extends StoryblokComponent<'MyImage'> {
   width: number;
   height: number;
   image: {
+    id: string;
     alt: string;
     filename: string;
   };

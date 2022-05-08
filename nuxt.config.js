@@ -38,6 +38,7 @@ export default {
     '~/plugins/elevate-animation.client.ts',
     '~/plugins/get-meta-tags.ts',
     '~/plugins/get-json-ld-breadcrumbs.ts',
+    { src: '~/plugins/v-click-outside.ts', ssr: false },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

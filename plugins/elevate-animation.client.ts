@@ -21,7 +21,10 @@ function createElevateObserver(
   );
 }
 
-function levelUpAnimation(elem: Element, position: number): gsap.core.Tween {
+function levelUpAnimation(
+  elem: Element,
+  position: number | string
+): gsap.core.Tween {
   return gsap.to(elem, {
     x: position,
     y: position,
@@ -30,9 +33,12 @@ function levelUpAnimation(elem: Element, position: number): gsap.core.Tween {
   });
 }
 
-function elevateAnimationObserver(target: Element): IntersectionObserver {
+function elevateAnimationObserver(
+  target: Element,
+  elevation: number | string = -10
+): IntersectionObserver {
   const tl = gsap.timeline();
-  tl.add(levelUpAnimation(target, -10));
+  tl.add(levelUpAnimation(target, elevation));
   const observer = createElevateObserver(tl);
   observer.observe(target.parentElement as HTMLElement);
   return observer;
@@ -40,7 +46,10 @@ function elevateAnimationObserver(target: Element): IntersectionObserver {
 
 declare module 'vue/types/vue' {
   interface Vue {
-    $elevateAnimationObserver(target: Element): IntersectionObserver;
+    $elevateAnimationObserver(
+      target: Element,
+      elevation?: number | string
+    ): IntersectionObserver;
   }
 }
 

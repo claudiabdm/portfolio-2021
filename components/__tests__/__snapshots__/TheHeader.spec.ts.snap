@@ -74,7 +74,7 @@ exports[`TheHeader should match the snapshot 1`] = `
             style="transform: translate(0%, -50%) ; opacity: 0; visibility: hidden;"
           >
             <use
-              href="[object Object]#blog"
+              href="[object Object]#photos"
             />
           </svg>
         </div>
@@ -82,7 +82,7 @@ exports[`TheHeader should match the snapshot 1`] = `
         <span
           class="link__text"
         >
-          blog
+          photos
         </span>
       </a>
     </div>

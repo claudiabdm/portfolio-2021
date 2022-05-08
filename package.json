@@ -23,7 +23,8 @@
     "core-js": "^3.19.1",
     "fibers": "^5.0.0",
     "gsap": "^3.8.0",
-    "nuxt": "^2.15.8"
+    "nuxt": "^2.15.8",
+    "v-click-outside": "^3.1.2"
   },
   "devDependencies": {
     "@nuxt/types": "^2.15.8",

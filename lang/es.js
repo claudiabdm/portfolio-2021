@@ -3,8 +3,10 @@ export default {
   projects: 'proyectos',
   about: 'sobre mi',
   blog: 'blog',
+  photos: 'photos',
   homeUrl: '/es',
   projectsUrl: 'proyectos',
   aboutUrl: 'sobre-mi',
+  photosUrl: 'fotos',
   blogUrl: 'blog',
 };

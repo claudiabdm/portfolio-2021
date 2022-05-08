@@ -16,10 +16,7 @@ class ResponsiveImage {
   }
 
   createSrc(image: string, imageOptions: string): string {
-    const path = image.replace(
-      '//a.storyblok.com',
-      `//img2.storyblok.com/${imageOptions}`
-    );
+    const path = `${image}/m/${imageOptions}`;
     return path || '';
   }
 }

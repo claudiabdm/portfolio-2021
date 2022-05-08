@@ -1,11 +1,16 @@
 <template>
   <div>
-    <picture ref="picture" class="image-wrapper">
+    <picture ref="picture">
       <source :data-srcset="srcsetWebp" type="image/webp" />
       <source :data-srcset="srcsetPng" type="image/png" />
       <img
-        :class="['image', { 'image--auto-size': autoSize }]"
-        :alt="blok.image.alt"
+        :class="[
+          'image',
+          { 'image--auto-size': autoSize },
+          { 'image--photo': isPhoto },
+          { 'image--photo-modal': isPhotoModal },
+        ]"
+        :alt="blok.image.alt ? blok.image.alt : ''"
         :width="blok.width"
         :height="blok.height"
         :data-src="src"
@@ -42,16 +47,35 @@ export default Vue.extend({
       type: Boolean,
       default: true,
     },
+    isPhoto: {
+      type: Boolean,
+      default: false,
+    },
+    isPhotoModal: {
+      type: Boolean,
+      default: false,
+    },
     borderRadius: {
       type: String,
       default: '0',
+    },
+    imageClass: {
+      type: String,
+      default: '',
     },
     sizeList: {
       type: Array as () => number[],
       default: () => [320, 480, 640],
     },
+    preload: {
+      type: Boolean,
+      default: true,
+    },
   },
   head() {
+    if (!this.preload) {
+      return {};
+    }
     return {
       link: [
         {
@@ -72,7 +96,10 @@ export default Vue.extend({
   },
   computed: {
     src() {
-      return this.$responsiveImg.createSrc(this.blok.image.filename, '1280x0');
+      return this.$responsiveImg.createSrc(
+        this.blok.image.filename,
+        !this.isPhoto ? '1280x0' : '2048x0/smart'
+      );
     },
     srcsetPng() {
       return this.$responsiveImg.createSrcset(
@@ -127,10 +154,9 @@ export default Vue.extend({
 
 <style lang="scss" scoped>
 @use '~/assets/styles/mixins/mixins' as *;
+@use '~/assets/styles/global/variables' as *;
+@use 'sass:math';
 
-.image-wrapper {
-  display: flex;
-}
 .image {
   opacity: 0;
   transition: opacity 0.2s 0.15s ease-out;
@@ -138,6 +164,17 @@ export default Vue.extend({
     @include size(100%, 100%);
     object-fit: cover;
     object-position: left;
+  }
+  &--photo {
+    display: block;
+    max-width: 100%;
+    object-position: center;
+    aspect-ratio: 1 / 1;
+  }
+  &--photo-modal {
+    display: block;
+    object-position: center;
+    max-height: 80vh;
   }
 }
 

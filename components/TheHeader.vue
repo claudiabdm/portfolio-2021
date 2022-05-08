@@ -41,6 +41,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
+// eslint-disable-next-line import/no-named-as-default
 import gsap from 'gsap';
 export default Vue.extend({
   // TODO make header links more dynamic with storyblok
@@ -71,10 +72,10 @@ export default Vue.extend({
         {
           link: this.localePath({
             name: 'slug',
-            params: { slug: this.$t('blogUrl') as string },
+            params: { slug: this.$t('photosUrl') as string },
           }),
-          text: this.$t('blog'),
-          icon: 'blog',
+          text: this.$t('photos'),
+          icon: 'photos',
         },
         {
           link: this.localePath({
