@@ -1,9 +1,10 @@
 <template>
   <ul class="image-grid">
     <MyPhotoGridItem
-      v-for="image in blok.images"
+      v-for="(image, index) in blok.images"
       :key="image.id"
       :image="image"
+      :preload="index < 3"
     />
   </ul>
 </template>
@@ -26,7 +27,7 @@ export default Vue.extend({
 });
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @use '~/assets/styles/mixins/mixins' as *;
 @use '~/assets/styles/global/variables' as *;
 @use 'sass:math';
@@ -37,9 +38,11 @@ export default Vue.extend({
   grid-template-columns: repeat(3, minmax(0, 1fr));
   justify-content: center;
   gap: rem(20px) rem(25px);
-  padding: 0 20px $nav-height;
+  margin-left: -5px;
   padding: 0 rem(25px) rem($nav-height);
+
   @media screen and (min-width: 736px) {
+    margin-left: 5px;
     gap: rem(50px);
   }
 }

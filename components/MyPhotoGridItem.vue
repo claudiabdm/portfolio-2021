@@ -11,6 +11,7 @@
         :blok="{ image }"
         border-radius="8px"
         class="photo-grid-item__image"
+        :preload="preload"
         is-photo
       />
     </button>
@@ -26,6 +27,10 @@ import { Image } from '~/types/components';
 export default Vue.extend({
   name: 'MyPhotoGridItem',
   props: {
+    preload: {
+      type: Boolean,
+      default: false,
+    },
     image: {
       type: Object as PropType<Image['image']>,
       default: () => ({
@@ -58,7 +63,7 @@ export default Vue.extend({
 });
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @use '~/assets/styles/mixins/mixins' as *;
 @use '~/assets/styles/global/variables' as *;
 @use 'sass:math';
@@ -70,7 +75,7 @@ export default Vue.extend({
   aspect-ratio: 1 / 1;
 
   &__button {
-    height: 100%;
+    @include size(100%, 100%);
     padding: 5%;
     border: $border;
     border-radius: $border-radius;

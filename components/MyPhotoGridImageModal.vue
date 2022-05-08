@@ -13,7 +13,7 @@
       </button>
       <MyImage
         v-click-outside="onClose"
-        :blok="{ image }"
+        :blok="{ ...size, image }"
         border-radius="8px"
         class="modal__image"
         :size-list="[2048]"
@@ -46,6 +46,15 @@ export default Vue.extend({
       }),
     },
   },
+  computed: {
+    size(): { width: string | undefined; height: string | undefined } {
+      const [width, height] = this.image.filename
+        .split('/')
+        .find((word) => word.includes('x'))
+        ?.split('x') || [undefined, undefined];
+      return { width, height };
+    },
+  },
   mounted() {
     document.body.style.overflow = 'hidden';
     document.addEventListener('keydown', this.onKeyDown);
@@ -60,7 +69,8 @@ export default Vue.extend({
         this.onClose();
       }
     },
-    onClose() {
+    onClose(event?: any) {
+      if (event.type === 'touchstart') return false; // Fix for Safari because it fires event on below buttons
       this.$emit('close');
     },
   },
@@ -78,7 +88,9 @@ export default Vue.extend({
   width: 100%;
   height: 100%;
   background: var(--primary-08);
+  transform: translateZ(12px); // Fixes switch button being over modal in Safari
   overflow: hidden;
+  backdrop-filter: blur(10px);
   z-index: 100;
 
   &__content {

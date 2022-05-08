@@ -1,6 +1,11 @@
 <template>
   <div>
-    <picture ref="picture">
+    <picture ref="picture" class="picture">
+      <div v-if="isLoading" class="loading">
+        <div class="circle" />
+        <div class="circle" />
+        <div class="circle" />
+      </div>
       <source :data-srcset="srcsetWebp" type="image/webp" />
       <source :data-srcset="srcsetPng" type="image/png" />
       <img
@@ -72,6 +77,11 @@ export default Vue.extend({
       default: true,
     },
   },
+  data() {
+    return {
+      isLoading: true,
+    };
+  },
   head() {
     if (!this.preload) {
       return {};
@@ -96,12 +106,18 @@ export default Vue.extend({
   },
   computed: {
     src() {
+      if (this.isPhotoModal) {
+        return this.blok.image.filename;
+      }
       return this.$responsiveImg.createSrc(
         this.blok.image.filename,
         !this.isPhoto ? '1280x0' : '2048x0/smart'
       );
     },
     srcsetPng() {
+      if (this.isPhotoModal) {
+        return `${this.blok.image.filename} ${this.blok.width}w`;
+      }
       return this.$responsiveImg.createSrcset(
         this.blok.image.filename,
         'filters:format(png)',
@@ -109,6 +125,10 @@ export default Vue.extend({
       );
     },
     srcsetWebp() {
+      if (this.isPhotoModal) {
+        return `${this.blok.image.filename} ${this.blok.width}w`;
+      }
+
       return this.$responsiveImg.createSrcset(
         this.blok.image.filename,
         'filters:format(webp)',
@@ -134,6 +154,9 @@ export default Vue.extend({
         }
         const img = pictureElement.querySelector('img') as HTMLImageElement;
         img.src = pictureElement.dataset.src as string;
+        img.onload = () => {
+          this.isLoading = false;
+        };
         img.classList.add('loaded');
       }
     },
@@ -174,16 +197,52 @@ export default Vue.extend({
   &--photo-modal {
     display: block;
     object-position: center;
+    max-width: 80vw;
     max-height: 80vh;
   }
 }
 
+.picture {
+  position: relative;
+}
+
+.loading {
+  @include flex(center, center);
+  position: absolute;
+  inset: 0;
+
+  .circle {
+    width: 8px;
+    height: 8px;
+    margin: 2px;
+    border-radius: 50%;
+    background-color: var(--tertiary);
+    animation: bounce 0.5s infinite alternate cubic-bezier(0.77, 0, 0.18, 1);
+  }
+
+  .circle:nth-child(2) {
+    animation-delay: 0.15s;
+  }
+
+  .circle:nth-child(3) {
+    animation-delay: 0.3s;
+  }
+
+  @keyframes bounce {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0.5;
+    }
+  }
+}
 .loaded {
   opacity: 1;
 }
 
 .dark-scheme {
-  .image {
+  .image:not(.image.image--photo-modal) {
     filter: url(#darken);
   }
 }
