@@ -12,6 +12,7 @@
         border-radius="8px"
         class="photo-grid-item__image"
         :preload="preload"
+        :size-list="[100, 128, 256, 512]"
         is-photo
       />
     </button>
