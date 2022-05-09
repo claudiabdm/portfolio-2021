@@ -19,6 +19,7 @@
         :size-list="[2048]"
         :preload="false"
         is-photo-modal
+        :style="`aspect-ratio:${size.width / size.height}`"
       />
     </div>
   </div>
@@ -70,7 +71,7 @@ export default Vue.extend({
       }
     },
     onClose(event?: any) {
-      if (event.type === 'touchstart') return false; // Fix for Safari because it fires event on below buttons
+      if (event?.type === 'touchstart') return false; // Fix for Safari because it fires event on below buttons
       this.$emit('close');
     },
   },
@@ -95,21 +96,20 @@ export default Vue.extend({
 
   &__content {
     @include size(100%, 100%);
-    @include flex(center, center);
     padding: 40px;
     position: relative;
   }
 
   &__image {
-    @include size(auto, auto);
-    display: flex;
+    @include flex(center, center);
+    position: absolute;
+    inset: 0;
+    max-width: 90vw;
+    max-height: 80vh;
+    margin: auto;
     background-color: var(--secondary);
     border-radius: $border-radius;
-    padding: 2.5%;
-    picture {
-      display: inline;
-      height: 100% !important;
-    }
+    padding: 2%;
   }
 
   &__button {

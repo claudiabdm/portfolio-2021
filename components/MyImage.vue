@@ -197,8 +197,7 @@ export default Vue.extend({
   &--photo-modal {
     display: block;
     object-position: center;
-    max-width: 80vw;
-    max-height: 80vh;
+    object-fit: contain;
   }
 }
 
