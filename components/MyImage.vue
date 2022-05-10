@@ -8,7 +8,8 @@
       </div>
 
       <template v-if="isPhotoModal">
-        <source :data-srcset="`${srcsetWebp[0]}`" type="image/jpg" />
+        <source :data-srcset="`${srcsetWebp[0]}`" type="image/webp" />
+        <source :data-srcset="`${srcsetPng[0]}`" type="image/png" />
       </template>
 
       <template v-else>
