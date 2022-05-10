@@ -6,8 +6,54 @@
         <div class="circle" />
         <div class="circle" />
       </div>
-      <source :data-srcset="srcsetWebp" type="image/webp" />
-      <source :data-srcset="srcsetPng" type="image/png" />
+
+      <template v-if="isPhotoModal">
+        <source :data-srcset="`${srcsetWebp[0]}`" type="image/jpg" />
+      </template>
+
+      <template v-else>
+        <!-- WEBP -->
+        <source
+          :data-srcset="`${srcsetWebp[0]}`"
+          :media="`(max-width: ${breakpoints[0]}px)`"
+          type="image/webp"
+        />
+        <source
+          v-for="(srcset, index) in srcsetWebp"
+          :key="srcset + 'webp'"
+          :data-srcset="`${srcset}`"
+          :media="`${`(min-width: ${
+            breakpoints[index - 1] + 1
+          }px) and (max-width: ${breakpoints[index]}px)`}`"
+          type="image/webp"
+        />
+        <source
+          :data-srcset="`${srcsetWebp[srcsetWebp.length - 1]}`"
+          :media="`(min-width: ${breakpoints[breakpoints.length - 1] + 1}px)`"
+          type="image/webp"
+        />
+
+        <!-- PNG -->
+        <source
+          :data-srcset="`${srcsetPng[0]}`"
+          :media="`(max-width: ${breakpoints[0]}px)`"
+          type="image/png"
+        />
+        <source
+          v-for="(srcset, index) in srcsetPng"
+          :key="srcset + 'png'"
+          :data-srcset="`${srcset}`"
+          :media="`${`(min-width: ${
+            breakpoints[index - 1] + 1
+          }px) and (max-width: ${breakpoints[index]}px)`}`"
+          type="image/png"
+        />
+        <source
+          :data-srcset="`${srcsetPng[srcsetPng.length - 1]}`"
+          :media="`(min-width: ${breakpoints[breakpoints.length - 1] + 1}px)`"
+          type="image/png"
+        />
+      </template>
       <img
         :class="[
           'image',
@@ -70,7 +116,11 @@ export default Vue.extend({
     },
     sizeList: {
       type: Array as () => number[],
-      default: () => [320, 480, 640],
+      default: () => [],
+    },
+    breakpoints: {
+      type: Array as () => number[],
+      default: () => [],
     },
     preload: {
       type: Boolean,
@@ -116,7 +166,7 @@ export default Vue.extend({
     },
     srcsetPng() {
       if (this.isPhotoModal) {
-        return `${this.blok.image.filename} ${this.blok.width}w`;
+        return [`${this.blok.image.filename} ${this.blok.width}w`];
       }
       return this.$responsiveImg.createSrcset(
         this.blok.image.filename,
@@ -126,7 +176,7 @@ export default Vue.extend({
     },
     srcsetWebp() {
       if (this.isPhotoModal) {
-        return `${this.blok.image.filename} ${this.blok.width}w`;
+        return [`${this.blok.image.filename} ${this.blok.width}w`];
       }
 
       return this.$responsiveImg.createSrcset(

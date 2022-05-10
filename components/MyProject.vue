@@ -66,6 +66,8 @@
             width: 370,
             height: 231.25,
           }"
+          :size-list="[512, 768, 640]"
+          :breakpoints="[420, 600, 768]"
         />
       </div>
     </div>

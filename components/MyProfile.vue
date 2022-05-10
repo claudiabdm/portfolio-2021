@@ -5,7 +5,8 @@
         ref="profileImg"
         class="profile__img"
         :blok="{ image: blok.profileImg, width: 230, height: 230 }"
-        :size-list="[200, 250]"
+        :size-list="[200, 500]"
+        :breakpoints="[375, 768]"
         border-radius="50%"
       />
     </div>

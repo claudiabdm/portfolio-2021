@@ -12,7 +12,8 @@
         border-radius="8px"
         class="photo-grid-item__image"
         :preload="preload"
-        :size-list="[100, 128, 256, 512]"
+        :size-list="[128, 384, 512]"
+        :breakpoints="[375, 512, 768]"
         is-photo
       />
     </button>
