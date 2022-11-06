@@ -2,6 +2,7 @@
 
 <img src="https://github.com/claudiabdm/portfolio-2021/blob/main/static/logo.png" width="60" height="60" alt="Claudia Benito's website logo" align="right">
 
+
 # My Portfolio
 
 Multilingual **JAMstack** site built with **Nuxt.js**, styled with **SCSS** (BEM methodology) and deployed on **Netlify**. I used **Storyblok** CMS and its image service to create responsive images. I also learnt **GSAP** while creating the site so most animation are made with it.
@@ -11,8 +12,12 @@ Multilingual **JAMstack** site built with **Nuxt.js**, styled with **SCSS** (BEM
 * [Assets Attribution](#assets-attribution)
 
 
-
 ## Build Setup
+
+> **Warning**
+>
+>This repo was not intended to be a template. It does not work out of the box and you will need to replace Storyblok related stuff, use your own credentials, etc. To do so, you might need to be familiar with Storyblok and Nuxt.js but I am planning on improving this when I update to Nuxt 3.
+
 
 ```bash
 # install dependencies
