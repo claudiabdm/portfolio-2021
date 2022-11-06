@@ -17,7 +17,7 @@
             class="profile__a"
             :href="link.url"
             target="_blank"
-            rel="noopener"
+            rel="me noopener"
             :aria-label="`Go to ${link.id}`"
           >
             <svg class="profile__svg">
@@ -53,9 +53,9 @@ export default Vue.extend({
     links() {
       return [
         { ...this.blok.linkedin, id: 'linkedin' },
-        { ...this.blok.twitter, id: 'twitter' },
         { ...this.blok.github, id: 'github' },
         { ...this.blok.codepen, id: 'codepen' },
+        { ...this.blok.mastodon, id: 'mastodon' },
       ];
     },
   },
