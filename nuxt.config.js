@@ -23,6 +23,12 @@ export default {
     htmlAttrs: {
       lang: 'en',
     },
+    link: [
+      {
+        rel: 'me',
+        href: 'https://c.im/@claudiabdm',
+      },
+    ],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
