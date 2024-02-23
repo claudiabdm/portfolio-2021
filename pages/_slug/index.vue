@@ -75,7 +75,10 @@ export default Vue.extend({
         ['input', 'published', 'change'],
         (event: StoryblokEventPayload) => {
           if (event.action === 'input') {
-            if (event.story.id === this.story.id) {
+            if (
+              event.story &&
+              String(event.story.id) === String(this.story.id)
+            ) {
               this.story.content = event.story.content;
             }
           } else {

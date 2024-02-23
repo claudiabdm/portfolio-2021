@@ -51,7 +51,7 @@ export default Vue.extend({
     size(): { width: string | undefined; height: string | undefined } {
       const [width, height] = this.image.filename
         .split('/')
-        .find((word) => word.includes('x'))
+        .find((word: string) => word.includes('x'))
         ?.split('x') || [undefined, undefined];
       return { width, height };
     },

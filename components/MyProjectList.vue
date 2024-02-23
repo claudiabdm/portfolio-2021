@@ -56,7 +56,7 @@ export default Vue.extend({
   },
   computed: {
     filteredProjects(): MyProjectBlok[] {
-      return this.projects.filter((project) =>
+      return this.projects.filter((project: MyProjectBlok) =>
         project.content.tagList?.includes(this.selectedFilter)
       );
     },
