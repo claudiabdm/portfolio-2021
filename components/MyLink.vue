@@ -30,24 +30,19 @@ export default Vue.extend({
 <style scoped lang="scss">
 @use '~/assets/styles/global/variables' as *;
 @use '~/assets/styles/mixins/mixins' as *;
+
 .link {
   @include inline-flex(center, flex-start);
-  color: var(--primary);
-  background-color: transparent;
-  font-weight: 700;
-  font-family: var(--font-family-secondary);
-  line-height: 1.5;
-  text-decoration: none;
+  text-decoration-color: rgba(0, 0, 0, 0);
+
   &:hover {
-    text-decoration: underline;
     text-decoration-color: var(--tertiary);
-    text-decoration-skip-ink: none;
-    text-decoration-thickness: rem(2px);
-    text-underline-offset: rem(5px);
+    transition: none;
     .link__arrow {
       animation: elastic 0.75s linear forwards;
     }
   }
+
   &__arrow {
     @include size(rem(20px), rem(20px));
     margin-top: rem(2px);
@@ -84,8 +79,33 @@ export default Vue.extend({
   88% {
     transform: translate3d(19.8%, 0, 0);
   }
+
   100% {
     transform: translate3d(20.8%, 0, 0);
+  }
+}
+</style>
+
+<style lang="scss">
+a {
+  color: var(--primary);
+  background-color: transparent;
+  font-weight: 700;
+  font-family: var(--font-family-secondary);
+  line-height: 1.5;
+  text-decoration: underline;
+  text-decoration-color: var(--tertiary);
+  text-decoration-skip-ink: none;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 5px;
+  transition: text-decoration-color 0.15s ease-out;
+
+  &:hover {
+    text-decoration-color: var(--secondary);
+  }
+
+  &:visited {
+    color: var(--primary);
   }
 }
 </style>
