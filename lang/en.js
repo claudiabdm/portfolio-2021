@@ -9,4 +9,6 @@ export default {
   aboutUrl: 'about',
   blogUrl: 'blog',
   photosUrl: 'photos',
+  lastUpdated: 'Last updated on',
+  minutes: 'min read',
 };

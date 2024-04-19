@@ -1,12 +1,12 @@
 <template>
   <main>
-    <MyPost :blok="story.content" />
+    <MyPost :blok="story" />
   </main>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import { StoryData } from 'storyblok-js-client/types';
+import { MyPostBlok } from '~/types/components';
 
 export default Vue.extend({
   name: 'Post',
@@ -46,14 +46,15 @@ export default Vue.extend({
           message: `${res.response.data}. cont: ${version} cdn/stories${locale}/${fullSlug}`,
         });
       }
-      return { story: {} as StoryData };
+      return { story: {} as MyPostBlok };
     }
   },
   data() {
     return {
       story: {
+        published_at: null,
         id: '',
-        content: {
+        _content: {
           seo: {
             title: '',
           },

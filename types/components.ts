@@ -101,3 +101,6 @@ export interface Paragraph extends StoryblokComponent<'MyParagraph'> {
     cached_url: string;
   };
 }
+
+export interface MyPostBlok
+  extends StoryData<StoryblokComponent<'MyPost'> & Project> {}

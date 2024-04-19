@@ -1,13 +1,11 @@
 <template>
-  <div class="date">
+  <span class="date">
     <svg class="date__icon">
       <use href="@/assets/sprite.svg#calendar" />
     </svg>
     {{ text }}
-    <time class="date__time" :datetime="localizedDate">
-      {{ localizedDate }}
-    </time>
-  </div>
+    <time class="date__time" :datetime="localizedDate">{{ localizedDate }}</time>
+  </span>
 </template>
 <script lang="ts">
 import Vue from 'vue';
@@ -47,10 +45,11 @@ export default Vue.extend({
 @use '~/assets/styles/mixins/mixins' as *;
 
 .date {
-  @include flex(center, flex-start);
+  display: inline-flex;
+  align-items: center;
   flex-wrap: wrap;
   font-weight: 300;
-  font-size: $text-base;
+  font-size: $text-sm;
   line-height: 1.25;
 
   &__time {
@@ -61,7 +60,7 @@ export default Vue.extend({
   }
 
   &__icon {
-    @include size(rem(20px), rem(20px));
+    @include size(14px, 14px);
     color: var(--primary);
     fill: var(--tertiary);
     margin-right: 5px;
