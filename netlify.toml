@@ -1,7 +1,0 @@
-# For a guide on now to set environment variables see
-# https://docs.netlify.com/configure-builds/environment-variables/
-
-[build.environment]
-  # use the latest stable node version
-  NODE_VERSION = "16"
-  PYTHON_VERSION= "3.8"
