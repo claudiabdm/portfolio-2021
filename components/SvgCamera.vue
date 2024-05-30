@@ -1,6 +1,96 @@
+<script lang="ts" setup>
+import { gsap } from 'gsap';
+import { onMounted, ref } from 'vue';
+
+const buttonRef = ref<Element>();
+const lensRef = ref<Element>();
+const flashRef = ref<Element>();
+const cameraRef = ref<Element>();
+
+onMounted(() => {
+  const tl = gsap.timeline({ repeat: -1 });
+  if (buttonRef.value && lensRef.value && flashRef.value && cameraRef.value) {
+    tl.add(pressButton(buttonRef.value));
+    tl.add(closeDiaphragm(lensRef.value), 'releaseButton-=1');
+    tl.add(flash(flashRef.value), '<');
+    tl.add(lightenCamera(cameraRef.value), '<=+0.05');
+  }
+})
+
+function pressButton(button: Element): gsap.core.Timeline {
+  const tl = gsap.timeline();
+  tl.to(button, {
+    yPercent: 30,
+    ease: 'easeOut',
+    duration: 0.5,
+  });
+  tl.to(button, {
+    yPercent: 60,
+    ease: 'easeOut',
+    duration: 0.5,
+  });
+  tl.to(button, {
+    yPercent: 0,
+    ease: 'elastic',
+    duration: 1,
+  }).addLabel('releaseButton');
+  return tl;
+}
+function closeDiaphragm(lens: Element): gsap.core.Timeline {
+  const tl = gsap.timeline({ ease: 'linear' });
+  tl.to(lens, {
+    transformOrigin: 'center',
+    scale: 0,
+    duration: 0.1,
+  });
+  tl.to(
+    lens,
+    {
+      scale: 1,
+      duration: 0.1,
+    },
+    '<0.15'
+  );
+  return tl;
+}
+function flash(flash: Element): gsap.core.Timeline {
+  const tl = gsap.timeline({ ease: 'elastic' });
+  tl.to(flash, {
+    transformOrigin: 'center',
+    scale: 1.5,
+    opacity: 0.75,
+    duration: 0.25,
+  });
+  tl.to(flash, {
+    scale: 1,
+    opacity: 0,
+    duration: 0.15,
+  });
+  return tl;
+}
+function lightenCamera(camera: Element): gsap.core.Timeline {
+  const tl = gsap.timeline({ ease: 'elastic' });
+  tl.to(camera, {
+    filter: 'url(#lighten)',
+    duration: 0.1,
+    ease: 'elastic',
+  });
+  tl.to(
+    camera,
+    {
+      filter: 'none',
+      duration: 0.1,
+      ease: 'elastic',
+    },
+    '<0.15'
+  );
+  return tl;
+}
+</script>
+
 <template>
   <svg
-    ref="camera"
+    ref="cameraRef"
     class="svg"
     viewBox="0 0 65 65"
     fill="none"
@@ -17,12 +107,15 @@
         />
       </filter>
     </defs>
-    <g id="Camera" class="camera">
+    <g
+      id="Camera"
+      class="camera"
+    >
       <g id="Camera_2">
         <g id="Shot button">
           <g id="shotButton">
             <path
-              ref="shotButton"
+              ref="buttonRef"
               d="M8.43494 13.4126C8.43494 12.8603 8.88265 12.4126 9.43494 12.4126H11.9049C12.4572 12.4126 12.9049 12.8603 12.9049 13.4126V14.529C12.9049 15.0813 12.4572 15.529 11.9049 15.529H9.43494C8.88265 15.529 8.43494 15.0813 8.43494 14.529V13.4126Z"
               class="shot-button stroke"
             />
@@ -90,8 +183,18 @@
           />
         </g>
         <g id="Camera lens ring">
-          <circle cx="34.4699" cy="36.1547" r="13.3344" fill="#EEEEEE" />
-          <circle cx="34.4699" cy="36.1547" r="13.3344" class="stroke" />
+          <circle
+            cx="34.4699"
+            cy="36.1547"
+            r="13.3344"
+            fill="#EEEEEE"
+          />
+          <circle
+            cx="34.4699"
+            cy="36.1547"
+            r="13.3344"
+            class="stroke"
+          />
         </g>
         <circle
           id="cameraLensBg"
@@ -102,7 +205,7 @@
         />
         <circle
           id="cameraLens"
-          ref="cameraLens"
+          ref="lensRef"
           class="camera-lens stroke"
           cx="34.4699"
           cy="36.1546"
@@ -379,7 +482,7 @@
           </g>
           <path
             id="light"
-            ref="flash"
+            ref="flashRef"
             class="flash-light"
             d="M40.3763 6.77707C40.419 6.56257 40.7257 6.56257 40.7685 6.77707L42.0477 13.1889C42.0783 13.3421 42.2647 13.4027 42.3795 13.2967L47.1832 8.86131C47.3439 8.71293 47.592 8.8932 47.5005 9.09188L44.7666 15.031C44.7013 15.1729 44.8166 15.3316 44.9717 15.3133L51.465 14.5485C51.6822 14.5229 51.777 14.8146 51.5862 14.9216L45.8835 18.1195C45.7472 18.1959 45.7472 18.392 45.8835 18.4684L51.5862 21.6663C51.777 21.7733 51.6822 22.065 51.465 22.0394L44.9717 21.2746C44.8166 21.2563 44.7013 21.415 44.7666 21.5568L47.5005 27.496C47.592 27.6947 47.3439 27.875 47.1832 27.7266L42.3795 23.2912C42.2647 23.1852 42.0783 23.2458 42.0477 23.399L40.7685 29.8108C40.7257 30.0253 40.419 30.0253 40.3763 29.8108L39.0971 23.399C39.0665 23.2458 38.88 23.1852 38.7653 23.2912L33.9616 27.7266C33.8009 27.875 33.5528 27.6947 33.6443 27.496L36.3782 21.5568C36.4435 21.415 36.3282 21.2563 36.1731 21.2746L29.6798 22.0394C29.4626 22.065 29.3678 21.7733 29.5586 21.6663L35.2613 18.4684C35.3975 18.392 35.3975 18.1959 35.2613 18.1195L29.5586 14.9216C29.3678 14.8146 29.4626 14.5229 29.6798 14.5485L36.1731 15.3133C36.3282 15.3316 36.4435 15.1729 36.3782 15.031L33.6443 9.09188C33.5528 8.8932 33.8009 8.71293 33.9616 8.86131L38.7653 13.2967C38.88 13.4027 39.0665 13.3421 39.0971 13.1889L40.3763 6.77707Z"
           />
@@ -389,126 +492,44 @@
   </svg>
 </template>
 
-<script lang="ts">
-import Vue from 'vue';
-import { gsap } from 'gsap';
-
-export default Vue.extend({
-  name: 'SvgCamera',
-  mounted() {
-    const tl = gsap.timeline({ repeat: -1 });
-    const button = this.$refs.shotButton as Element;
-    const lens = this.$refs.cameraLens as Element;
-    const flash = this.$refs.flash as Element;
-    const camera = this.$refs.camera as Element;
-    tl.add(this.pressButton(button));
-    tl.add(this.closeDiaphragm(lens), 'releaseButton-=1');
-    tl.add(this.flash(flash), '<');
-    tl.add(this.lightenCamera(camera), '<=+0.05');
-  },
-  methods: {
-    pressButton(button: Element): gsap.core.Timeline {
-      const tl = gsap.timeline();
-      tl.to(button, {
-        yPercent: 30,
-        ease: 'easeOut',
-        duration: 0.5,
-      });
-      tl.to(button, {
-        yPercent: 60,
-        ease: 'easeOut',
-        duration: 0.5,
-      });
-      tl.to(button, {
-        yPercent: 0,
-        ease: 'elastic',
-        duration: 1,
-      }).addLabel('releaseButton');
-      return tl;
-    },
-    closeDiaphragm(lens: Element): gsap.core.Timeline {
-      const tl = gsap.timeline({ ease: 'linear' });
-      tl.to(lens, {
-        transformOrigin: 'center',
-        scale: 0,
-        duration: 0.1,
-      });
-      tl.to(
-        lens,
-        {
-          scale: 1,
-          duration: 0.1,
-        },
-        '<0.15'
-      );
-      return tl;
-    },
-    flash(flash: Element): gsap.core.Timeline {
-      const tl = gsap.timeline({ ease: 'elastic' });
-      tl.to(flash, {
-        transformOrigin: 'center',
-        scale: 1.5,
-        opacity: 0.75,
-        duration: 0.25,
-      });
-      tl.to(flash, {
-        scale: 1,
-        opacity: 0,
-        duration: 0.15,
-      });
-      return tl;
-    },
-    lightenCamera(camera: Element): gsap.core.Timeline {
-      const tl = gsap.timeline({ ease: 'elastic' });
-      tl.to(camera, {
-        filter: 'url(#lighten)',
-        duration: 0.1,
-        ease: 'elastic',
-      });
-      tl.to(
-        camera,
-        {
-          filter: 'none',
-          duration: 0.1,
-          ease: 'elastic',
-        },
-        '<0.15'
-      );
-      return tl;
-    },
-  },
-});
-</script>
-
 <style scoped lang="scss">
-@use '~/assets/styles/global/variables' as *;
+@use '~/assets/styles/variables' as *;
+
 .svg {
   width: 100%;
   height: 100%;
 }
+
 .stroke {
   stroke: var(--stroke);
   stroke-width: 0.5;
 }
+
 .line {
   stroke: var(--stroke);
   stroke-width: 0.1;
 }
+
 .camera-body {
-  fill: $tertiary;
+  fill: var(--tertiary);
 }
+
 .camera-metal {
   fill: var(--secondary-light);
 }
+
 .camera-lens {
   fill: var(--primary-dark);
 }
+
 .camera-lens-bg {
   fill: var(--stroke);
 }
+
 .camera-logo {
   fill: var(--primary-light);
 }
+
 .shot-button {
   fill: var(--primary);
 }

@@ -1,0 +1,22 @@
+/* @link https://utopia.fyi/clamp/calculator?a=320,1024,12—16|16—16|16—18|32—72|24—30|28—40|32—56&p=font */
+@use 'variables' as *;
+
+:root {
+  --font-xs: 0.75rem;
+  --font-sm: 0.875rem;
+  --font-base: 1rem;
+  --font-lg: 1.125rem;
+  --font-xl: 1.25rem;
+  --font-2xl: clamp(1.25rem, 1.1364rem + 0.5682vi, 1.5rem);
+  --font-3xl: clamp(1.5rem, 1.3295rem + 0.8523vi, 1.875rem);
+  --font-4xl: clamp(1.75rem, 1.4091rem + 1.7045vi, 2.5rem);
+  --font-5xl: clamp(2rem, 1.3182rem + 3.4091vi, 3.5rem);
+  --font-6xl: clamp(2rem, 0.8636rem + 5.6818vi, 4.5rem);
+  
+  --font-12-16: clamp(0.75rem, 0.6364rem + 0.5682vi, 1rem);
+}
+
+:root {
+  --font-family: 'Open Sans', sans-serif;
+  --font-family-secondary: 'Jost', sans-serif;
+}

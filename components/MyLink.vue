@@ -1,5 +1,17 @@
+<script lang="ts" setup>
+
+withDefaults(defineProps<{ link: string }>(), {
+  link: ''
+});
+
+</script>
 <template>
-  <a class="link" :href="link" target="_blank" rel="noopener">
+  <a
+    class="link"
+    :href="link"
+    target="_blank"
+    rel="noopener"
+  >
     <slot></slot>
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -13,41 +25,28 @@
   </a>
 </template>
 
-<script lang="ts">
-import Vue from 'vue';
-
-export default Vue.extend({
-  name: 'MyLink',
-  props: {
-    link: {
-      type: String,
-      default: () => '',
-    },
-  },
-});
-</script>
-
 <style scoped lang="scss">
-@use '~/assets/styles/global/variables' as *;
-@use '~/assets/styles/mixins/mixins' as *;
 
 .link {
-  @include inline-flex(center, flex-start);
+  display: inline-flex;
+  align-items: center;
   text-decoration-color: rgba(0, 0, 0, 0);
 
   &:hover {
     text-decoration-color: var(--tertiary);
     transition: none;
+
     .link__arrow {
       animation: elastic 0.75s linear forwards;
     }
   }
 
   &__arrow {
-    @include size(rem(20px), rem(20px));
-    margin-top: rem(2px);
+    width: 20px;
+    height: 20px;
+    margin-top: 2px;
     fill: var(--secondary);
-    margin-left: rem(5px);
+    margin-left: 5px;
   }
 }
 

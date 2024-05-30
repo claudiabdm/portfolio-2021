@@ -1,8 +1,6 @@
-// ---------------- //
-// GLOBAL           //
-// ---------------- //
-@use './mixins/mixins';
-@use './global/variables';
-@use './global/_reset';
-@use './global/_color';
-@use './global/_typography';
+@use './variables';
+@use './global';
+@use './typography';
+@use './space';
+@use './color';
+@use './reset';

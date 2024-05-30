@@ -1,0 +1,24 @@
+@use "sass:math";
+
+// Color
+$primary-light: #b8c1ec;
+$primary-dark: #232946;
+$secondary-light: #fffffe;
+$secondary-dark: #dfdfdf;
+$tertiary: #eebbc3;
+$tertiary-dark: #bf959b;
+$tertiary-light: #ffdde2;
+$stroke: #121629;
+
+// Sizes
+$nav-height: 50px;
+$header-height: 90px;
+$main-height: calc(100vh - ($header-height + $nav-height + 20px));
+$main-height-1024: calc(100vh - $header-height);
+$max-width: math.div(1024px, 16px) + "rem";
+$icon-s: 18px;
+$icon-m: 30px;
+// Other
+$border-radius: 10px;
+$border: 1px solid var(--stroke);
+$box-shadow: 10px 10px 0 0 var(--shadow);

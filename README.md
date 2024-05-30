@@ -5,7 +5,7 @@
 
 # My Portfolio
 
-Multilingual **JAMstack** site built with **Nuxt.js**, styled with **SCSS** (BEM methodology) and deployed on **Netlify**. I used **Storyblok** CMS and its image service to create responsive images. I also learnt **GSAP** while creating the site so most animation are made with it.
+Multilingual **JAMstack** site built with **Nuxt 3**, styled with **SCSS** (BEM methodology) and deployed on **Cloudflare Pages**. I used **Storyblok** CMS and its image service to create responsive images. I also learnt **GSAP** while creating the site so most animation are made with it.
 
 ## Table of contents
 * [Build Setup](#build-setup)
@@ -16,25 +16,27 @@ Multilingual **JAMstack** site built with **Nuxt.js**, styled with **SCSS** (BEM
 
 > **Warning**
 >
->This repo was not intended to be a template. It does not work out of the box and you will need to replace Storyblok related stuff, use your own credentials, etc. To do so, you might need to be familiar with Storyblok and Nuxt.js but I am planning on improving this when I update to Nuxt 3.
+>This repo was not intended to be a template. It does not work out of the box and you will need to replace Storyblok related stuff, use your own credentials, etc. To do so, you might need to be familiar with Storyblok and Nuxt.js but I am planning on improving this after migrating to Nuxt 3.
 
 
 ```bash
 # install dependencies
-$ yarn install
+$ npm run install
 
-# serve with hot reload at localhost:3000
-$ yarn dev
+# serve with hot reload at https://localhost:3000
+$ npm run dev
 
-# build for production and launch server
-$ yarn build
-$ yarn start
+# build for production
+$ npm run build
 
 # generate static project
-$ yarn generate
+$ npm run generate
+
+# locally preview production build
+$ npm run preview
 ```
 
-For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
+Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
 
 ## Assets attribution
 

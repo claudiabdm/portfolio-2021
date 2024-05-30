@@ -1,8 +1,6 @@
-/* eslint-disable camelcase */
-import { StoryData, StoryblokComponent } from 'storyblok-js-client/types';
+import type { StoryblokComponentType, ISbRichtext, ISbStoryData } from '@storyblok/js';
 
-export interface Button {
-  _uid: string;
+export interface MyButton extends StoryblokComponentType<'MyButton'> {
   text: string;
   isRound: boolean;
   isLink: boolean;
@@ -17,28 +15,48 @@ export interface Button {
   };
 }
 
-export interface FilterButton extends Button {
+export interface FilterButton extends MyButton {
   isRound: true;
   tag: 'vue' | 'angular' | 'nuxt' | 'vanilla' | 'show-all';
 }
 
-export interface Hero {
-  _uid: string;
-  text: {
-    type: 'doc';
-    content: Object[];
-  };
-  buttonList: {
-    _uid: string;
-    buttons: Button[];
-  };
+export interface MyButtonList extends StoryblokComponentType<'MyButtonList'> {
+  buttons: MyButton[];
 }
 
-export interface Page {
-  title: string;
-  body: Object;
+export interface MyHero extends StoryblokComponentType<'MyHero'> {
+  text: ISbRichtext;
+  buttonList: MyButtonList[];
 }
-export interface Project extends StoryblokComponent<'MyProject'> {
+
+export interface MyPage extends StoryblokComponentType<'MyPage'> {
+  seo: {
+    title: string,
+    description: string,
+    og_image: string,
+    og_title: string,
+    og_description: string,
+  };
+  body: StoryblokComponentType<
+    | 'MyButton'
+    | 'MyButtonList'
+    | 'MyHero'
+    | 'MyPage'
+    | 'Config'
+    | 'MyProject'
+    | 'MyProjectList'
+    | 'MyAnimatedSvg'
+    | 'MyAnimatedSvg'
+    | 'MyParagraph'
+    | 'MyProfile'>[];
+  title?: string;
+}
+
+export interface Config extends StoryblokComponentType<'Config'> {
+  pages: ISbStoryData[];
+}
+
+export interface MyProject extends StoryblokComponentType<'MyProject'> {
   title: string;
   description: string;
   demo: {
@@ -49,27 +67,25 @@ export interface Project extends StoryblokComponent<'MyProject'> {
     url: string;
     linktype: 'url';
   };
-  media: string;
-  tagList?: string[];
+  media: MyImage['image'];
 }
 
-export interface ProjectFilter {
+export interface MyProjectFilter {
   _uid: string;
   buttonList: FilterButton[];
 }
 
-export interface ProjectList {
+export interface MyProjectList extends StoryblokComponentType<'MyProjectList'> {
   _uid: string;
-  filter: ProjectFilter;
-  body: string[];
+  filter: [MyProjectFilter];
+  body: {
+    content: MyProject, tag_list?: string[];
+    order?: number;
+  }[];
 }
 
-export interface MyProjectBlok
-  extends StoryData<StoryblokComponent<'MyProject'> & Project> {
-  order: number;
-}
 
-export interface Image extends StoryblokComponent<'MyImage'> {
+export interface MyImage {
   width: number;
   height: number;
   image: {
@@ -79,28 +95,33 @@ export interface Image extends StoryblokComponent<'MyImage'> {
   };
 }
 
-export interface AnimatedSvg extends StoryblokComponent<'MyAnimatedSvg'> {
-  name: 'Computer' | 'TechCompanies';
+export interface MyAnimatedSvg extends StoryblokComponentType<'MyAnimatedSvg'> {
+  name: 'Computer' | 'TechCompanies' | 'Camera' | 'Error';
 }
 
-export interface Figure
-  extends StoryblokComponent<'MyAnimatedSvg' | 'MyImage'> {}
+export interface Figure extends MyAnimatedSvg { }
+export interface Figure extends MyImage { }
 
-export interface Paragraph extends StoryblokComponent<'MyParagraph'> {
-  isReversed: boolean;
-  showScroll: boolean;
-  text: {
-    type: 'doc';
-    content: Object[];
-  };
-  figure: Figure[];
-  linkText: string;
-  link: {
+export interface MyParagraph extends StoryblokComponentType<'MyParagraph'> {
+  isReversed?: boolean;
+  showScroll?: boolean;
+  text: ISbRichtext;
+  figure?: Figure[];
+  linkText?: string;
+  link?: {
     url: string;
-    linktype: 'url' | 'asset';
+    linktype: 'url' | 'asset' | 'story';
     cached_url: string;
   };
 }
 
-export interface MyPostBlok
-  extends StoryData<StoryblokComponent<'MyPost'> & Project> {}
+export interface MyProfile extends StoryblokComponentType<'MyProfile'> {
+  profileImg: MyImage['image'],
+  github: { url: string, id: 'github' };
+  linkedin: { url: string, id: 'linkedin' };
+  codepen: { url: string, id: 'codepen' };
+  mastodon: { url: string, id: 'mastodon' };
+}
+
+// export interface MyPostBlok
+//   extends StoryData<StoryblokComponent<'MyPost'> & Project> {}

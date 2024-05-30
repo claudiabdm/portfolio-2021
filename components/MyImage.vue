@@ -1,59 +1,195 @@
+<script lang="ts" setup>
+import { useHead } from '#imports';
+import { computed, onMounted, ref } from 'vue';
+import type { MyImage } from '~/types/components';
+import { responsiveImg } from '~/utils/responsive-image';
+
+const el = ref<Element>();
+
+defineExpose({ el })
+
+interface Props {
+  blok: MyImage,
+  autoSize?: boolean,
+  isPhoto?: boolean,
+  isPhotoModal?: boolean,
+  borderRadius?: string,
+  imageClass?: string,
+  sizeList?: number[],
+  breakpoints?: number[],
+  preload?: boolean,
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  autoSize: true,
+  isPhoto: false,
+  isPhotoModal: false,
+  borderRadius: '0',
+  imageClass: '',
+  preload: true
+});
+
+const pictureRef = ref<Element>();
+const isLoading = ref(true);
+
+
+useHead({
+  link: [
+    props.preload ? {
+      rel: 'preload',
+      as: 'image',
+      href: responsiveImg.createSrc(
+        props.blok.image.filename,
+        '1280x0'
+      ),
+      imagesrcset: responsiveImg.createSrcset(
+        props.blok.image.filename,
+        'filters:format(webp)',
+        props.sizeList
+      ).join(' '),
+    } : {},
+  ]
+})
+
+
+const src = computed(() => {
+  if (props.isPhotoModal) {
+    return props.blok.image.filename;
+  }
+  return responsiveImg.createSrc(
+    props.blok.image.filename,
+    !props.isPhoto ? '1280x0' : '2048x0/smart'
+  );
+})
+
+const srcsetPng = computed(() => {
+  if (props.isPhotoModal) {
+    return [`${props.blok.image.filename} ${props.blok.width}w`];
+  }
+  return responsiveImg.createSrcset(
+    props.blok.image.filename,
+    'filters:format(png)',
+    props.sizeList
+  );
+})
+
+const srcsetWebp = computed(() => {
+  if (props.isPhotoModal) {
+    return [`${props.blok.image.filename} ${props.blok.width}w`];
+  }
+  return responsiveImg.createSrcset(
+    props.blok.image.filename,
+    'filters:format(webp)',
+    props.sizeList
+  );
+})
+
+onMounted(() => {
+  if (pictureRef.value) {
+    const pictureObserver = new IntersectionObserver(handleIntersect, {
+      threshold: 0.5,
+    });
+    pictureObserver.observe(pictureRef.value);
+  }
+})
+
+function handleIntersect(
+  entries: IntersectionObserverEntry[],
+  observer: IntersectionObserver
+): void {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      loadImage(entry.target as HTMLPictureElement);
+      observer.unobserve(entry.target);
+    }
+  });
+}
+
+function loadImage(pictureElement: HTMLPictureElement): void {
+  if (pictureElement) {
+    const sources = Array.from(
+      pictureElement.querySelectorAll('source')
+    ) as HTMLSourceElement[];
+    for (const source of sources) {
+      source.srcset = source.dataset.srcset as string;
+    }
+    const img = pictureElement.querySelector('img') as HTMLImageElement;
+    img.src = pictureElement.dataset.src as string;
+    img.onload = () => {
+      isLoading.value = false;
+    };
+    img.classList.add('loaded');
+  }
+}
+</script>
 <template>
-  <div>
-    <picture ref="picture" class="picture">
-      <div v-if="isLoading" class="loading">
-        <div class="circle" />
-        <div class="circle" />
-        <div class="circle" />
+  <div ref="el">
+    <picture
+      ref="pictureRef"
+      class="picture"
+    >
+      <div
+        v-if="isLoading"
+        class="loading"
+      >
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
       </div>
 
       <template v-if="isPhotoModal">
-        <source :data-srcset="`${srcsetWebp[0]}`" type="image/webp" />
-        <source :data-srcset="`${srcsetPng[0]}`" type="image/png" />
+        <source
+          :data-srcset="`${srcsetWebp[0]}`"
+          type="image/webp"
+        />
+        <source
+          :data-srcset="`${srcsetPng[0]}`"
+          type="image/png"
+        />
       </template>
 
       <template v-else>
         <!-- WEBP -->
-        <source
-          :data-srcset="`${srcsetWebp[0]}`"
-          :media="`(max-width: ${breakpoints[0]}px)`"
-          type="image/webp"
-        />
-        <source
-          v-for="(srcset, index) in srcsetWebp"
-          :key="srcset + 'webp'"
-          :data-srcset="`${srcset}`"
-          :media="`${`(min-width: ${
-            breakpoints[index - 1] + 1
-          }px) and (max-width: ${breakpoints[index]}px)`}`"
-          type="image/webp"
-        />
-        <source
-          :data-srcset="`${srcsetWebp[srcsetWebp.length - 1]}`"
-          :media="`(min-width: ${breakpoints[breakpoints.length - 1] + 1}px)`"
-          type="image/webp"
-        />
+        <template v-if="breakpoints">
+          <source
+            :data-srcset="`${srcsetWebp[0]}`"
+            :media="`(max-width: ${breakpoints[0]}px)`"
+            type="image/webp"
+          />
+          <source
+            v-for="(srcset, index) in srcsetWebp"
+            :key="srcset + 'webp'"
+            :data-srcset="`${srcset}`"
+            :media="`${`(min-width: ${breakpoints[index - 1] + 1
+              }px) and (max-width: ${breakpoints[index]}px)`}`"
+            type="image/webp"
+          />
+          <source
+            :data-srcset="`${srcsetWebp[srcsetWebp.length - 1]}`"
+            :media="`(min-width: ${breakpoints[breakpoints.length - 1] + 1}px)`"
+            type="image/webp"
+          />
+          <!-- PNG -->
+          <source
+            :data-srcset="`${srcsetPng[0]}`"
+            :media="`(max-width: ${breakpoints[0]}px)`"
+            type="image/png"
+          />
+          <source
+            v-for="(srcset, index) in srcsetPng"
+            :key="srcset + 'png'"
+            :data-srcset="`${srcset}`"
+            :media="`${`(min-width: ${breakpoints[index - 1] + 1
+              }px) and (max-width: ${breakpoints[index]}px)`}`"
+            type="image/png"
+          />
+          <source
+            :data-srcset="`${srcsetPng[srcsetPng.length - 1]}`"
+            :media="`(min-width: ${breakpoints[breakpoints.length - 1] + 1}px)`"
+            type="image/png"
+          />
+        </template>
 
-        <!-- PNG -->
-        <source
-          :data-srcset="`${srcsetPng[0]}`"
-          :media="`(max-width: ${breakpoints[0]}px)`"
-          type="image/png"
-        />
-        <source
-          v-for="(srcset, index) in srcsetPng"
-          :key="srcset + 'png'"
-          :data-srcset="`${srcset}`"
-          :media="`${`(min-width: ${
-            breakpoints[index - 1] + 1
-          }px) and (max-width: ${breakpoints[index]}px)`}`"
-          type="image/png"
-        />
-        <source
-          :data-srcset="`${srcsetPng[srcsetPng.length - 1]}`"
-          :media="`(min-width: ${breakpoints[breakpoints.length - 1] + 1}px)`"
-          type="image/png"
-        />
       </template>
       <img
         :class="[
@@ -66,7 +202,7 @@
         :width="blok.width"
         :height="blok.height"
         :data-src="src"
-        src="placeholder.svg"
+        src="~/assets/placeholder.svg"
         :style="{ borderRadius }"
       />
     </picture>
@@ -84,167 +220,27 @@
   </div>
 </template>
 
-<script lang="ts">
-import Vue from 'vue';
-import { Image } from '~/types/components';
-
-export default Vue.extend({
-  name: 'MyImage',
-  props: {
-    blok: {
-      type: Object as () => Image,
-      default: () => ({} as Image),
-    },
-    autoSize: {
-      type: Boolean,
-      default: true,
-    },
-    isPhoto: {
-      type: Boolean,
-      default: false,
-    },
-    isPhotoModal: {
-      type: Boolean,
-      default: false,
-    },
-    borderRadius: {
-      type: String,
-      default: '0',
-    },
-    imageClass: {
-      type: String,
-      default: '',
-    },
-    sizeList: {
-      type: Array as () => number[],
-      default: () => [],
-    },
-    breakpoints: {
-      type: Array as () => number[],
-      default: () => [],
-    },
-    preload: {
-      type: Boolean,
-      default: true,
-    },
-  },
-  data() {
-    return {
-      isLoading: true,
-    };
-  },
-  head() {
-    if (!this.preload) {
-      return {};
-    }
-    return {
-      link: [
-        {
-          rel: 'preload',
-          as: 'image',
-          href: this.$responsiveImg.createSrc(
-            this.blok.image.filename,
-            '1280x0'
-          ),
-          imagesrcset: this.$responsiveImg.createSrcset(
-            this.blok.image.filename,
-            'filters:format(webp)',
-            this.sizeList
-          ),
-        },
-      ],
-    };
-  },
-  computed: {
-    src() {
-      if (this.isPhotoModal) {
-        return this.blok.image.filename;
-      }
-      return this.$responsiveImg.createSrc(
-        this.blok.image.filename,
-        !this.isPhoto ? '1280x0' : '2048x0/smart'
-      );
-    },
-    srcsetPng() {
-      if (this.isPhotoModal) {
-        return [`${this.blok.image.filename} ${this.blok.width}w`];
-      }
-      return this.$responsiveImg.createSrcset(
-        this.blok.image.filename,
-        'filters:format(png)',
-        this.sizeList
-      );
-    },
-    srcsetWebp() {
-      if (this.isPhotoModal) {
-        return [`${this.blok.image.filename} ${this.blok.width}w`];
-      }
-
-      return this.$responsiveImg.createSrcset(
-        this.blok.image.filename,
-        'filters:format(webp)',
-        this.sizeList
-      );
-    },
-  },
-  mounted() {
-    const picture = this.$refs.picture as HTMLPictureElement;
-    const pictureObserver = new IntersectionObserver(this.handleIntersect, {
-      threshold: 0.5,
-    });
-    pictureObserver.observe(picture);
-  },
-  methods: {
-    loadImage(pictureElement: HTMLPictureElement): void {
-      if (pictureElement) {
-        const sources = Array.from(
-          pictureElement.querySelectorAll('source')
-        ) as HTMLSourceElement[];
-        for (const source of sources) {
-          source.srcset = source.dataset.srcset as string;
-        }
-        const img = pictureElement.querySelector('img') as HTMLImageElement;
-        img.src = pictureElement.dataset.src as string;
-        img.onload = () => {
-          this.isLoading = false;
-        };
-        img.classList.add('loaded');
-      }
-    },
-    handleIntersect(
-      entries: IntersectionObserverEntry[],
-      observer: IntersectionObserver
-    ): void {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          this.loadImage(entry.target as HTMLPictureElement);
-          observer.unobserve(entry.target);
-        }
-      });
-    },
-  },
-});
-</script>
-
 <style lang="scss" scoped>
-@use '~/assets/styles/mixins/mixins' as *;
-@use '~/assets/styles/global/variables' as *;
 @use 'sass:math';
 
 .image {
   opacity: 0;
   transition: opacity 0.2s 0.15s ease-out;
+
   &--auto-size {
-    @include size(100%, 100%);
+    width: 100%;
+    height: 100%;
     object-fit: cover;
     object-position: left;
   }
+
   &--photo {
     display: block;
     max-width: 100%;
     object-position: center;
     aspect-ratio: 1 / 1;
   }
+
   &--photo-modal {
     display: block;
     object-position: center;
@@ -257,7 +253,9 @@ export default Vue.extend({
 }
 
 .loading {
-  @include flex(center, center);
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: absolute;
   inset: 0;
 
@@ -282,11 +280,13 @@ export default Vue.extend({
     0% {
       opacity: 1;
     }
+
     100% {
       opacity: 0.5;
     }
   }
 }
+
 .loaded {
   opacity: 1;
 }

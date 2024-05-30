@@ -1,25 +1,39 @@
+<script setup lang="ts">
+import { ref } from 'vue';
+import { type MyButtonList } from '~/types/components';
+
+const el = ref<Element | null>(null);
+
+defineExpose({ el })
+
+defineProps<{ blok: MyButtonList }>();
+</script>
+
+
 <template>
-  <ul class="button-list">
-    <li v-for="button in buttons" :key="button._uid" class="button-list__elem">
+  <ul
+    class="button-list"
+    ref="el"
+  >
+    <li
+      v-for="button in blok.buttons"
+      :key="button._uid"
+      class="button-list__elem"
+    >
       <MyButton :blok="button" />
     </li>
   </ul>
 </template>
 
-<script lang="ts">
-import Vue from 'vue';
-import MyButton from '@/components/MyButton.vue';
-import { Button } from '~/types/components';
+<style scoped lang="scss">
+@use '~/assets/styles/variables' as *;
 
-export default Vue.extend({
-  components: { MyButton },
-  props: {
-    buttons: {
-      type: Array as () => Button[],
-      default: () => [],
-    },
-  },
-});
-</script>
+.button-list {
+  display: none;
+  margin-top: var(--space-s-m);
 
-<style scoped></style>
+  @media screen and (min-width: $max-width) {
+    display: flex;
+  }
+}
+</style>

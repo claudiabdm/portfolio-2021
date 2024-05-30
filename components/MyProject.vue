@@ -1,10 +1,146 @@
+<script lang="ts" setup>
+import { gsap } from 'gsap';
+import { TextPlugin } from 'gsap/TextPlugin';
+import { onBeforeUnmount, onMounted, ref } from 'vue';
+import type { FilterButton, MyProject } from '~/types/components';
+import { elevateAnimationObserver } from '~/utils/gsap-animations';
+
+if (process.client) {
+  gsap.registerPlugin(TextPlugin);
+}
+
+
+const props = defineProps<{ blok: MyProject }>();
+
+const titleTimeline = ref<gsap.core.Timeline>();
+const titleScrollTimeline = ref<gsap.core.Timeline>();
+const cursorTimeline = ref<gsap.core.Timeline>();
+const previousText = ref();
+const timeout = ref();
+const lastFilter = ref<FilterButton['tag']>('show-all');
+const titleObserver = ref<IntersectionObserver>();
+const windowObserver = ref<IntersectionObserver>();
+const cursorRef = ref<Element>();
+const titleRef = ref<Element>();
+const windowRef = ref<Element>();
+
+onMounted(() => {
+  if (cursorRef.value && titleRef.value && windowRef.value) {
+    cursorTimeline.value = createCursorTimeline(cursorRef.value);
+    titleTimeline.value = createTitleTimeline(
+      titleRef.value,
+      props.blok.title
+    ).pause(0);
+    titleScrollTimeline.value = createTitleTimeline(
+      titleRef.value,
+      props.blok.title
+    )
+      .pause(0)
+    windowObserver.value = elevateAnimationObserver(windowRef.value);
+    titleObserver.value = createTitleObserver(
+      titleRef.value,
+      titleScrollTimeline.value
+    );
+  }
+})
+
+onBeforeUnmount(() => {
+  titleTimeline.value?.kill();
+  titleScrollTimeline.value?.kill();
+  cursorTimeline.value?.kill();
+  titleObserver.value?.disconnect();
+  windowObserver.value?.disconnect();
+})
+
+function createTitleObserver(
+  target: Element,
+  timeline: gsap.core.Timeline
+): IntersectionObserver {
+  const observer = new IntersectionObserver(
+    (entries: IntersectionObserverEntry[]): void => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) {
+          timeline.restart();
+        }
+      }
+    }
+  );
+  observer.observe(target);
+  return observer;
+}
+
+function createTitleTimeline(titleRef: Element, text: string) {
+  const tl = gsap.timeline();
+  tl.add(textAnimation(titleRef, text));
+  return tl;
+}
+
+function createCursorTimeline(cursorRef: Element) {
+  const tl = gsap.timeline({
+    repeat: -1,
+    yoyo: true,
+  });
+  tl.fromTo(
+    cursorRef,
+    {
+      autoAlpha: 1,
+    },
+    {
+      autoAlpha: 0,
+      duration: 0.5,
+      ease: 'steps(1)',
+    }
+  );
+  return tl;
+}
+
+function onLinkHover(text: string) {
+  if (text === previousText.value) return;
+  if (text !== props.blok.title && timeout.value > 0) {
+    clearTimeout(timeout.value);
+  }
+  titleScrollTimeline.value?.pause(0);
+  previousText.value = text;
+  cursorTimeline.value?.pause(0);
+  titleTimeline.value?.reverse(titleTimeline.value?.time());
+  titleTimeline.value?.eventCallback('onReverseComplete', () => {
+    titleTimeline.value = createTitleTimeline(titleRef.value!, text);
+    titleTimeline.value.play(0);
+    titleTimeline.value.eventCallback('onComplete', () => {
+      cursorTimeline.value?.restart();
+      if (text !== props.blok.title) {
+        timeout.value = setTimeout(() => {
+          onLinkHover(props.blok.title);
+        }, 500);
+      }
+    });
+  });
+}
+
+function textAnimation(elem: Element, text: string): gsap.core.Tween {
+  return gsap.to(elem, {
+    id: 'textAnimation',
+    duration: text.length / 16,
+    text: {
+      value: text,
+    },
+    ease: 'none',
+  });
+}
+</script>
+
 <template>
-  <section v-editable="blok" class="project">
+  <section
+    v-editable="blok"
+    class="project"
+  >
     <div class="project__group">
       <h2 class="project__title">
-        <span class="dot">></span>
-        <span :ref="`${blok._uid}-title`"></span
-        ><span :ref="`${blok._uid}-cursor`" class="dot">_</span>
+        <span class="dot">> </span>
+        <span ref="titleRef"></span><span
+          ref="cursorRef"
+          class="dot"
+        >_</span>
       </h2>
       <p class="project__description">
         {{ blok.description }}
@@ -29,7 +165,10 @@
       </div>
     </div>
     <div class="project__media">
-      <div :ref="`${blok._uid}-window`" class="window">
+      <div
+        ref="windowRef"
+        class="window"
+      >
         <div class="window__header">
           <svg class="window__buttons">
             <circle
@@ -60,6 +199,7 @@
           class="window__image"
           :blok="{
             image: {
+              id: blok.media.id,
               filename: blok.media.filename,
               alt: blok.media.alt,
             },
@@ -74,219 +214,97 @@
   </section>
 </template>
 
-<script lang="ts">
-import Vue from 'vue';
-import { gsap } from 'gsap';
-import { TextPlugin } from 'gsap/TextPlugin';
-import { Project } from '~/types/components';
-
-if (process.client) {
-  gsap.registerPlugin(TextPlugin);
-}
-
-export default Vue.extend({
-  name: 'MyProject',
-  props: {
-    blok: {
-      type: Object as () => Project,
-      default: () => ({} as Project),
-    },
-  },
-  data() {
-    return {
-      titleTimeline: null as unknown as gsap.core.Timeline,
-      titleScrollTimeline: null as unknown as gsap.core.Timeline,
-      cursorTimeline: null as unknown as gsap.core.Timeline,
-      previousText: '',
-      timeout: null as any,
-      lastFilter: 'show-all',
-      titleObserver: null as unknown as IntersectionObserver,
-      windowObserver: null as unknown as IntersectionObserver,
-    };
-  },
-  mounted() {
-    const cursorRef = this.$refs[`${this.blok._uid}-cursor`] as Element;
-    const titleRef = this.$refs[`${this.blok._uid}-title`] as Element;
-    const windowRef = this.$refs[`${this.blok._uid}-window`] as Element;
-    this.cursorTimeline = this.createCursorTimeline(cursorRef).pause(0.5);
-    this.titleTimeline = this.createTitleTimeline(
-      titleRef,
-      this.blok.title
-    ).pause(0);
-    this.titleScrollTimeline = this.createTitleTimeline(
-      titleRef,
-      this.blok.title
-    )
-      .pause(0)
-      .add(this.cursorTimeline.play(0));
-    this.windowObserver = this.$elevateAnimationObserver(windowRef);
-    this.titleObserver = this.createTitleObserver(
-      titleRef,
-      this.titleScrollTimeline
-    );
-  },
-  beforeDestroy() {
-    this.titleTimeline.kill();
-    this.titleScrollTimeline.kill();
-    this.cursorTimeline.kill();
-    this.titleObserver.disconnect();
-    this.windowObserver.disconnect();
-  },
-  methods: {
-    createTitleObserver(
-      target: Element,
-      timeline: gsap.core.Timeline
-    ): IntersectionObserver {
-      const observer = new IntersectionObserver(
-        (entries: IntersectionObserverEntry[]): void => {
-          for (const entry of entries) {
-            if (entry.isIntersecting) {
-              timeline.restart();
-            }
-          }
-        }
-      );
-      observer.observe(target);
-      return observer;
-    },
-    createTitleTimeline(titleRef: Element, text: string) {
-      const tl = gsap.timeline();
-      tl.add(this.textAnimation(titleRef, text));
-      return tl;
-    },
-    createCursorTimeline(cursorRef: Element) {
-      const tl = gsap.timeline({
-        repeat: -1,
-        yoyo: true,
-      });
-      tl.fromTo(
-        cursorRef,
-        {
-          autoAlpha: 1,
-        },
-        {
-          autoAlpha: 0,
-          duration: 0.5,
-          ease: 'steps(1)',
-        }
-      );
-      return tl;
-    },
-    onLinkHover(text: string) {
-      if (text === this.previousText) return;
-      if (text !== this.blok.title && this.timeout > 0) {
-        clearTimeout(this.timeout);
-      }
-      this.titleScrollTimeline.pause(0);
-      this.previousText = text;
-      const titleRef = this.$refs[`${this.blok._uid}-title`] as Element;
-      this.cursorTimeline.pause(0);
-      this.titleTimeline.reverse(this.titleTimeline.time());
-      this.titleTimeline.eventCallback('onReverseComplete', () => {
-        this.titleTimeline = this.createTitleTimeline(titleRef, text);
-        this.titleTimeline.play(0);
-        this.titleTimeline.eventCallback('onComplete', () => {
-          this.cursorTimeline.restart();
-          if (text !== this.blok.title) {
-            this.timeout = setTimeout(() => {
-              this.onLinkHover(this.blok.title);
-            }, 500);
-          }
-        });
-      });
-    },
-    textAnimation(elem: Element, text: string): gsap.core.Tween {
-      return gsap.to(elem, {
-        id: 'textAnimation',
-        duration: text.length / 16,
-        text: {
-          value: text,
-        },
-        ease: 'none',
-      });
-    },
-  },
-});
-</script>
 
 <style lang="scss" scoped>
-@use '~/assets/styles/global/variables' as *;
-@use '~/assets/styles/mixins/mixins' as *;
-
 .project {
-  height: 100%;
   display: grid;
   grid-template-areas: 'media' 'group';
   grid-template-rows: max-content 1fr;
-  row-gap: rem(20px);
+  row-gap: 20px;
   align-content: flex-start;
+  height: 100%;
 
   &__title {
-    font-size: $text-3xl;
+    font-size: var(--font-3xl);
     font-weight: 700;
     font-family: var(--font-family-secondary);
+    margin-bottom: var(--space-xs);
   }
 
   &__group {
-    @include flex(flex-start, flex-start, column);
-    @include size(100%, auto);
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
     padding: 0;
     grid-area: group;
   }
 
   &__description,
   &__links {
-    padding-left: rem(25px);
+    padding-left: 25px;
   }
 
   &__links {
-    @include flex(center, flex-start);
+    display: flex;
+    align-items: center;
     margin-top: auto;
-    padding-top: rem(10px);
+    padding-top: 10px;
   }
 
   &__link {
-    margin-right: 10%;
+    margin-right: var(--space-s);
   }
 
   &__media {
     grid-area: media;
-    border-radius: $border-radius;
+    border-radius: var(--border-radius);
     background-color: var(--shadow);
-    margin-left: rem(10px);
+    margin-left: 10px;
   }
 }
 
 .window {
-  @include size(100%, auto);
-  @include flex(flex-start, flex-start, column);
-  border: rem(2px) solid var(--stroke);
-  border-radius: $border-radius;
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  border: 2px solid var(--stroke);
+  border-radius: var(--border-radius);
   color: var(--shadow);
   background-color: var(--secondary);
   overflow: hidden;
 
   &__header {
-    @include size(100%, auto);
-    @include flex(center, flex-start);
+    width: 100%;
+    height: auto;
+    display: flex;
+    align-items: center;
     position: relative;
-    border-bottom: rem(2px) solid var(--stroke);
+    border-bottom: 2px solid var(--stroke);
     padding: 5px;
   }
+
   &__buttons {
-    @include size(rem(64px), rem(24px));
+    width: 64px;
+    height: 24px;
     position: absolute;
+
     circle {
       fill: var(--tertiary);
       color: var(--stroke);
     }
   }
+
   &__title {
-    @include size(100%, 100%);
-    @include flex(center, center);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-align: left;
     font-family: var(--font-family-secondary);
-    font-size: rem(14px);
+    font-size: 14px;
   }
 
   &__image {

@@ -1,0 +1,22 @@
+@use 'variables' as *;
+
+:root {
+    --main-height: #{$main-height};
+    --nav-height: #{$nav-height};
+    --header-height: #{$header-height};
+    --max-width: #{$max-width};
+    --icon-s: #{$icon-s};
+    --icon-m: #{$icon-m};
+}
+
+@media screen and (min-width: #{$max-width}) {
+    :root {
+        --main-height: #{$main-height-1024};
+    }
+}
+
+:root {
+    --border-radius: #{$border-radius};
+    --border: #{$border};
+    --box-shadow: #{$box-shadow};
+}

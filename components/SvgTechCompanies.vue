@@ -1,3 +1,5 @@
+<script lang="ts" setup>
+</script>
 <template>
   <svg
     class="svg"
@@ -6,12 +8,36 @@
     viewBox="0 0 64 64"
   >
     <title>Software Compenies</title>
-    <g id="Software_Compenies" data-name="Software Compenies">
-      <path class="stroke cls-1" d="M63,52V1H1V52Z" />
-      <rect class="cls-2" x="1.25" y="50.75" width="61.5" height="1" />
-      <rect class="stroke cls-4" x="1" y="1" width="62" height="8" />
+    <g
+      id="Software_Compenies"
+      data-name="Software Compenies"
+    >
+      <path
+        class="stroke cls-1"
+        d="M63,52V1H1V52Z"
+      />
+      <rect
+        class="cls-2"
+        x="1.25"
+        y="50.75"
+        width="61.5"
+        height="1"
+      />
+      <rect
+        class="stroke cls-4"
+        x="1"
+        y="1"
+        width="62"
+        height="8"
+      />
       <g class="building building--side">
-        <rect class="stroke" x="42" y="33" width="13" height="30" />
+        <rect
+          class="stroke"
+          x="42"
+          y="33"
+          width="13"
+          height="30"
+        />
         <path
           class="building-windows"
           d="M51,37H46a1,1,0,0,0,0,2h5A1,1,0,0,0,51,37Z"
@@ -30,7 +56,13 @@
         />
       </g>
       <g class="building building--side">
-        <rect class="stroke" x="9" y="33" width="13" height="30" />
+        <rect
+          class="stroke"
+          x="9"
+          y="33"
+          width="13"
+          height="30"
+        />
         <path
           class="building-windows"
           d="M13,39h5a1,1,0,0,0,0-2H13A1,1,0,0,0,13,39Z"
@@ -49,8 +81,20 @@
         />
       </g>
       <g class="building">
-        <rect class="stroke cls-5" x="24" y="19" width="16" height="4" />
-        <rect class="stroke" x="22" y="23" width="20" height="30" />
+        <rect
+          class="stroke cls-5"
+          x="24"
+          y="19"
+          width="16"
+          height="4"
+        />
+        <rect
+          class="stroke"
+          x="22"
+          y="23"
+          width="20"
+          height="30"
+        />
         <path
           class="building-windows"
           d="M33,30V28a1,1,0,0,0-2,0v2A1,1,0,0,0,33,30Z"
@@ -76,8 +120,20 @@
           d="M28,37V35a1,1,0,0,0-2,0v2A1,1,0,0,0,28,37Z"
         />
       </g>
-      <rect class="cls-8" x="9.25" y="61" width="13" height="2" />
-      <rect class="cls-8" x="41.75" y="61" width="13" height="2" />
+      <rect
+        class="cls-8"
+        x="9.25"
+        y="61"
+        width="13"
+        height="2"
+      />
+      <rect
+        class="cls-8"
+        x="41.75"
+        y="61"
+        width="13"
+        height="2"
+      />
       <g class="gear">
         <path
           class="stroke gear__top"
@@ -95,9 +151,18 @@
           />
         </g>
       </g>
-      <path class="stroke button" d="M6,4A1,1,0,0,0,6,6,1,1,0,0,0,6,4Z" />
-      <path class="stroke button" d="M11,4a1,1,0,0,0,0,2A1,1,0,0,0,11,4Z" />
-      <path class="stroke button" d="M16,4a1,1,0,0,0,0,2A1,1,0,0,0,16,4Z" />
+      <path
+        class="stroke button"
+        d="M6,4A1,1,0,0,0,6,6,1,1,0,0,0,6,4Z"
+      />
+      <path
+        class="stroke button"
+        d="M11,4a1,1,0,0,0,0,2A1,1,0,0,0,11,4Z"
+      />
+      <path
+        class="stroke button"
+        d="M16,4a1,1,0,0,0,0,2A1,1,0,0,0,16,4Z"
+      />
       <rect
         class="bottom-line"
         x="0"
@@ -111,40 +176,39 @@
   </svg>
 </template>
 
-<script lang="ts">
-import Vue from 'vue';
-
-export default Vue.extend({
-  name: 'SvgTechCompanies',
-});
-</script>
-
 <style lang="scss" scoped>
 .svg {
   width: 100%;
   height: 100%;
 }
+
 .stroke {
   stroke-width: 0.5;
   stroke-opacity: 1;
   stroke: var(--stroke);
   color: var(--stroke);
 }
+
 .cls-1 {
   fill: var(--secondary);
 }
+
 .cls-2 {
   fill: #eee;
 }
+
 .cls-4 {
   fill: var(--secondary);
 }
+
 .cls-5 {
   fill: var(--primary-dark);
 }
+
 .cls-8 {
   fill: var(--tertiary-dark);
 }
+
 .gear {
   &__top {
     transform-box: fill-box;
@@ -152,21 +216,26 @@ export default Vue.extend({
     fill: var(--primary-dark);
     animation: rotate 5s infinite linear;
   }
+
   &__code {
     stroke: var(--primary-dark);
     stroke-width: 1.5;
     fill: var(--secondary);
   }
 }
+
 .cls-10 {
   fill: var(--primary-dark);
 }
+
 .button {
   fill: var(--tertiary);
 }
+
 .bottom-line {
   fill: var(--stroke);
 }
+
 .building {
   fill: var(--primary-light);
   animation-name: stretch;
@@ -174,11 +243,13 @@ export default Vue.extend({
   animation-iteration-count: infinite;
   animation-direction: alternate-reverse;
   animation-timing-function: linear;
+
   &--side {
     animation-delay: 0.75s;
     fill: var(--tertiary);
   }
 }
+
 .building-windows {
   fill: var(--primary-dark);
 }
@@ -187,6 +258,7 @@ export default Vue.extend({
   from {
     transform: rotate(0);
   }
+
   to {
     transform: rotate(359deg);
   }
@@ -196,6 +268,7 @@ export default Vue.extend({
   from {
     transform: translate3d(0, 0, 0);
   }
+
   to {
     transform: translate3d(0, 5px, 0);
   }
