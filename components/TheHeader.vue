@@ -1,27 +1,27 @@
 <script lang="ts" setup>
-import { getSbVersion, useAsyncStoryblok, useI18n, useTranslateSlug } from '#imports';
+import { useAsyncStoryblok, useI18n, useTranslateSlug } from '#imports';
 import { computed, onMounted, ref } from 'vue';
 import type { ISbStoryData } from '@storyblok/vue';
 import { gsap } from 'gsap';
 import type { Config } from '~/types/components';
+import { useSbVersion } from '~/composables/useSbVersion';
 
 const { locale, t, locales } = useI18n();
 const translatePath = useTranslateSlug();
 const navRef = ref<Element>();
-
 const storyLocales = ref<{ [key: string]: ISbStoryData<Config> }>({});
 
 for (const loc of locales.value) {
   const { value: story }: { value: ISbStoryData<Config> } = await useAsyncStoryblok('config', {
-    version: getSbVersion(),
+    version: useSbVersion(),
     language: loc.code,
     resolve_relations: 'config.pages',
   })
   storyLocales.value[loc.code] = story;
 }
 
-const storyLinks = computed(() =>
-  storyLocales.value[locale.value].content.pages.map(story => {
+const storyLinks = computed(() => {
+  return storyLocales.value[locale.value]?.content.pages.map(story => {
     const slug = story.slug;
     return {
       text: story.content.title || t(story.slug),
@@ -29,7 +29,8 @@ const storyLinks = computed(() =>
       path: translatePath(slug)
     }
   })
-);
+});
+
 onMounted(() => {
   animateHeader();
 })

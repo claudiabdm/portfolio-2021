@@ -8,7 +8,10 @@ defineExpose({
 })
 </script>
 <template>
-  <div class="hero-figure" ref="el">
+  <div
+    class="hero-figure"
+    ref="el"
+  >
     <svg
       class="hero-figure__svg"
       viewBox="0 0 628 745"
@@ -24,16 +27,6 @@ defineExpose({
         fill-rule="evenodd"
         clip-rule="evenodd"
         d="M358.868 42.632c64.126 18.377 102.573 84.374 146.444 138.423 34.065 41.968 65.112 85.555 79.078 139.419 13.53 52.178 2.848 104.663-1.795 158.638-6.243 72.57 19.622 161.753-29.984 210.804-49.027 48.477-127.602 15.119-193.743 10.418-61.161-4.346-122.229-5.072-176.168-36.707-59.969-35.173-129.953-78.076-143.345-150.691-13.32-72.233 62.122-126.4 79.09-197.723 18.848-79.223-27.534-178.912 24.569-237.984 51.591-58.492 143.764-55.256 215.854-34.597z"
-      />
-      <image
-        class="hero-figure__img hero-figure__img--avatar"
-        href="https://a.storyblok.com/f/95455/510x677/7d7ab33433/homie-05.png"
-      />
-      <image
-        x="330"
-        y="120"
-        class="hero-figure__img hero-figure__img--window"
-        href="https://a.storyblok.com/f/95455/271x271/da8634b97b/homie-objects-browser.png"
       />
       <defs>
         <filter id="darken">
@@ -108,6 +101,23 @@ defineExpose({
         </filter>
       </defs>
     </svg>
+
+    <div class="hero-figure__images">
+      <NuxtImg
+        alt=""
+        width="510"
+        height="677"
+        class="hero-figure__img hero-figure__img--avatar"
+        src="https://a.storyblok.com/f/95455/510x677/7d7ab33433/homie-05.png/m/filters:format(webp)"
+      />
+      <NuxtImg
+        alt=""
+        width="271"
+        height="271"
+        class="hero-figure__img hero-figure__img--window"
+        src="https://a.storyblok.com/f/95455/271x271/da8634b97b/homie-objects-browser.png/m/filters:format(webp)"
+      />
+    </div>
   </div>
 </template>
 
@@ -115,41 +125,66 @@ defineExpose({
 @use '~/assets/styles/variables' as *;
 
 .hero-figure {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto;
+  place-items: center;
+  place-content: center;
+  margin: auto;
+  width: fit-content;
+  aspect-ratio: 1;
   z-index: 1;
 
+  @media screen and (min-width: 1024px) {
+    width: 100%;
+  }
+
+
   &__svg {
-    width: fit-content;
+    grid-row: 1;
+    grid-column: 1;
     aspect-ratio: 1;
+
     @media screen and (min-width: 1024px) {
       width: 100%;
       transform: rotate(0);
     }
-
+    
     #blob {
       fill: var(--secondary);
       transform-origin: center center;
       transform: rotate(-90deg);
       filter: url(#filter0_dd);
       transition: fill 0.15s linear;
-
+      
       @media screen and (min-width: $max-width) {
         transform: rotate(0);
       }
     }
   }
-
-  &__img {
+  
+  &__images {
     position: relative;
-    z-index: 1;
+    grid-row: 1;
+    grid-column: 1;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    z-index: 2;
+  }
+  
+  &__img {
+    width: 75%;
+    height: auto;
     filter: url(#dropshadow);
     transition: filter 0.15s linear;
     animation: float 1.5s infinite ease-in-out alternate-reverse;
 
     &--window {
+      width: 50%;
+      padding: 5%;
+      margin-top: -20%;
+      margin-left: -30%;
       z-index: 2;
       animation-duration: 1s;
       animation-delay: -1s;

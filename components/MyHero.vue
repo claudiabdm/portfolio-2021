@@ -100,7 +100,7 @@ function animateHero(
     '<'
   );
   tl.from(
-    heroFigure.querySelectorAll('image'),
+    heroFigure.querySelectorAll('img'),
     {
       opacity: 0,
       clearProps: 'all',

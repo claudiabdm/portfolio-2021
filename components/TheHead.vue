@@ -1,5 +1,5 @@
 <template>
     <Head>
-        <HeadFaviconLinks />
+        <TheHeadFaviconLinks />
     </Head>
 </template>
