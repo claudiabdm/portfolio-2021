@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import { createError, getSbVersion, useAsyncStoryblok, useHead, useI18n, useNuxtApp, useSetI18nParams } from '#imports';
+import { createError, useAsyncStoryblok, useHead, useI18n, useSetI18nParams } from '#imports';
 import { useRoute } from 'vue-router';
+import { useSbVersion } from '~/composables/useSbVersion';
 import { getBreadcrumbList } from '~/utils/get-json-ld-breadcrumbs';
 import { getMetaTags } from '~/utils/get-meta-tags';
+
 
 const { params: { slug }, path } = useRoute();
 
@@ -14,7 +16,7 @@ const url = Array.isArray(slug) && slug.length > 0 ? slug.join('/') : 'home';
 const { value: story } = await useAsyncStoryblok(
   url,
   {
-    version: getSbVersion(),
+    version: useSbVersion(),
     language: locale.value,
     resolve_relations: slug.includes(t('projectsSlug')) ? ['MyProjectList.body'] : undefined
   }
@@ -23,7 +25,7 @@ const { value: story } = await useAsyncStoryblok(
 if (!story) {
   throw createError({
     statusCode: 404,
-    message: t('error404'),
+    message: t('error404', { page: `${path}` }),
     fatal: true,
   })
 }

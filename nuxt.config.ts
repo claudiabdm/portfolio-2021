@@ -2,7 +2,14 @@
 
 import { fetchSbRoutes, getSbToken } from "./utils/sb-functions"
 
+const isProd = process.env.STORYBLOK_PREVIEW_ENABLED === 'false';
+
 export default defineNuxtConfig({
+  runtimeConfig: {
+    public: {
+      isProd,
+    }
+  },
   devtools: { enabled: false },
   devServer: {
     host: '192.168.1.58',
@@ -23,7 +30,7 @@ export default defineNuxtConfig({
         return
       }
       try {
-        const sbRoutes = await fetchSbRoutes();
+        const sbRoutes = await fetchSbRoutes(isProd);
 
         if (nitroConfig.prerender?.routes) {
           nitroConfig.prerender.routes = sbRoutes;
@@ -60,15 +67,10 @@ export default defineNuxtConfig({
   css: [
     '~/assets/styles/styles.scss',
   ],
-  modules: [
-    '@storyblok/nuxt',
-    '@nuxtjs/i18n',
-    // '@vite-pwa/nuxt',
-    '@nuxtjs/sitemap',
-    '@nuxtjs/google-fonts'
-  ],
+  modules: ['@storyblok/nuxt', '@nuxtjs/i18n', // '@vite-pwa/nuxt',
+    '@nuxtjs/sitemap', '@nuxtjs/google-fonts', "@nuxt/image"],
   storyblok: {
-    accessToken: getSbToken(),
+    accessToken: getSbToken(isProd),
     componentsDir: '~/components',
   },
   components: {

@@ -2,21 +2,16 @@ import type { ISbStories, ISbStoryData } from '@storyblok/js';
 import en from '../lang/en'
 import es from '../lang/es'
 
-
-const isProd = process.env.STORYBLOK_PREVIEW_ENABLED === 'false';
-
-type StorySlugNames = Array<'home' | 'projects' | 'about' | 'blog' | 'config' | 'photos'>;
-
-export function getSbToken() {
+export function getSbToken(isProd: boolean) {
     return isProd ? process.env.STORYBLOK_PUBLISHED : process.env.STORYBLOK_PREVIEW;
 }
 
-export function getSbVersion() {
+export function getSbVersion(isProd: boolean) {
     return isProd ? 'published' : 'draft';
 }
 
-export async function fetchSbRoutes() {
-    const token = getSbToken();
+export async function fetchSbRoutes(isProd: boolean) {
+    const token = getSbToken(isProd);
 
     let cache_version = 0
 
@@ -34,7 +29,7 @@ export async function fetchSbRoutes() {
         cache_version = space.space.version
 
         // Recursively fetch all routes and set them to the routes array
-        const storiesRoutes = await fetchSbStoriesRoutes(cache_version);
+        const storiesRoutes = await fetchSbStoriesRoutes(cache_version, undefined, isProd);
 
         routes.push(...storiesRoutes)
 
@@ -45,10 +40,11 @@ export async function fetchSbRoutes() {
     return routes;
 }
 
-async function fetchSbStoriesRoutes(cacheVersion: number, page: number = 1) {
+async function fetchSbStoriesRoutes(cacheVersion: number, page: number = 1, isProd: boolean) {
     const routes: string[] = [];
-    const token = getSbToken();
-    const version = getSbVersion();
+    const token = getSbToken(isProd);
+    const version = getSbVersion(isProd);
+    console.log('fetch', {isProd, token, version})
     const perPage = 100
     const toIgnore = ['config', 'blog/', 'projects/'];
     const locales: { 'es': typeof es, 'en': typeof en } = { en: en, es: es };
@@ -86,7 +82,7 @@ async function fetchSbStoriesRoutes(cacheVersion: number, page: number = 1) {
         const maxPage = total ? Math.ceil(Number(total) / perPage) : page;
 
         if (maxPage > page) {
-            routes.push(...await fetchSbStoriesRoutes(cacheVersion, ++page))
+            routes.push(...await fetchSbStoriesRoutes(cacheVersion, ++page, isProd))
         }
 
     } catch (error) {
