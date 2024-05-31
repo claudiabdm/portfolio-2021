@@ -1,6 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-import en from "./lang/en";
-import es from "./lang/es";
+
 import { fetchSbRoutes, getSbToken } from "./utils/sb-functions"
 
 export default defineNuxtConfig({
@@ -64,7 +63,7 @@ export default defineNuxtConfig({
   modules: [
     '@storyblok/nuxt',
     '@nuxtjs/i18n',
-    '@vite-pwa/nuxt',
+    // '@vite-pwa/nuxt',
     '@nuxtjs/sitemap',
     '@nuxtjs/google-fonts'
   ],
@@ -108,19 +107,21 @@ export default defineNuxtConfig({
       }
     }
   },
-  pwa: {
-    devOptions: {
-      enabled: true,
-    },
-    registerType: 'autoUpdate',
-    pwaAssets: {
-      config: true,
-    },
-    manifest: {
-      name: 'Claudia Benito: Front-end developer',
-      short_name: 'CvFy',
-      description: 'I am a front-end developer with a passion for building user friendly and performant SPAs and JAMstack sites.',
-      theme_color: '#b8c1ec',
-    },
-  },
+  // pwa: {
+  //   strategies: 'generateSW',
+  //   workbox: undefined,
+  //   devOptions: {
+  //     enabled: false,
+  //   },
+  //   registerType: 'autoUpdate',
+  //   pwaAssets: {
+  //     config: true,
+  //   },
+  //   manifest: {
+  //     name: 'Claudia Benito: Front-end developer',
+  //     short_name: 'CvFy',
+  //     description: 'I am a front-end developer with a passion for building user friendly and performant SPAs and JAMstack sites.',
+  //     theme_color: '#b8c1ec',
+  //   },
+  // },
 })
