@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { createError, useAsyncStoryblok, useHead, useI18n, useSetI18nParams } from '#imports';
+import { createError, useAsyncStoryblok, useHead, useI18n, useLocaleHead, useSetI18nParams } from '#imports';
 import { useRoute } from 'vue-router';
 import { useSbVersion } from '~/composables/useSbVersion';
 import { getBreadcrumbList } from '~/utils/get-json-ld-breadcrumbs';
@@ -37,6 +37,9 @@ setI18nParams({
 })
 
 useHead({
+  htmlAttrs: {
+    lang: locale.value
+  },
   title: story.content.seo.title,
   meta: [...getMetaTags(story.content.seo)],
   script: [getBreadcrumbList(path)],
