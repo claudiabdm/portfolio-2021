@@ -44,6 +44,11 @@ export default defineNuxtConfig({
   imports: {
     autoImport: false,
   },
+  router: {
+    options: {
+      strict: true,
+    }
+  },
   site: {
     url: 'https://www.claudiabdm.com',
     trailingSlash: true,

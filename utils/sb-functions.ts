@@ -65,12 +65,11 @@ async function fetchSbStoriesRoutes(cacheVersion: number, page: number = 1, isPr
                         link.slug.replace(rootSlug, locales[locale][localeRootSlugKey]) :
                         link.slug
 
-
                     const localPath = locale == 'en' ?
                         `/${localeSlug}` :
                         `/${locale}/${localeSlug}`;
-                    routes.push(localPath);
-
+                    const localPathWithTrailingSlash = localPath[localPath.length - 1] === '/' ? localPath : localPath + '/';
+                    routes.push(localPathWithTrailingSlash);
                 }
 
             }
