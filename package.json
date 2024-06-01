@@ -28,7 +28,7 @@
     "highlightjs-line-numbers.js": "^2.8.0",
     "nuxt": "^2.15.8",
     "v-click-outside": "^3.1.2",
-    "vue": "2.6.14",
+    "vue": "3.4.27",
     "vue-server-renderer": "2.6.14",
     "vue-template-compiler": "2.6.14"
   },
@@ -55,7 +55,7 @@
     "vue-jest": "^3.0.4"
   },
   "resolutions": {
-    "vue": "2.6.14",
+    "vue": "3.4.27",
     "vue-server-renderer": "2.6.14",
     "vue-template-compiler": "2.6.14"
   }
