@@ -12,7 +12,6 @@ export default defineNuxtConfig({
   },
   devtools: { enabled: false },
   devServer: {
-    host: '192.168.1.58',
     port: 3000,
     https: {
       key: './server.key',
@@ -77,6 +76,7 @@ export default defineNuxtConfig({
   storyblok: {
     accessToken: getSbToken(isProd),
     componentsDir: '~/components',
+    bridge: !isProd,
   },
   components: {
     global: true,

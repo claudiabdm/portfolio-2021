@@ -117,6 +117,7 @@ function animateHero(
 
 <template>
   <section
+    v-editable="blok"
     ref="heroRef"
     class="hero"
   >
@@ -148,7 +149,7 @@ function animateHero(
   justify-content: space-between;
   height: 100%;
   color: var(--primary);
-  
+
   @media screen and (min-width: $max-width) {
     margin-top: -50px;
     flex-direction: row;

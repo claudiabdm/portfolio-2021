@@ -40,7 +40,7 @@ function iconPath(icon: string): string {
 </script>
 
 <template>
-  <div class="profile">
+  <div v-editable="blok" class="profile">
     <div class="profile__wrapper profile__wrapper--round">
       <MyImage
         ref="profileImgRef"

@@ -12,6 +12,7 @@ defineProps<{ blok: MyButtonList }>();
 
 <template>
   <ul
+    v-editable="blok"
     class="button-list"
     ref="el"
   >
