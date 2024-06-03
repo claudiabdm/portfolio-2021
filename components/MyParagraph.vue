@@ -1,3 +1,55 @@
+<script lang="ts" setup>
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { onMounted, ref } from 'vue';
+import type { MyParagraph } from '~/types/components';
+
+if (process.client) {
+  gsap.registerPlugin(ScrollTrigger);
+}
+
+
+const figureRef = ref<Element>();
+const paragraphRef = ref<Element>();
+const props = withDefaults(defineProps<{ blok: MyParagraph }>(), {
+  blok: () => ({
+    isReversed: false,
+    showScroll: false,
+    figure: undefined
+  }) as MyParagraph
+})
+
+onMounted(() => {
+  if (figureRef.value && props.blok.figure?.[0] != null) {
+    createScrollTriggerTl(figureRef.value);
+  }
+  if (paragraphRef.value) {
+    createScrollTriggerTl(paragraphRef.value);
+  }
+})
+
+function createScrollTriggerTl(target: Element): gsap.core.Timeline {
+  gsap.set(target, {
+    autoAlpha: 0,
+  });
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: target,
+      end: 'center center',
+      scrub: true,
+    },
+  });
+  tl.add(
+    gsap.to(target, {
+      autoAlpha: 1,
+      ease: 'easeInOut',
+      duration: 0.5,
+    })
+  );
+  return tl;
+}
+</script>
+
 <template>
   <section
     v-editable="blok"
@@ -7,15 +59,24 @@
       { 'paragraph--scroll': blok.showScroll },
     ]"
   >
-    <div :ref="blok._uid" class="paragraph__text">
-      <MyRichText v-if="blok.text" :text="blok.text" />
-      <MyLink v-if="blok.linkText && blok.link.url" :link="blok.link.url">{{
+    <div
+      ref="paragraphRef"
+      class="paragraph__text"
+    >
+      <MyRichText
+        v-if="blok.text"
+        :text="blok.text"
+      />
+      <MyLink
+        v-if="blok.linkText && blok.link?.url"
+        :link="blok.link.url"
+      >{{
         blok.linkText
       }}</MyLink>
     </div>
     <div
-      v-if="blok.figure[0] != null"
-      :ref="blok.figure[0]._uid"
+      v-if="blok.figure?.[0] != null"
+      ref="figureRef"
       class="paragraph__figure"
     >
       <component
@@ -29,134 +90,104 @@
   </section>
 </template>
 
-<script lang="ts">
-import Vue from 'vue';
-import MyProfile from '@/components/MyProfile.vue';
-import { Paragraph } from '@/types/components';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-if (process.client) {
-  gsap.registerPlugin(ScrollTrigger);
-}
-
-export default Vue.extend({
-  name: 'MyParagraph',
-  components: { MyProfile },
-  props: {
-    blok: {
-      type: Object as () => Paragraph,
-      default: () => ({ showScroll: false } as Paragraph),
-    },
-  },
-  mounted() {
-    if (this.blok.figure[0] != null) {
-      const figure = this.$refs[this.blok.figure[0]._uid] as Element;
-      this.createScrollTriggerTl(figure);
-    }
-    const paragraph = this.$refs[this.blok._uid] as Element;
-    this.createScrollTriggerTl(paragraph);
-  },
-  methods: {
-    createScrollTriggerTl(target: Element): gsap.core.Timeline {
-      gsap.set(target, {
-        autoAlpha: 0,
-      });
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: target,
-          end: 'center center',
-          scrub: true,
-        },
-      });
-      tl.add(
-        gsap.to(target, {
-          autoAlpha: 1,
-          ease: 'easeInOut',
-          duration: 0.5,
-        })
-      );
-      return tl;
-    },
-  },
-});
-</script>
 
 <style lang="scss" scoped>
-@use '~/assets/styles/global/variables' as *;
-@use '~/assets/styles/mixins/mixins' as *;
+@use '~/assets/styles/variables' as *;
 
 .paragraph {
-  @include flex(center, flex-start, column-reverse);
-  padding: 0 rem(25px) 25vh;
+  display: flex;
+  align-items: center;
+  flex-direction: column-reverse;
+  padding: 0 25px 25vh;
+
   &--scroll {
     padding-bottom: 0;
     margin-bottom: 50vh;
     position: relative;
+
     &::before {
       content: 'SCROLL';
       position: absolute;
       top: 105%;
       color: var(--secondary);
-      font-size: rem(12px);
+      font-size: 12px;
       font-family: var(--font-family-secondary);
       opacity: 0.75;
       animation: bounce 1.5s infinite alternate-reverse ease-in-out;
     }
+
     &::after {
       content: '';
       position: absolute;
       top: 112%;
-      width: rem(1px);
+      width: 1px;
       height: 40vh;
       background-color: var(--secondary);
       opacity: 0.75;
-      @media screen and (min-width: 1024px) {
+
+      @media screen and (min-width: $max-width) {
         left: 4%;
       }
     }
+
     .paragraph__text {
       flex-basis: 70%;
-      @media screen and (min-width: 1024px) {
+
+      @media screen and (min-width: $max-width) {
         text-align: left;
       }
     }
+
     .paragraph__figure {
       padding-left: 0;
     }
   }
+
   &:last-child {
-    padding-bottom: $nav-height;
-    @media screen and (min-width: 1024px) {
+    padding-bottom: var(--nav-height);
+
+    @media screen and (min-width: $max-width) {
       padding-bottom: 25vh;
     }
   }
-  @media screen and (min-width: 1024px) {
+
+  @media screen and (min-width: $max-width) {
     flex-direction: row;
   }
+
   &--reversed {
-    @media screen and (min-width: 1024px) {
+    @media screen and (min-width: $max-width) {
       flex-direction: row-reverse;
+
       .paragraph__figure {
         padding-left: 0;
         padding-right: 20%;
       }
     }
   }
+
   &__text {
-    margin-top: rem(25px);
+    min-width: 100%;
+    margin-top: 25px;
     visibility: hidden;
-    @media screen and (min-width: 1024px) {
+
+    @media screen and (min-width: $max-width) {
+      min-width: auto;
       flex-basis: 50%;
       margin-top: 0;
     }
   }
+
   &__figure {
-    @include size(70%, 70%);
-    @include flex(center, center);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 70%;
+    width: 70%;
     transform-box: fill-box;
     padding: 0 5vw;
-    @media screen and (min-width: 1024px) {
+
+    @media screen and (min-width: $max-width) {
       flex-basis: 50%;
       padding-right: 0;
       padding-left: 20%;
@@ -166,10 +197,11 @@ export default Vue.extend({
 
 @keyframes bounce {
   from {
-    transform: translate3d(0, rem(-5px), 0);
+    transform: translate3d(0, -5px, 0);
   }
+
   to {
-    transform: translate3d(0, rem(5px), 0);
+    transform: translate3d(0, 5px, 0);
   }
 }
 </style>

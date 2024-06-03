@@ -1,3 +1,6 @@
+<script lang="ts" setup>
+</script>
+
 <template>
   <svg
     class="svg"
@@ -77,13 +80,6 @@
     </g>
   </svg>
 </template>
-<script lang="ts">
-import Vue from 'vue';
-
-export default Vue.extend({
-  name: 'SvgComputer',
-});
-</script>
 
 <style scoped lang="scss">
 .svg {

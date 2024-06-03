@@ -1,8 +1,70 @@
+<script lang="ts" setup>
+import { computed, onMounted, ref } from 'vue';
+import { gsap } from 'gsap';
+import type { FilterButton, MyProjectList } from '~/types/components';
+
+const props = defineProps<{ blok: MyProjectList }>();
+
+const projectListRef = ref<Element>();
+const selectedFilter = ref<FilterButton['tag']>('show-all');
+
+onMounted(() => {
+  if (window.innerWidth < 1024) {
+    animateFading(1);
+  } else {
+    animateFading(2);
+  }
+})
+
+const filteredProjects = computed(() => {
+  return props.blok.body.filter((project) => {
+    return selectedFilter.value === 'show-all' ?
+      project :
+      project.tag_list?.includes(String(selectedFilter.value))
+  }
+  ).map((p => p.content))
+})
+
+function animateFading(delay: number) {
+  if (projectListRef.value) {
+    gsap.set(projectListRef.value, {
+      autoAlpha: 0,
+    })
+    gsap.to(projectListRef.value, {
+      autoAlpha: 1,
+      duration: 1,
+      delay,
+    })
+  }
+}
+
+function setOverflow(value: string) {
+  document.documentElement.style.overflow = value;
+}
+
+function refreshScroll() {
+  setOverflow('auto');
+}
+
+function changeFilter(tag: FilterButton['tag']) {
+  selectedFilter.value = tag;
+}
+</script>
+
 <template>
-  <section v-editable="blok" class="projects">
-    <MyProjectFilter :blok="blok.filter[0]" @filterSelected="changeFilter" />
-    <div ref="projectList" class="projects__list-wrapper">
-      <transition-group
+  <section
+    v-editable="blok"
+    class="projects page__component"
+  >
+    <MyProjectFilter
+      :blok="blok.filter[0]"
+      @filterSelected="changeFilter"
+    />
+    <div
+      ref="projectListRef"
+      class="projects__list-wrapper"
+    >
+      <TransitionGroup
         tag="ul"
         name="list-complete"
         class="projects__list"
@@ -13,157 +75,61 @@
       >
         <li
           v-for="project in filteredProjects"
-          :key="project.uuid"
+          :key="project._uid"
           class="projects__project list-complete-item"
         >
           <MyProject
-            :key="`${project.uuid}-component`"
-            :ref="project.uuid"
-            :blok="project.content"
+            :key="`${project._uid}-component`"
+            :ref="project._uid"
+            :blok="project"
           />
         </li>
-      </transition-group>
+      </TransitionGroup>
     </div>
   </section>
 </template>
 
-<script lang="ts">
-import Vue from 'vue';
-import { gsap } from 'gsap';
-import { StoryData } from 'storyblok-js-client/types';
-import MyProject from './MyProject.vue';
-import MyProjectFilter from './MyProjectFilter.vue';
-import { FilterButton, MyProjectBlok, ProjectList } from '~/types/components';
-
-export default Vue.extend({
-  name: 'MyProjectList',
-  components: { MyProject, MyProjectFilter },
-  props: {
-    blok: {
-      type: Object as () => ProjectList,
-      default: () => ({} as ProjectList),
-    },
-  },
-  data() {
-    return {
-      projects: [] as MyProjectBlok[],
-      projectsUuid: [] as string[],
-      selectedFilter: 'show-all',
-    };
-  },
-  async fetch() {
-    this.projects = await this.fetchProjects(this.blok.body);
-  },
-  computed: {
-    filteredProjects(): MyProjectBlok[] {
-      return this.projects.filter((project: MyProjectBlok) =>
-        project.content.tagList?.includes(this.selectedFilter)
-      );
-    },
-  },
-  mounted() {
-    if (window.innerWidth < 1024) {
-      this.animateFading(1);
-    } else {
-      this.animateFading(2);
-    }
-  },
-  methods: {
-    async fetchProjects(uuids: string[]): Promise<MyProjectBlok[]> {
-      const version =
-        this.$nuxt.context.query._storyblok || this.$nuxt.context.isDev
-          ? 'draft'
-          : 'published';
-      const { data } = await this.$nuxt.context.app.$storyapi.get(
-        'cdn/stories/',
-        {
-          by_uuids: uuids.join(','),
-          version,
-          language: this.$i18n.locale,
-        }
-      );
-      const projects = data.stories.map((story: StoryData) => ({
-        ...story,
-        order: uuids.indexOf(story.uuid),
-        content: {
-          ...story.content,
-          tagList: [...story.tag_list, 'show-all'],
-          visible: true,
-        },
-      })) as MyProjectBlok[];
-      return projects.sort((a, b) => a.order - b.order);
-    },
-    changeFilter(tag: FilterButton['tag']) {
-      this.selectedFilter = tag;
-    },
-    setSearchParams(tag: FilterButton['tag']) {
-      if (tag === 'show-all') {
-        return {
-          starts_with: 'projects/',
-        };
-      }
-      return {
-        starts_with: 'projects/',
-        with_tag: tag,
-      };
-    },
-    setOverflow(value: string): void {
-      document.documentElement.style.overflow = value;
-    },
-    refreshScroll(): void {
-      this.setOverflow('auto');
-    },
-    animateFading(delay: number) {
-      gsap.set(this.$refs.projectList as Element, {
-        autoAlpha: 0,
-      });
-      gsap.to(this.$refs.projectList as Element, {
-        autoAlpha: 1,
-        duration: 1,
-        delay,
-      });
-    },
-  },
-});
-</script>
 
 <style lang="scss" scoped>
-@use '~/assets/styles/global/variables' as *;
-@use '~/assets/styles/mixins/mixins' as *;
 .projects {
-  @include size(100%, auto);
-  padding: 0 rem(25px) rem($nav-height);
+  width: 100%;
+  height: auto;
+  padding: 0 25px var(--nav-height);
+
   &__list-wrapper {
     visibility: hidden;
   }
+
   &__list {
     display: grid;
-    grid-template-columns: repeat(
-      auto-fit,
-      minmax(max(250px, calc((100% - 50px) / 2)), 1fr)
-    );
+    grid-template-columns: repeat(auto-fit,
+        minmax(max(250px, calc((100% - 50px) / 2)), 1fr));
     justify-content: center;
-    gap: rem(50px);
-    margin-top: rem(50px);
+    gap: 50px;
+    margin-top: 50px;
+
     @media screen and (min-width: 1024px) {
       grid-template-columns: repeat(auto-fit, minmax(370px, 1fr));
       justify-content: flex-start;
-      gap: rem(100px);
-      margin-top: rem(100px);
+      gap: 100px;
+      margin-top: 100px;
     }
   }
 }
 
 .list-complete {
   will-change: transform;
+
   &-item {
     transition-property: opacity, transform;
     transition-duration: 0.75s;
     transition-timing-function: ease-in-out;
   }
+
   &-enter {
     opacity: 0;
     transform: translate3d(0, 100%, 0);
+
     &-item {
       transition-delay: 0.5s;
     }

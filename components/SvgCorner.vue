@@ -1,6 +1,10 @@
 <template>
   <div>
-    <svg viewBox="0 0 201 201" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg
+      viewBox="0 0 201 201"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <path
         id="full"
         class="tertiary"
@@ -11,7 +15,10 @@
         class="stroke"
         d="M32.2565 0.327469L200.293 0.327469L200.293 168.364H114.594L114.594 86.0273H32.2565L32.2565 0.327469ZM196.931 3.69023L35.6192 3.69023L35.6192 82.6646H117.956L117.956 165.002H196.931L196.931 3.69023Z"
       />
-      <g id="lines" class="stroke">
+      <g
+        id="lines"
+        class="stroke"
+      >
         <path
           d="M65.3965 199.436H70.407L70.407 127.978H65.3965L65.3965 199.436Z"
         />
@@ -33,23 +40,17 @@
   </div>
 </template>
 
-<script lang="ts">
-import Vue from 'vue';
-
-export default Vue.extend({
-  name: 'SvgPoints',
-});
-</script>
-
 <style scoped lang="scss">
 .tertiary {
   fill: var(--tertiary);
   transition: fill 0.15s linear;
 }
+
 .stroke {
   fill: var(--primary-dark);
   transition: fill 0.15s linear;
 }
+
 .dark-scheme {
   .stroke {
     fill: var(--stroke);

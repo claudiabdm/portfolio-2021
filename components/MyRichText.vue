@@ -1,11 +1,7 @@
-<template>
-  <div class="rich-text">
-    <RichTextRenderer :document="text" />
-  </div>
-</template>
-
-<script lang="ts">
-import Vue from 'vue';
+<script setup lang="ts">
+import { onMounted, ref } from 'vue';
+import { type ISbRichtext } from '@storyblok/js';
+import { useStoryblokApi } from '@storyblok/vue';
 import hljs from 'highlight.js/lib/core';
 import javascript from 'highlight.js/lib/languages/javascript';
 import typescript from 'highlight.js/lib/languages/typescript';
@@ -13,29 +9,43 @@ import xml from 'highlight.js/lib/languages/xml';
 import scss from 'highlight.js/lib/languages/scss';
 import 'highlight.js/styles/github.css';
 
-hljs.registerLanguage('javascript', javascript);
-hljs.registerLanguage('typescript', typescript);
-hljs.registerLanguage('xml', xml);
-hljs.registerLanguage('scss', scss);
+if (import.meta.server) {
+  hljs.registerLanguage('javascript', javascript);
+  hljs.registerLanguage('typescript', typescript);
+  hljs.registerLanguage('xml', xml);
+  hljs.registerLanguage('scss', scss);
+}
 
-export default Vue.extend({
-  props: {
-    text: {
-      type: Object as () => { content: any[] },
-      default: () => ({ content: [] }),
-    },
-  },
-  mounted() {
-    hljs.highlightAll();
-  },
-});
+const props = defineProps<{ text: ISbRichtext }>();
+
+const el = ref<Element | null>(null);
+
+const text = ref<string>(useStoryblokApi().richTextResolver.render(props.text));
+
+defineExpose({
+  el
+})
+
+onMounted(() => {
+  hljs.highlightAll();
+
+})
 </script>
-<style scoped lang="scss">
-@use '~/assets/styles/global/variables' as *;
-@use '~/assets/styles/mixins/mixins' as *;
+
+<template>
+  <div
+    class="rich-text"
+    ref="el"
+    v-html="text"
+  ></div>
+</template>
+
+
+<style lang="scss">
+@use 'sass:list';
 
 .rich-text {
-  font-weight: var(--font-weight-normal);
+  font-weight: 300;
   transition: color 0.5s linear;
 
   h1,
@@ -52,7 +62,8 @@ export default Vue.extend({
   }
 
   img {
-    @include size(75%, 75%);
+    width: 75%;
+    height: 75%;
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -92,67 +103,40 @@ export default Vue.extend({
       color: var(--secondary);
     }
   }
-}
 
-.text-xs {
-  font-size: $text-xs;
-}
+  $sizes: xs, sm, base, lg, xl, 2xl, 3xl, 4xl, 5xl, 6xl;
 
-.text-sm {
-  font-size: $text-sm;
-}
+  $heading-sizes: 5xl, 4xl, 3xl, 2xl, xl, lg;
 
-.text-base {
-  font-size: $text-base;
-}
+  @each $size in $sizes {
+    .text-#{$size} {
+      font-size: var(--font-#{$size});
 
-.text-lg {
-  font-size: $text-lg;
-}
+      &+.dot {
+        font-size: var(--font-#{$size});
+      }
+    }
 
-.text-xl {
-  font-size: $text-xl;
-}
+  }
 
-.text-2xl {
-  font-size: $text-2xl;
-}
+  @for $i from 1 through 6 {
+    $size: list.nth($heading-sizes, $i);
 
-.text-3xl {
-  font-size: $text-3xl;
-}
+    h#{$i} .dot {
+      font-size: var(--font-#{$size});
 
-.text-4xl {
-  font-size: $text-4xl;
-}
+      &+.dot {
+        font-size: var(--font-#{$size});
+      }
+    }
 
-.text-5xl {
-  font-size: $text-5xl;
+  }
 }
-
-.text-6xl {
-  font-size: $text-6xl;
-  line-height: 1.5;
-}
-
-.text-6xl+.dot {
-  color: var(--tertiary);
-  font-size: $text-6xl;
-}
-
-.text-4xl+.dot {
-  color: var(--tertiary);
-  font-size: $text-4xl;
-}
-</style>
-
-<style lang="scss">
-@use '~/assets/styles/global/variables' as *;
 
 .hljs {
   font-size: 0.875rem;
   font-family: monospace;
-  border-radius: $border-radius;
+  border-radius: var(--border-radius);
   background-color: var(--stroke);
   color: var(--secondary-light);
 
