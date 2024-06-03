@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { type ISbRichtext } from '@storyblok/js';
 import { useStoryblokApi } from '@storyblok/vue';
 import hljs from 'highlight.js/lib/core';
@@ -9,14 +9,18 @@ import xml from 'highlight.js/lib/languages/xml';
 import scss from 'highlight.js/lib/languages/scss';
 import 'highlight.js/styles/github.css';
 
-hljs.registerLanguage('javascript', javascript);
-hljs.registerLanguage('typescript', typescript);
-hljs.registerLanguage('xml', xml);
-hljs.registerLanguage('scss', scss);
+if (import.meta.server) {
+  hljs.registerLanguage('javascript', javascript);
+  hljs.registerLanguage('typescript', typescript);
+  hljs.registerLanguage('xml', xml);
+  hljs.registerLanguage('scss', scss);
+}
 
 const props = defineProps<{ text: ISbRichtext }>();
 
 const el = ref<Element | null>(null);
+
+const text = ref<string>(useStoryblokApi().richTextResolver.render(props.text));
 
 defineExpose({
   el
@@ -24,11 +28,8 @@ defineExpose({
 
 onMounted(() => {
   hljs.highlightAll();
-})
 
-const text = computed(() => {
-  return useStoryblokApi().richTextResolver.render(props.text);
-});
+})
 </script>
 
 <template>

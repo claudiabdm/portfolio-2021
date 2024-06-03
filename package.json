@@ -14,12 +14,12 @@
     "@nuxt/image": "^1.7.0",
     "@nuxtjs/i18n": "^8.3.0",
     "gsap": "^3.12.5",
-    "highlight.js": "^11.9.0",
     "nuxt": "^3.11.2",
     "vue": "^3.4.21",
     "vue-router": "^4.3.0"
   },
   "devDependencies": {
+    "highlight.js": "^11.9.0",
     "@nuxtjs/google-fonts": "^3.2.0",
     "@nuxtjs/sitemap": "^5.2.0",
     "@storyblok/nuxt": "^6.0.10",
