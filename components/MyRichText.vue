@@ -9,12 +9,12 @@ import xml from 'highlight.js/lib/languages/xml';
 import scss from 'highlight.js/lib/languages/scss';
 import 'highlight.js/styles/github.css';
 
-if (import.meta.server) {
-  hljs.registerLanguage('javascript', javascript);
-  hljs.registerLanguage('typescript', typescript);
-  hljs.registerLanguage('xml', xml);
-  hljs.registerLanguage('scss', scss);
-}
+
+hljs.registerLanguage('javascript', javascript);
+hljs.registerLanguage('typescript', typescript);
+hljs.registerLanguage('xml', xml);
+hljs.registerLanguage('scss', scss);
+
 
 const props = defineProps<{ text: ISbRichtext }>();
 
@@ -102,34 +102,6 @@ onMounted(() => {
       font-weight: 700;
       color: var(--secondary);
     }
-  }
-
-  $sizes: xs, sm, base, lg, xl, 2xl, 3xl, 4xl, 5xl, 6xl;
-
-  $heading-sizes: 5xl, 4xl, 3xl, 2xl, xl, lg;
-
-  @each $size in $sizes {
-    .text-#{$size} {
-      font-size: var(--font-#{$size});
-
-      &+.dot {
-        font-size: var(--font-#{$size});
-      }
-    }
-
-  }
-
-  @for $i from 1 through 6 {
-    $size: list.nth($heading-sizes, $i);
-
-    h#{$i} .dot {
-      font-size: var(--font-#{$size});
-
-      &+.dot {
-        font-size: var(--font-#{$size});
-      }
-    }
-
   }
 }
 
