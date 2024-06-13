@@ -1,9 +1,8 @@
 <script lang="ts" setup>
 import type { NuxtError } from '#app'
-import { useI18n } from '#imports';
 import type { MyParagraph } from './types/components';
-const { t } = useI18n();
-const props = defineProps({
+
+defineProps({
   error: Object as () => NuxtError
 })
 </script>
@@ -13,11 +12,11 @@ const props = defineProps({
     <MyPage :blok="{
       title: 'Oh no!',
       seo: {
-        title: String(props.error?.statusCode),
-        description: String(props.error?.message),
+        title: String(error?.statusCode),
+        description: String(error?.message),
         og_image: '',
         og_title: '',
-        og_description: String(props.error?.message),
+        og_description: String(error?.message),
       },
       body: [{
         _uid: 'Something-went-wrong',
@@ -31,7 +30,7 @@ const props = defineProps({
               content: [
                 {
                   type: 'text',
-                  text: 'Error ' + props.error?.statusCode,
+                  text: 'Error ' + error?.statusCode,
                   marks: [
                     {
                       type: 'bold'
@@ -87,7 +86,7 @@ const props = defineProps({
           linktype: 'story',
           cached_url: './'
         },
-        linkText: t('backToHome')
+        linkText: $t('backToHome')
       } as MyParagraph],
     }" />
   </NuxtLayout>
