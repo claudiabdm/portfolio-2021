@@ -44,9 +44,10 @@ const postFiltered = computed(() => props.blok.posts.filter(p => typeof p !== 's
     }
 
     a.post-list__container {
-        text-decoration: none;
+        color: var(--primary);
         font-family: var(--font-family-primary);
         font-weight: 300;
+        text-decoration: none;
         &:visited {
             color: var(--primary);
         }
