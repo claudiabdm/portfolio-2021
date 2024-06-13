@@ -45,7 +45,7 @@ async function fetchSbStoriesRoutes(cacheVersion: number, page: number = 1, isPr
     const token = getSbToken(isProd);
     const version = getSbVersion(isProd);
     const perPage = 100
-    const toIgnore = ['config', 'blog/', 'projects/'];
+    const toIgnore = ['config', 'projects/'];
     const locales: { 'es': typeof es, 'en': typeof en } = { en: en, es: es };
 
     try {
