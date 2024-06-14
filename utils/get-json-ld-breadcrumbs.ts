@@ -15,10 +15,10 @@ export function getBreadcrumbList(path: string) {
   );
   return {
     type: 'application/ld+json',
-    json: {
+    children: JSON.stringify({
       '@context': 'https://schema.org',
       '@type': 'BreadcrumbList',
       itemListElement: breadcrumbList,
-    },
+    }),
   };
 }

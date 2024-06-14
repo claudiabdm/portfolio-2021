@@ -55,9 +55,9 @@ useHead({
   htmlAttrs: {
     lang: locale.value
   },
-  title: story.content.seo.title,
+  title: story.content.seo.title || story.content.seo.og_title,
   meta: [...getMetaTags(story.content.seo)],
-  script: [getBreadcrumbList(path)],
+  script: [{...getBreadcrumbList(path)}],
 })
 </script>
 

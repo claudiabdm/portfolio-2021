@@ -7,77 +7,36 @@ export function getMetaTags(seo: any): MetaAttrs[] {
   return [
     {
       name: 'description',
-      content: seo.description,
+      content: seo.description || seo.og_description,
     },
     {
-      name: 'twitter:title',
-      content:
-        seo.twitter_title || seo.title || 'Claudia Benito: Front-end developer',
-    },
-    {
-      name: 'twitter:description',
-      content: seo.twitter_description || seo.description,
-    },
-    {
-      property: 'twitter:url',
-      content: 'https://www.claudiabdm.com',
-    },
-    {
-      property: 'twitter:site',
-      content: '@claudiabdm',
-    },
-    {
-      name: 'twitter:card',
-      content: 'summary_large_image',
-    },
-    {
-      name: 'twitter:image',
-      content: seo.twitter_image || defaultImg,
-    },
-    {
-      name: 'twitter:image:alt',
-      content: 'Card with the text Claudia Benito Front-end Developer',
-    },
-    {
-      name: 'twitter:creator',
-      content: '@claudiabdm',
-    },
-    {
-      property: 'og:title',
+      name: 'og:title',
       content:
         seo.og_title || seo.title || 'Claudia Benito: Front-end developer',
     },
     {
-      property: 'og:description',
+      name: 'og:description',
       content: seo.og_description || seo.description,
-    },
-    {
-      property: 'og:url',
-      content: 'https://www.claudiabdm.com',
-    },
-    {
-      property: 'og:site_name',
-      content: 'https://www.claudiabdm.com',
     },
     {
       property: 'og:type',
       content: 'website',
     },
     {
-      property: 'og:image',
+      name: 'og:image',
       content: seo.og_image || defaultImg,
     },
     {
       name: 'og:image:alt',
-      content: 'Card with the text Claudia Benito Front-end Developer',
+      content: seo.og_image.alt || 'Card with title text',
     },
     {
       name: 'mobile-web-app-capable',
-      content: seo.title || 'Claudia Benito: Front-end developer',
+      content: seo.title || seo.og_title || 'Claudia Benito: Front-end developer',
     },
     {
       name: 'apple-mobile-web-app-title',
-      content: seo.title || 'Claudia Benito: Front-end developer',
+      content: seo.title || seo.og_title || 'Claudia Benito: Front-end developer',
     },
   ];
 }
