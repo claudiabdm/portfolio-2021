@@ -62,11 +62,13 @@ onMounted(() => {
   }
 
   img {
-    width: 75%;
-    height: 75%;
+    width: 100%;
+    height: 100%;
     display: block;
     margin-left: auto;
     margin-right: auto;
+    border-radius: var(--border-radius);
+    border: var(--border);
   }
 
   b {
@@ -102,6 +104,16 @@ onMounted(() => {
       font-weight: 700;
       color: var(--secondary);
     }
+  }
+
+  code:not(.hljs) {
+    padding: var(--space-3xs) var(--space-3xs);
+    color: var(--primary-dark);
+    background-color: var(--secondary-light);
+    font-size: var(--font-xs);
+    border-radius: 5px;
+    border: var(--border);
+    opacity: 0.8;
   }
 }
 
