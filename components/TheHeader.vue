@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useAsyncStoryblok, useI18n, useTranslateSlug } from '#imports';
+import { useAsyncStoryblok, useI18n, useLocalePath, useLocaleRoute, useTranslateSlug } from '#imports';
 import { computed, onMounted, ref } from 'vue';
 import type { ISbStoryData } from '@storyblok/vue';
 import { gsap } from 'gsap';
@@ -106,8 +106,9 @@ function animateHeader(): void {
       >
         <NuxtLinkLocale
           class="header__link link"
+          :class="{ 'router-link-active': link.path.params.slug && $route.params.slug?.includes(link.path.params.slug) }"
           :to="link.path"
-          :exact="true"
+          :exact="false"
         >
           <div class="link__icon-wrapper">
             <svg class="link__icon">

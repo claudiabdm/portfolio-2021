@@ -30,13 +30,7 @@ export interface MyHero extends StoryblokComponentType<'MyHero'> {
 }
 
 export interface MyPage extends StoryblokComponentType<'MyPage'> {
-  seo: {
-    title: string,
-    description: string,
-    og_image: string,
-    og_title: string,
-    og_description: string,
-  };
+  seo: Seo;
   body: StoryblokComponentType<
     | 'MyButton'
     | 'MyButtonList'
@@ -123,5 +117,24 @@ export interface MyProfile extends StoryblokComponentType<'MyProfile'> {
   mastodon: { url: string, id: 'mastodon' };
 }
 
-// export interface MyPostBlok
-//   extends StoryData<StoryblokComponent<'MyPost'> & Project> {}
+export interface MyPost extends StoryblokComponentType<'MyPost'>, ISbStoryData<MyPost> {
+  title: string;
+  intro: string;
+  longText: ISbRichtext;
+  author: string;
+  image: string;
+  seo: Seo
+}
+
+interface Seo {
+  title: string,
+  description: string,
+  og_image: string,
+  og_title: string,
+  og_description: string,
+}
+
+
+export interface MyPostList extends StoryblokComponentType<'MyPostList'> {
+  posts: Array<MyPost | string>;
+}

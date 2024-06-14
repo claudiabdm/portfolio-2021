@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { createError, useAsyncStoryblok, useHead, useI18n, useLocaleHead, useSetI18nParams } from '#imports';
+import { createError, useAsyncStoryblok, useHead, useI18n, useSetI18nParams } from '#imports';
 import { useRoute } from 'vue-router';
 import { useSbVersion } from '~/composables/useSbVersion';
 import { getBreadcrumbList } from '~/utils/get-json-ld-breadcrumbs';
@@ -18,7 +18,15 @@ const { value: story } = await useAsyncStoryblok(
   {
     version: useSbVersion(),
     language: locale.value,
-    resolve_relations: slug.includes(t('projectsSlug')) ? ['MyProjectList.body'] : undefined
+    resolve_relations: (() => {
+      if (slug.includes(t('projectsSlug'))) {
+        return ['MyProjectList.body']
+      }
+      if (slug.includes(t('blogSlug'))) {
+        return ['MyPostList.posts']
+      }
+      return undefined
+    })()
   }
 )
 
@@ -29,11 +37,18 @@ if (!story) {
     fatal: true,
   })
 }
+const storySlugArray = story.default_full_slug.split('/').filter(Boolean);
+const root = storySlugArray[0];
+const isChild = storySlugArray.length > 1;
+const rootLocaleMessage = {
+  en: getLocaleMessage('en')[`${root}Slug`],
+  es: getLocaleMessage('es')[`${root}Slug`]
+}
 
 const setI18nParams = useSetI18nParams()
 setI18nParams({
-  en: { slug: getLocaleMessage('en')[`${story.slug}Slug`] },
-  es: { slug: getLocaleMessage('es')[`${story.slug}Slug`] }
+  en: { slug: isChild ? [rootLocaleMessage.en, slug[1]] : rootLocaleMessage.en },
+  es: { slug: isChild ? [rootLocaleMessage.es, slug[1]] : rootLocaleMessage.es }
 })
 
 useHead({
