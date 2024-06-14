@@ -41,4 +41,9 @@ a {
     &:visited {
       color: var(--primary);
     }
-  }
+}
+
+::selection {
+  background-color: var(--secondary);
+  color: var(--primary-dark);
+}
