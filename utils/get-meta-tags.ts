@@ -10,12 +10,12 @@ export function getMetaTags(seo: any): MetaAttrs[] {
       content: seo.description || seo.og_description,
     },
     {
-      name: 'og:title',
+      property: 'og:title',
       content:
         seo.og_title || seo.title || 'Claudia Benito: Front-end developer',
     },
     {
-      name: 'og:description',
+      property: 'og:description',
       content: seo.og_description || seo.description,
     },
     {
@@ -23,11 +23,12 @@ export function getMetaTags(seo: any): MetaAttrs[] {
       content: 'website',
     },
     {
-      name: 'og:image',
+      name: 'image',
+      property: 'og:image',
       content: seo.og_image || defaultImg,
     },
     {
-      name: 'og:image:alt',
+      property: 'og:image:alt',
       content: seo.og_image.alt || 'Card with title text',
     },
     {
