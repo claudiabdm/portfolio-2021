@@ -32,7 +32,7 @@ const postFiltered = computed(() => props.blok.posts.filter(p => typeof p !== 's
 <style lang="scss" scoped>
 .post-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(45ch, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(250px, 45ch));
     gap: var(--space-m);
     flex-wrap: wrap;
     margin: var(--space-m);
