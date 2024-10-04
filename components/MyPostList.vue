@@ -1,19 +1,17 @@
 <script lang="ts" setup>
-import { computed } from 'vue';
 import type { MyPostList } from '~/types/components';
 
 const props = defineProps<{ blok: MyPostList }>();
 
-const postFiltered = computed(() => props.blok.posts.filter(p => typeof p !== 'string'))
-
+const postFiltered = props.blok.posts.filter(p => typeof p !== 'string')
 </script>
 
 <template>
     <section class="post-list">
         <NuxtLinkLocale
-            :href="`/${post.default_full_slug}`"
-            class="post-list__container"
             v-for="post in postFiltered"
+            :href="`/blog/${post.slug}`"
+            class="post-list__container"
         >
             <article class="post-list__item">
                 <h3>
@@ -47,6 +45,7 @@ const postFiltered = computed(() => props.blok.posts.filter(p => typeof p !== 's
         font-family: var(--font-family-primary);
         font-weight: 300;
         text-decoration: none;
+
         &:visited {
             color: var(--primary);
         }

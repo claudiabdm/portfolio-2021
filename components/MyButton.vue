@@ -1,10 +1,6 @@
 <script lang="ts" setup>
-import { useLocalePath } from '#imports';
-import { useTranslateSlug } from '~/composables/useTranslateSlug';
+import { getPath } from '~/utils/get-path';
 import type { MyButton } from '~/types/components';
-
-const translatePath = useTranslateSlug();
-
 
 const emit = defineEmits(['buttonClicked']);
 
@@ -61,7 +57,7 @@ function onClick(event: Event): void {
     <NuxtLinkLocale
       v-if="blok.isLink && blok.link.linktype === 'story'"
       class="button"
-      :to="translatePath(url.length === 1 ? url[0] : url[1])"
+      :to="getPath(url.length === 1 ? url[0] : url[1])"
     >
       {{ blok.text }}
     </NuxtLinkLocale>

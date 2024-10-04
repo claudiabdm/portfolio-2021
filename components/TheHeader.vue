@@ -1,13 +1,13 @@
 <script lang="ts" setup>
-import { useAsyncStoryblok, useI18n, useLocalePath, useLocaleRoute, useTranslateSlug } from '#imports';
+import { useAsyncStoryblok, useI18n } from '#imports';
 import { computed, onMounted, ref } from 'vue';
 import type { ISbStoryData } from '@storyblok/vue';
 import { gsap } from 'gsap';
 import type { Config } from '~/types/components';
 import { useSbVersion } from '~/composables/useSbVersion';
+import { getPath } from '~/utils/get-path';
 
 const { locale, t, locales } = useI18n();
-const translatePath = useTranslateSlug();
 const navRef = ref<Element>();
 const storyLocales = ref<{ [key: string]: ISbStoryData<Config> }>({});
 
@@ -26,7 +26,7 @@ const storyLinks = computed(() => {
     return {
       text: story.content.title || t(story.slug),
       icon: `/sprite.svg#${story.slug}`,
-      path: translatePath(slug)
+      path: getPath(slug)
     }
   })
 });
