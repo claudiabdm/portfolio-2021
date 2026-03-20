@@ -49,7 +49,7 @@ export default defineNuxtConfig({
     }
   },
   site: {
-    url: 'https://www.claudiabdm.com',
+    url: 'https://old.claudiabdm.com',
     trailingSlash: true,
     excludeAppSources: true,
   },
@@ -83,7 +83,7 @@ export default defineNuxtConfig({
     dirs: ['~/components']
   },
   i18n: {
-    baseUrl: 'https://www.claudiabdm.com',
+    baseUrl: 'https://old.claudiabdm.com',
     strategy: 'prefix_except_default',
     defaultLocale: 'en',
     locales: [

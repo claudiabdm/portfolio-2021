@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.claudiabdm.com/sitemap.xml
+Sitemap: https://old.claudiabdm.com/sitemap.xml

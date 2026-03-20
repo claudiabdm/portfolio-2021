@@ -7,7 +7,7 @@ export function getBreadcrumbList(path: string) {
         '@type': 'ListItem',
         position: idx + 1,
         name: elem,
-        item: `https://www.claudiabdm.com/${currentPath}`,
+        item: `https://old.claudiabdm.com/${currentPath}`,
       });
       return itemList;
     },
